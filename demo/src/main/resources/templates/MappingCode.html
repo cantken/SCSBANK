@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>系統代碼維護</title>
+<link rel="stylesheet" type="text/css" href="/css/MappingCode.css">
+<script>
+	function handleButtonClick(action) {
+		const addBtn = document.getElementById('addBtn');
+		const queryBtn = document.getElementById('queryBtn');
+		const queryDataBtn = document.getElementById('queryDataBtn');
+		const saveDataBtn = document.getElementById('saveDataBtn');
+		const addFormSection = document.getElementById('addFormSection');
+		const updateDataBtn = document.getElementById('updateDataBtn');
+
+		// 每次點按鈕前先全部啟用
+		addBtn.disabled = false;
+		queryBtn.disabled = false;
+		queryDataBtn.disabled = false;
+		saveDataBtn.disabled = false;
+
+		if (action === 'add') {
+			queryDataBtn.disabled = true;
+			addFormSection.style.display = 'block';
+		} else if (action === 'query') {
+			saveDataBtn.disabled = true;
+		}
+
+		if (action === 'saveData') {
+			const form = document.getElementById('addForm'); // 獲取新增表單
+			if (form) { // 確保表單被正確選取
+				form.submit(); // 提交表單
+			} else {
+				console.error('Form element not found!');
+			}
+		}
+	}
+</script>
+</head>
+<body>
+
+	<div class="button-container">
+		<button id="addBtn" type="button" onclick="handleButtonClick('add')">新增</button>
+		<button id="queryBtn" type="button"
+			onclick="handleButtonClick('query')">查詢</button>
+		<button id="queryDataBtn" type="button"
+			onclick="handleButtonClick('queryData')">查詢資料</button>
+		<button id="saveDataBtn" type="button"
+			onclick="handleButtonClick('saveData')">儲存資料</button>
+	</div>
+
+	<hr>
+
+	<!-- 🔽 新增輸入區塊 -->
+	<div id="addFormSection" style="display: none; margin-top: 20px;">
+		<form id="addForm" action="/MappingCode/save" method="post">
+			<!-- 設置為 POST 請求 -->
+			<table>
+				<tbody>
+					<tr>
+						<td><label for="codeType">代碼類別：</label></td>
+						<td><select name="codeType" id="codeType" class="form-select">
+								<option value="">-- 代碼類別 --</option>
+								<option th:each="code : ${dropList}" th:value="${code.codeNo}"
+									th:text="${code.codeDesc}"></option>
+						</select></td>
+						<td><label for="codeNo">代碼：</label></td>
+						<td><input type="text" id="codeNo" name="codeNo"></td>
+					</tr>
+					<tr>
+						<td><label for="codeDesc">代碼說明：</label></td>
+						<td><input type="text" id="codeDesc" name="codeDesc"></td>
+						<td><label for="codeFlag">是否停用：</label></td>
+						<td><select id="codeFlag" name="codeFlag">
+								<option value="N">否</option>
+								<option value="Y">是</option>
+						</select></td>
+					</tr>
+					<tr>
+						<td><label for="codeTag">代碼標籤：</label></td>
+						<td><input type="text" id="codeTag" name="codeTag"></td>
+						<td><label for="codeSort">排序：</label></td>
+						<td><input type="number" id="codeSort" name="codeSort"></td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+	</div>
+	<br>
+	<br>
+
+	<!-- ✅ 整合查詢條件與表格的表單 -->
+	<form action="/MappingCode" method="get">
+		<!-- 查詢條件 -->
+		<label for="sysType">代碼類別：</label> <select name="codeType"
+			id="sysType" class="form-select">
+			<option value="">-- 代碼類別 --</option>
+			<option th:each="code : ${dropList}" th:value="${code.codeNo}"
+				th:text="${code.codeDesc}" th:selected="${code.codeNo == codeType}">
+			</option>
+		</select>
+		<button type="submit">查詢</button>
+
+		<p th:if="${#lists.isEmpty(codeList)}">查無資料</p>
+
+		<hr>
+		<br>
+
+		<!-- 查詢結果 -->
+		<table>
+			<thead>
+				<tr>
+					<th></th>
+					<th>代碼類別</th>
+					<th>代碼</th>
+					<th>代碼說明</th>
+					<th>排序</th>
+					<th>代碼標籤</th>
+					<th>使用FLAG</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="code, iterStat : ${codeList}">
+					<td>
+						<button type="submit" name="editIndex"
+							th:value="${iterStat.index}">編輯</button>
+					</td>
+					<td th:text="${code.codeType}">代碼類別</td>
+					<td th:text="${code.codeNo}">代碼</td>
+					<td th:text="${code.codeDesc}">代碼說明</td>
+					<td th:text="${code.codeSort}">排序</td>
+					<td th:text="${code.codeTag}">代碼標籤</td>
+					<td th:text="${code.codeFlag}">使用FLAG</td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+
+</body>
+</html>
