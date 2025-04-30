@@ -6,12 +6,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
 
-@Entity
-@Table(name = "CF_EMPLOYEE")
 @Data
 public class LoginDto {
 
-    @Id
     @Column(name = "EMP_NO")
     private String empNo;
 

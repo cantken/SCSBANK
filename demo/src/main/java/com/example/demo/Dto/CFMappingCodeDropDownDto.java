@@ -1,58 +1,41 @@
 package com.example.demo.Dto;
 
-
 public class CFMappingCodeDropDownDto {
-	
-		private String codeType;
 
-	    private String codeNo;
+    private String codeType;
+    private String codeNo;
+    private String codeDesc;
 
-	    private String codeDesc;
+    public String getCodeType() {
+        return codeType;
+    }
 
+    public void setCodeType(String codeType) {
+        this.codeType = codeType;
+    }
 
-		/**
-		 * @return the codeNo
-		 */
-		public String getCodeNo() {
-			return codeNo;
-		}
+    public String getCodeNo() {
+        return codeNo;
+    }
 
-		public String getCodeType() {
-			return codeType;
-		}
+    public void setCodeNo(String codeNo) {
+        this.codeNo = codeNo;
+    }
 
-		public void setCodeType(String codeType) {
-			this.codeType = codeType;
-		}
+    public String getCodeDesc() {
+        return codeDesc;
+    }
 
-		/**
-		 * @param codeNo the codeNo to set
-		 */
-		public void setCodeNo(String codeNo) {
-			this.codeNo = codeNo;
-		}
+    public void setCodeDesc(String codeDesc) {
+        this.codeDesc = codeDesc;
+    }
 
-		/**
-		 * @return the codeDesc
-		 */
-		public String getCodeDesc() {
-			return codeDesc;
-		}
-
-		/**
-		 * @param codeDesc the codeDesc to set
-		 */
-		public void setCodeDesc(String codeDesc) {
-			this.codeDesc = codeDesc;
-		}
-		
-		@Override
-		public String toString() {
-		    return "FunctionDto{" +
-		           "codeNo='" + codeNo + '\'' +
-		           ", codeNo='" + codeNo + '\'' +
-		           '}';
-		}
-
-
+    @Override
+    public String toString() {
+        return "CFMappingCodeDropDownDto{" +
+                "codeType='" + codeType + '\'' +
+                ", codeNo='" + codeNo + '\'' +
+                ", codeDesc='" + codeDesc + '\'' +
+                '}';
+    }
 }

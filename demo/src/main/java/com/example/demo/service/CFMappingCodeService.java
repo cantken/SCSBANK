@@ -14,7 +14,7 @@ public interface CFMappingCodeService {
 
 	void saveMappingCode(CFMappingCodeDto cFSystemCodeSetDto);
 	
-	CFMappingCodeDto updateMappingCode(CFMappingCodeDto cFMappingCodeDto);
+	void updateMappingCode(CFMappingCodeDto cFMappingCodeDto);
 
 }
 

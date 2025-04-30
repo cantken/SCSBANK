@@ -1,19 +1,24 @@
 package com.example.demo.entity;
 
-import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
+@Data
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "CF_FUNCTION_LIST")
 public class CFRoleFunctionEntity {
 	
-	
-    @Column(name = "ROLE_NO")
+	@Id
     private String roleNo;
-
     
-    @Column(name = "FN_NO")
     private String fnNo;
-	
-
 }
 
     

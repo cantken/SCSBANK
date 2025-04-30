@@ -25,7 +25,6 @@ public class MappingCodeController {
 	@GetMapping("/MappingCode")
 	public String MappingCode(@RequestParam(value = "codeType", required = false) String codeType, Model model) {
 		List<CFMappingCodeDto> codeList = cfMappingCodeService.findByCodeType(codeType); // 使用注入的 Service 實例
-		System.out.println("codeList " + codeList);
 		model.addAttribute("codeList", codeList); // 直接將 List<CFMappingCodeDto> 傳遞給前端
 
 		// 下拉選單資料
@@ -44,9 +43,9 @@ public class MappingCodeController {
 	// 系統代碼維護 修改
 	@PostMapping("/MappingCode/update")
 	public String update(@ModelAttribute CFMappingCodeDto dto, Model model) {
-		CFMappingCodeDto updateDto = cfMappingCodeService.updateMappingCode(dto);
-		model.addAttribute("updateDto", updateDto);
+		cfMappingCodeService.updateMappingCode(dto);
 		return "redirect:/MappingCode"; // 導到 resultPage.html
 	}
+
 
 }
