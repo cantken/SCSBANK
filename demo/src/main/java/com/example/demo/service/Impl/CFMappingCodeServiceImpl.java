@@ -78,12 +78,8 @@ public class CFMappingCodeServiceImpl implements CFMappingCodeService {
 	    entity.setCodeSort((Integer) dbDto.get("codeSort"));
 	    entity.setCodeTag((String) dbDto.get("codeTag"));
 	    entity.setCodeFlag((String) dbDto.get("codeFlag"));
-	    entity.setForRowid((String) dbDto.get("forRowid"));
 
-	    // 用 Orika 把 DTO 的資料蓋到 entity 上
 	    orika.map(dto, entity);
-
-	    // 存回去
 	    cFMappingCodeRepository.save(entity);
 	}
 

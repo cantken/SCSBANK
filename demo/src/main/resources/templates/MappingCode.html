@@ -120,7 +120,7 @@
 						<td><label for="codeType">代碼類別：</label></td>
 						<td><select name="codeType" id="codeType" class="form-select">
 								<option value="">-- 代碼類別 --</option>
-								<option th:each="code : ${dropList}" th:v alue="${code.codeNo}"
+								<option th:each="code : ${dropList}" th:value="${code.codeNo}"
 									th:text="${code.codeDesc}"
 									th:selected="${code.codeNo == codeType}"></option>
 						</select></td>

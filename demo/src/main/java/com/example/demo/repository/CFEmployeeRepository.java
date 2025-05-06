@@ -35,14 +35,19 @@ public interface CFEmployeeRepository extends JpaRepository<CFEmployeeEntity, St
 			+ "    FROM CF_EMPLOYEE_ROLE " + "    GROUP BY EMP_NO " + ") D ON A.EMP_NO = D.EMP_NO WHERE (:empNo IS NULL OR A.EMP_NO IN (:empNo))", nativeQuery = true)
 	List<Map<String, Object>> findEmployeeWithRoleNo(@Param("empNo") String empNo);
 	
+	CFEmployeeEntity findByempNo(@Param("empNo")String empNo);
+	
 	@Query(value = "SELECT EMP_NO, EMP_NAME FROM CF_EMPLOYEE WHERE GROUP_LEVEL = 'L1'", nativeQuery = true)
 	List<Map<String,Object>> findl2aEmpnoByGroupLevel();
 	
 	@Query(value = "SELECT EMP_NO, EMP_NAME FROM CF_EMPLOYEE WHERE GROUP_LEVEL = 'L2'", nativeQuery = true)
 	List<Map<String,Object>> findl2bEmpnoByGroupLevel();
 	
-	@Query(value = "SELECT CODE_DESC FROM CF_MAPPING_CODE WHERE CODE_TYPE = 'GROUP_LEVEL'", nativeQuery = true)
-	List<Map<String,Object>> findCodeDescByGroupLevel();
+	@Query(value = "SELECT CODE_NO, CODE_DESC FROM CF_MAPPING_CODE WHERE CODE_TYPE = 'GROUP_LEVEL'", nativeQuery = true)
+	List<Map<String,Object>> findCodeNoAndCodeDescByGroupLevel();
+	
+	@Query(value = "SELECT CODE_NO, CODE_DESC FROM CF_MAPPING_CODE WHERE CODE_TYPE = 'YN'", nativeQuery = true)
+	List<Map<String,Object>> findCodeNoAndCodeDescByYn();
 	
 	
 
