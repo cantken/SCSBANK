@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-TW" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>角色功能維護</title>
+<link rel="stylesheet" th:href="@{/css/FunctionRoleSet.css}" />
+</head>
+<body>
+	<div class="button-container">
+		<button id="saveDataBtn" type="button"
+			onclick="handleButtonClick('updateData')">儲存資料</button>
+	</div>
+		<select name="roleNo" id="functionRoleSet" class="form-select">
+			<!-- 遍歷角色清單 -->
+			<option th:each="item : ${roleNoDtoList}" th:value="${item.roleNo}"
+				th:text="${item.roleName}"
+				th:selected="${item.roleNo == selectedRoleNo}"></option>
+		</select>
+		<button type="submit">請選擇</button>
+		<hr>
+		<br>
+		<!-- 查詢結果 -->
+		<table th:unless="${#lists.isEmpty(functionRoleSetList)}">
+			<thead>
+				<tr>
+					<th>選擇</th>
+					<th>程式代碼</th>
+					<th>程式名稱</th>
+					<th>代碼說明</th>
+				</tr>
+			</thead>
+			<tbody id="functionRoleSetBody">
+				<tr th:each="item : ${functionRoleSetList}">
+					<td><input type="checkbox" name="selectedFns"
+						th:value="${item.fnNo}" class="form-check-input" /></td>
+					<td th:text="${item.fnNo}"></td>
+					<td th:text="${item.fnDesc}"></td>
+					<td th:text="${item.codeDesc}"></td>
+				</tr>
+			</tbody>
+		</table>
+
+	<!-- jQuery & Bootstrap Bundle -->
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script>
+	$('#functionRoleSet').on('change', function() {
+	    const selectedRole = $(this).val();
+
+	    if (!selectedRole) {
+	        $('#functionRoleSetBody').empty(); // 清空表格
+	        return;
+	    }
+
+	    $.ajax({
+	        url: '/FunctionRoleSet/check',
+	        method: 'GET',
+	        data: { roleNo: selectedRole },
+	        success: function(response) {
+	            renderCheckboxTable(response.functionRoleSetList, response.cFRoleFunctionDtoList);
+	        },
+	        error: function() {
+	            alert('載入資料失敗，請稍後再試');
+	        }
+	    });
+	});
+	
+	function renderCheckboxTable(functionRoleSetList, cFRoleFunctionDtoList) {
+	    const tbody = $('#functionRoleSetBody');
+	    tbody.empty();
+
+	    functionRoleSetList.forEach(item => {
+	        const isChecked = cFRoleFunctionDtoList.some(fn => fn.fnNo === item.fnNo);
+
+	        const row = `
+	            <tr>
+	                <td><input type="checkbox" name="selectedFns"
+	                    value="${item.fnNo}"
+	                    class="form-check-input"
+	                    ${isChecked ? 'checked' : ''}></td>
+	                <td>${item.fnNo}</td>
+	                <td>${item.fnDesc}</td>
+	                <td>${item.codeDesc}</td>
+	            </tr>
+	        `;
+	        tbody.append(row);
+	    });
+	}
+	
+	function handleButtonClick(action) {
+		if (action === 'updateData') {
+			saveFunctionRoleSet();
+		}
+	}
+
+	function saveFunctionRoleSet() {
+		const selectedFns = [];
+		const roleNo = $('#functionRoleSet').val();
+
+		$('input[name="selectedFns"]:checked').each(function () {
+			selectedFns.push({
+				roleNo: roleNo,
+				fnNo: $(this).val()
+			});
+		});
+
+		if (selectedFns.length === 0) {
+			alert("請至少選擇一項功能再儲存");
+			return;
+		}
+
+		$.ajax({
+			url: '/FunctionRoleSet/update',
+			type: 'POST',
+			contentType: 'application/json',
+			data: JSON.stringify(selectedFns),
+			success: function (res) {
+				alert("儲存成功！");
+				// 若後端回傳資料可在此更新前端
+			},
+			error: function (xhr) {
+				alert("儲存失敗：" + xhr.responseText);
+			}
+		});
+	}
+	</script>
+</body>
+</html>

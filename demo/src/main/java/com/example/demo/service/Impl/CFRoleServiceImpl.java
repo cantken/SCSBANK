@@ -13,7 +13,6 @@ import com.example.demo.repository.CFEmployeeRoleRepository;
 import com.example.demo.repository.CFRoleRepository;
 import com.example.demo.service.CFRoleService;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import ma.glasnost.orika.MapperFacade;
 
@@ -29,7 +28,7 @@ public class CFRoleServiceImpl implements CFRoleService {
 	private final MapperFacade orika;
 
 	@Override
-	public List<RoleNoDto> findAllRoles() {
+	public List<RoleNoDto> findRoleNoAndRoleName() {
 
 		List<CFRoleEntity> roleEntityList = cFRoleRepository.findAll();
 		List<CFRoleDto> dbroleDtoList = orika.mapAsList(roleEntityList, CFRoleDto.class);
@@ -43,5 +42,10 @@ public class CFRoleServiceImpl implements CFRoleService {
 		}
 		return roleDtoList;
 	}
-
+	
+	@Override
+	public List<CFRoleDto> findAllRoles() {
+		List<CFRoleEntity> roleEntityList = cFRoleRepository.findAll();
+		return orika.mapAsList(roleEntityList, CFRoleDto.class);
+	}
 }

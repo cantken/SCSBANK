@@ -187,9 +187,9 @@
 	<br>
 	<br>
 	<!-- ✅ 整合查詢條件與表格的表單 -->
-	<form action="/MappingCode" method="get">
+	<form action="/FunctionRoleSet" method="get">
 		<!-- 查詢條件 -->
-		<label for="sysType">代碼類別：</label> <select name="codeType"
+		<select name="codeType"
 			id="sysType" class="form-select">
 			<option value="">-- 代碼類別 --</option>
 			<option th:each="code : ${dropList}" th:value="${code.codeNo}"

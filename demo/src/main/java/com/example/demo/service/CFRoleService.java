@@ -7,6 +7,9 @@ import com.example.demo.Dto.RoleNoDto;
 
 public interface CFRoleService {
 
-	List<RoleNoDto> findAllRoles();
+
+	List<CFRoleDto> findAllRoles();
+
+	List<RoleNoDto> findRoleNoAndRoleName();
 
 }

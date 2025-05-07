@@ -25,7 +25,7 @@ import com.example.demo.service.CFEmployeeService;
 import com.example.demo.service.CFRoleService;
 
 @Controller
-public class EmployeeSetController {
+public class CFEmployeeSetController {
 
 	@Autowired
 	private CFEmployeeService cFEmployeeService; // 注入 Service 的實作
@@ -77,8 +77,7 @@ public class EmployeeSetController {
 		model.addAttribute("roleNoDto", roleNoDto);
 
 		// 其他彈窗可能需要的資料也可加上，例如角色選單等等
-		List<RoleNoDto> roleDtoList = cFRoleService.findAllRoles();
-		System.out.println("000000000000000roleDtoList = " + roleDtoList);
+		List<RoleNoDto> roleDtoList = cFRoleService.findRoleNoAndRoleName();
 		model.addAttribute("roleDtoList", roleDtoList);
 
 		return "EmployeeSetRoleDetailModal :: modalContent"; // 指向彈窗的 template/view

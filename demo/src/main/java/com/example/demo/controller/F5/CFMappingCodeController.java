@@ -16,7 +16,7 @@ import com.example.demo.entity.CFMappingCodeEntity;
 import com.example.demo.service.CFMappingCodeService;
 
 @Controller
-public class MappingCodeController {
+public class CFMappingCodeController {
 
 	@Autowired
 	private CFMappingCodeService cfMappingCodeService; // 注入 Service 的實作
