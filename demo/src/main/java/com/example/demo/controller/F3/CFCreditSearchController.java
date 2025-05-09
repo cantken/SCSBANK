@@ -15,7 +15,7 @@ import com.example.demo.dto.CaseinfoDto;
 import com.example.demo.service.CFCaseinfoService;
 
 @Controller
-public class CreditSearchController {
+public class CFCreditSearchController {
 
 	@Autowired
 	private CFCaseinfoService cFCaseinfoService;

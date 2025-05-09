@@ -8,6 +8,10 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.dto.CFMappingCodeDropDownDto;
 import com.example.demo.dto.CFMappingCodeDto;
+import com.example.demo.dto.CardFlagDto;
+import com.example.demo.dto.CardTypeDto;
+import com.example.demo.dto.FraudTypeDto;
+import com.example.demo.dto.YNDto;
 import com.example.demo.entity.CFMappingCodeEntity;
 import com.example.demo.repository.CFMappingCodeRepository;
 import com.example.demo.service.CFMappingCodeService;
@@ -22,7 +26,6 @@ public class CFMappingCodeServiceImpl implements CFMappingCodeService {
 
 	private final CFMappingCodeRepository cFMappingCodeRepository;
 	private final MapperFacade orika;
-
 
 	// 系統代碼維護 下拉選單
 	@Override
@@ -59,28 +62,52 @@ public class CFMappingCodeServiceImpl implements CFMappingCodeService {
 		CFMappingCodeEntity entity = orika.map(dto, CFMappingCodeEntity.class);
 		cFMappingCodeRepository.save(entity);
 	}
-	
+
 	// 系統代碼維護 修改
 	@Transactional
 	public void updateMappingCode(CFMappingCodeDto dto) {
-	    String codeType = dto.getCodeType();
-	    String forRowid = dto.getForRowid();
-	    Map<String, Object> dbDto = cFMappingCodeRepository.findByForRowid(forRowid);
-	    if (dbDto == null) {
-	        throw new RuntimeException("找不到要更新的資料，codeType: " + codeType + ", rowid: " + forRowid);
-	    }
+		String codeType = dto.getCodeType();
+		String forRowid = dto.getForRowid();
+		Map<String, Object> dbDto = cFMappingCodeRepository.findByForRowid(forRowid);
+		if (dbDto == null) {
+			throw new RuntimeException("找不到要更新的資料，codeType: " + codeType + ", rowid: " + forRowid);
+		}
 
-	 // Map轉成Entity（不是Dto）
-	    CFMappingCodeEntity entity = new CFMappingCodeEntity();
-	    entity.setCodeType((String) dbDto.get("codeType"));
-	    entity.setCodeNo((String) dbDto.get("codeNo"));
-	    entity.setCodeDesc((String) dbDto.get("codeDesc"));
-	    entity.setCodeSort((Integer) dbDto.get("codeSort"));
-	    entity.setCodeTag((String) dbDto.get("codeTag"));
-	    entity.setCodeFlag((String) dbDto.get("codeFlag"));
+		// Map轉成Entity（不是Dto）
+		CFMappingCodeEntity entity = new CFMappingCodeEntity();
+		entity.setCodeType((String) dbDto.get("codeType"));
+		entity.setCodeNo((String) dbDto.get("codeNo"));
+		entity.setCodeDesc((String) dbDto.get("codeDesc"));
+		entity.setCodeSort((Integer) dbDto.get("codeSort"));
+		entity.setCodeTag((String) dbDto.get("codeTag"));
+		entity.setCodeFlag((String) dbDto.get("codeFlag"));
 
-	    orika.map(dto, entity);
-	    cFMappingCodeRepository.save(entity);
+		orika.map(dto, entity);
+		cFMappingCodeRepository.save(entity);
+	}
+
+	// 卡片FLAG下拉
+	@Override
+	public List<CardFlagDto> findCardFlagByCodeType(String codeType) {
+		return orika.mapAsList(cFMappingCodeRepository.findCardFlagByCodeType(codeType), CardFlagDto.class);
+	}
+
+	// 詐欺類型 下拉
+	@Override
+	public List<FraudTypeDto> findFraudTypeByCodeType(String codeType) {
+		return orika.mapAsList(cFMappingCodeRepository.findFraudTypeByCodeType(codeType), FraudTypeDto.class);
+	}
+
+	// 卡別 下拉
+	@Override
+	public List<CardTypeDto> findCardTypeByCodeType(String codeType) {
+		return orika.mapAsList(cFMappingCodeRepository.findCardTypeByCodeType(codeType), CardTypeDto.class);
+	}
+
+	// YN 下拉
+	@Override
+	public List<YNDto> findYNByCodeType(String codeType) {
+		return orika.mapAsList(cFMappingCodeRepository.findYNByCodeType(codeType), YNDto.class);
 	}
 
 }

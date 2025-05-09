@@ -1,35 +1,19 @@
 package com.example.demo.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class CFMappingCodeDropDownDto {
 
     private String codeType;
     private String codeNo;
     private String codeDesc;
 
-    public String getCodeType() {
-        return codeType;
-    }
-
-    public void setCodeType(String codeType) {
-        this.codeType = codeType;
-    }
-
-    public String getCodeNo() {
-        return codeNo;
-    }
-
-    public void setCodeNo(String codeNo) {
-        this.codeNo = codeNo;
-    }
-
-    public String getCodeDesc() {
-        return codeDesc;
-    }
-
-    public void setCodeDesc(String codeDesc) {
-        this.codeDesc = codeDesc;
-    }
-
+ 
     @Override
     public String toString() {
         return "CFMappingCodeDropDownDto{" +
