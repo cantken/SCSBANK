@@ -1,5 +1,8 @@
 package com.example.demo.entity;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -11,26 +14,18 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "CF_EMPLOYEE")
-public class CFEmployeeEntity {
-
+@Table(name = "CF_PHASE")
+public class CFPhaseEntity {
+	
 	@Id
-	private String empNo;
+    private String applno;
 
-	private String empName;
+    private String opId;
 
-	private String onJob;
+    private String statusId;
 
-	private String email;
+    private LocalDateTime startDate;
 
-	private String l2aEmpno;
-
-	private String l2bEmpno;
-
-	private String assignStop;
-
-	private String empId;
-
-	private String groupLevel;
+    private LocalDateTime endDate;
 
 }

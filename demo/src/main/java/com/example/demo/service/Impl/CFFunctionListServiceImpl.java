@@ -7,7 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.Dto.FunctionRoleSetDto;
+import com.example.demo.dto.FunctionRoleSetDto;
 import com.example.demo.repository.CFFuctionListRepository;
 import com.example.demo.service.CFFunctionListService;
 

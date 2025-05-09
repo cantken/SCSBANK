@@ -2,8 +2,8 @@ package com.example.demo.service;
 
 import java.util.List;
 
-import com.example.demo.Dto.CFMappingCodeDto;
-import com.example.demo.Dto.CFMappingCodeDropDownDto;
+import com.example.demo.dto.CFMappingCodeDropDownDto;
+import com.example.demo.dto.CFMappingCodeDto;
 import com.example.demo.entity.CFMappingCodeEntity;
 
 public interface CFMappingCodeService {

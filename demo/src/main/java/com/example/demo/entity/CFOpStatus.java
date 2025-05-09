@@ -2,7 +2,6 @@ package com.example.demo.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,17 +10,16 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@AllArgsConstructor
 @NoArgsConstructor
-@IdClass(RoleNoAndFnNoId.class)
-@Table(name = "CF_ROLE_FUNCTION")
-public class CFRoleFunctionEntity {
+@AllArgsConstructor
+@Table(name = "CF_OP_STATUS")
+public class CFOpStatus {
 	
 	@Id
-    private String roleNo;
-    
-	@Id
-    private String fnNo;
-}
+    private String opId;
 
-    
+    private String opDesc;
+
+    private String note;
+
+}

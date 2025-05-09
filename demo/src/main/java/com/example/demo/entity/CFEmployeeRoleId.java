@@ -3,12 +3,14 @@ package com.example.demo.entity;
 import java.io.Serializable;
 import java.util.Objects;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 public class CFEmployeeRoleId implements Serializable {
@@ -31,5 +33,4 @@ public class CFEmployeeRoleId implements Serializable {
     public int hashCode() {
         return Objects.hash(empNo, roleNo);
     }
-
 }

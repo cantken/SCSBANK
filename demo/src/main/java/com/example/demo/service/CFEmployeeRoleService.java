@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
-import com.example.demo.Dto.EmployeeRoleDto;
-import com.example.demo.Dto.RoleNoDto;
+import com.example.demo.dto.EmployeeRoleDto;
+import com.example.demo.dto.RoleNoDto;
 
 public interface CFEmployeeRoleService {
 	

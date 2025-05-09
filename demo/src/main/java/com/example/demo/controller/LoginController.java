@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.demo.Dto.FunctionDto;
+import com.example.demo.dto.FunctionDto;
 import com.example.demo.service.LoginService;
 
 import jakarta.servlet.http.HttpSession;

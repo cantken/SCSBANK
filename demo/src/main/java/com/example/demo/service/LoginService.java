@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
-import com.example.demo.Dto.FunctionDto;
+import com.example.demo.dto.FunctionDto;
 import com.example.demo.repository.CFEmployeeRepository;
 
 @Service

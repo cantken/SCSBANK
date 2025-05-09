@@ -5,10 +5,10 @@ import java.util.Map;
 
 import org.springframework.data.jpa.repository.Lock;
 
-import com.example.demo.Dto.CFEmployeeDto;
-import com.example.demo.Dto.EmployeeGroupLevelDto;
-import com.example.demo.Dto.CFMappingGroupLevelDto;
-import com.example.demo.Dto.CFMappingCodeYnDto;
+import com.example.demo.dto.CFEmployeeDto;
+import com.example.demo.dto.CFMappingCodeYnDto;
+import com.example.demo.dto.CFMappingGroupLevelDto;
+import com.example.demo.dto.EmployeeGroupLevelDto;
 
 import jakarta.persistence.LockModeType;
 

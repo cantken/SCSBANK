@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.example.demo.Dto.CFMappingCodeDto;
+import com.example.demo.dto.CFMappingCodeDto;
 import com.example.demo.entity.CFMappingCodeEntity;
 import com.example.demo.entity.CFMappingCodeId;
 

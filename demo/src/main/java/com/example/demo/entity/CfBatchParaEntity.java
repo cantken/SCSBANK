@@ -8,20 +8,22 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
-@Data
 @Entity
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@IdClass(RoleNoAndFnNoId.class)
-@Table(name = "CF_ROLE_FUNCTION")
-public class CFRoleFunctionEntity {
-	
-	@Id
-    private String roleNo;
-    
-	@Id
-    private String fnNo;
-}
+@Table(name = "CF_BATCH_PARA")
+@IdClass(CfBatchParaId.class) // 使用複合主鍵
+public class CfBatchParaEntity {
 
-    
+	@Id
+	private String batchName;
+
+	@Id
+	private String batchType;
+
+	private String para1;
+
+	private String para2;
+
+}

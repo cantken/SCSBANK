@@ -6,8 +6,8 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
-import com.example.demo.Dto.CFMappingCodeDropDownDto;
-import com.example.demo.Dto.CFMappingCodeDto;
+import com.example.demo.dto.CFMappingCodeDropDownDto;
+import com.example.demo.dto.CFMappingCodeDto;
 import com.example.demo.entity.CFMappingCodeEntity;
 import com.example.demo.repository.CFMappingCodeRepository;
 import com.example.demo.service.CFMappingCodeService;

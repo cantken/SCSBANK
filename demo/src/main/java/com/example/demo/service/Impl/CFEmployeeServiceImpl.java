@@ -6,10 +6,10 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.Dto.CFEmployeeDto;
-import com.example.demo.Dto.CFMappingGroupLevelDto;
-import com.example.demo.Dto.CFMappingCodeYnDto;
-import com.example.demo.Dto.EmployeeGroupLevelDto;
+import com.example.demo.dto.CFEmployeeDto;
+import com.example.demo.dto.CFMappingCodeYnDto;
+import com.example.demo.dto.CFMappingGroupLevelDto;
+import com.example.demo.dto.EmployeeGroupLevelDto;
 import com.example.demo.entity.CFEmployeeEntity;
 import com.example.demo.entity.CFEmployeeRoleEntity;
 import com.example.demo.repository.CFEmployeeRepository;

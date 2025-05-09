@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-TW" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>案件查詢</title>
+<link rel="stylesheet" th:href="@{/css/CaseSearch.css}" />
+</head>
+<body>
+	<div class="button-container">
+		<button id="saveDataBtn" type="button"
+			onclick="searchButtonClick('updateData')">查詢資料</button>
+		<button id="saveDataBtn" type="button"
+			onclick="handleButtonClick('deleteData')">清除資料</button>
+	</div>
+	<!-- 🔽 查詢輸入區塊 -->
+	<div id="searchFormSection" style="margin-top: 20px;">
+		<form id="searchForm" action="/CaseSearch" method="get">
+			<table>
+				<tbody>
+					<tr>
+						<td><label for="applno">收件編號：</label></td>
+						<td><input id="applno" name="applno"><span></span></td>
+						<td><label for="cuId">身分證字號：</label></td>
+						<td><input id="cuId" name="cuId"><span></span></td>
+						<td><label for="cuName">客戶姓名：</label></td>
+						<td><input id="cuName" name="cuName"><span></span></td>
+					</tr>
+					<tr>
+						<td><label for="l3empno">初審員編 ：</label></td>
+						<td><input id="l3empno" name="l3empno"><span></span>
+						</td>
+						<td><label for="caseInputTime">進件日期 ：</label></td>
+						<td><input id="caseInputTime" name="caseInputTime"><span></span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+	</div>
+	<br>
+	<br>
+	<table>
+		<thead>
+			<tr>
+				<th>明細</th>
+				<th>收件編號</th>
+				<th>身分證字號</th>
+				<th>客戶姓名</th>
+				<th>卡別</th>
+				<th>詐欺類型</th>
+				<th>初審員編</th>
+				<th>進件日期</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="caseinfo : ${caseinfoDtoList}">
+				<td>
+					<button type="button" class="btn btn-outline-primary btn-sm"
+						onclick="openRoleDetailModal(this)">明細</button>
+				</td>
+				<td th:text="${caseinfo.applno}">收件編號</td>
+				<td th:text="${caseinfo.cuId}">身分證字號</td>
+				<td th:text="${caseinfo.cuName}">客戶姓名</td>
+				<td th:text="${caseinfo.cardType}">卡別</td>
+				<td th:text="${caseinfo.fraudType}">詐欺類型</td>
+				<td th:text="${caseinfo.l3empno}">初審員編</td>
+				<td th:text="${caseinfo.caseInputTime}">進件日期</td>
+			</tr>
+		</tbody>
+	</table>
+	<!-- jQuery & Bootstrap Bundle -->
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script>
+		function searchButtonClick(action) {
+			// 這邊可以依 action 判斷要做什麼動作
+			if (action === 'updateData') {
+				document.getElementById("searchForm").submit(); // 觸發 form 送出
+			}
+		}
+	</script>
