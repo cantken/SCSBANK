@@ -20,19 +20,19 @@ public interface CFMappingCodeRepository extends JpaRepository<CFMappingCodeEnti
     List<Map<String, Object>> findCodeNoDescByCodeType(@Param("codeType") String codeType);
 	
 	// CardFlag
-	@Query(value = "SELECT a.CODE_TYPE , a.CODE_NO, a.CODE_DESC FROM CF_MAPPING_CODE a WHERE (:codeType IS NULL AND CODE_TYPE = 'CARD_FLAG'", nativeQuery = true)
+	@Query(value = "SELECT a.CODE_TYPE , a.CODE_NO, a.CODE_DESC FROM CF_MAPPING_CODE a WHERE (:codeType IS NULL AND CODE_TYPE = 'CARD_FLAG')", nativeQuery = true)
     List<Map<String, Object>> findCardFlagByCodeType(@Param("codeType") String codeType);
     
 	//FraudType
-	@Query(value = "SELECT a.CODE_TYPE , a.CODE_NO, a.CODE_DESC FROM CF_MAPPING_CODE a WHERE (:codeType IS NULL AND CODE_TYPE = 'FRAUD_TYPE'", nativeQuery = true)
+	@Query(value = "SELECT a.CODE_TYPE , a.CODE_NO, a.CODE_DESC FROM CF_MAPPING_CODE a WHERE (:codeType IS NULL AND CODE_TYPE = 'FRAUD_TYPE')", nativeQuery = true)
     List<Map<String, Object>> findFraudTypeByCodeType(@Param("codeType") String codeType);
 	
 	//CardType
-	@Query(value = "SELECT a.CODE_TYPE , a.CODE_NO, a.CODE_DESC FROM CF_MAPPING_CODE a WHERE (:codeType IS NULL AND CODE_TYPE = 'CARD_TYPE'", nativeQuery = true)
+	@Query(value = "SELECT a.CODE_TYPE , a.CODE_NO, a.CODE_DESC FROM CF_MAPPING_CODE a WHERE (:codeType IS NULL AND CODE_TYPE = 'CARD_TYPE')", nativeQuery = true)
     List<Map<String, Object>> findCardTypeByCodeType(@Param("codeType") String codeType);
 	
 	//YN
-	@Query(value = "SELECT a.CODE_TYPE , a.CODE_NO, a.CODE_DESC FROM CF_MAPPING_CODE a WHERE (:codeType IS NULL AND CODE_TYPE = 'YN'", nativeQuery = true)
+	@Query(value = "SELECT a.CODE_TYPE , a.CODE_NO, a.CODE_DESC FROM CF_MAPPING_CODE a WHERE (:codeType IS NULL AND CODE_TYPE = 'YN')", nativeQuery = true)
     List<Map<String, Object>> findYNByCodeType(@Param("codeType") String codeType);
 	
     List<CFMappingCodeEntity> findListByCodeType(@Param("codeType") String codeType);

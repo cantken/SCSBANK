@@ -28,8 +28,8 @@ public class CFZipcoderServiceImpl implements CFZipcoderService {
 
 	// 區下拉
 	@Override
-	public List<CFZipcodeDto> findZipNameByFkNo(String fkNo) {
-		return orika.mapAsList(cFZipcoderRepository.findZipNameByFkNo(fkNo), CFZipcodeDto.class);
+	public List<CFZipcodeDto> findZipNameByZipNo(String zipNo) {
+		return orika.mapAsList(cFZipcoderRepository.findZipNameByZipNo(zipNo), CFZipcodeDto.class);
 	}
 
 }

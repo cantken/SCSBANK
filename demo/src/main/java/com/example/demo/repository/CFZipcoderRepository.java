@@ -8,13 +8,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.example.demo.entity.CFZipcodeEntity;
+import com.example.demo.entity.ZipNoAndZipNameId;
 
-public interface CFZipcoderRepository extends JpaRepository<CFZipcodeEntity, String>{
+public interface CFZipcoderRepository extends JpaRepository<CFZipcodeEntity, ZipNoAndZipNameId>{
 	
-	@Query(value = "SELECT ZIP_NAME,ZIP_NO FROM CF_ZIPCODE WHERE FK_NO='F'", nativeQuery = true)
+	@Query(value = "SELECT ZIP_NAME, ZIP_NO, FK_NO FROM CF_ZIPCODE WHERE FK_NO= 'F'", nativeQuery = true)
 	public List<Map<String, Object>> findZipNameByAllFkNo();
 	
-	@Query(value = "SELECT ZIP_NAME,ZIP_NO FROM CF_ZIPCODE WHERE FK_NO='F'", nativeQuery = true)
-	public List<Map<String, Object>> findZipNameByFkNo(@Param("fkNo") String fkNo);
+	@Query(value = "SELECT ZIP_NAME, ZIP_NO, FK_NO FROM CF_ZIPCODE WHERE FK_NO = :zipNo", nativeQuery = true)
+	public List<Map<String, Object>> findZipNameByZipNo(@Param("zipNo") String zipNo);
 
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.dto.CFZipcodeDto;
 import com.example.demo.dto.CardFlagDto;
@@ -24,14 +25,16 @@ public class CFCreateJobController {
 
 	@Autowired
 	private CFBatchParaService cFBatchParaService;
+	@Autowired
 	private CFZipcoderService cFZipcoderService;
+	@Autowired
 	private CFMappingCodeService cFMappingCodeService;
 
 	// 一開始載入
 	@GetMapping("/CreateJob")
-	public String showCreateJobPage(@RequestParam(value = "para1") String para1,
-									@RequestParam(value = "fkNo") String fkNo, 
-									@RequestParam(value = "codeType") String codeType, 
+	public String showCreateJobPage(@RequestParam(value = "para1", required = false) String para1,
+									@RequestParam(value = "fkNo", required = false) String fkNo, 
+									@RequestParam(value = "codeType", required = false) String codeType, 
 									Model model
 									) {
 		if (StringUtils.isAllBlank(para1)) {
@@ -46,7 +49,7 @@ public class CFCreateJobController {
 		model.addAttribute("cityDtoList", cityDtoList);
 
 		// 建檔作業區下拉
-		List<CFZipcodeDto> districtDtoList = cFZipcoderService.findZipNameByFkNo(fkNo);
+		List<CFZipcodeDto> districtDtoList = cFZipcoderService.findZipNameByAllFkNo();
 		model.addAttribute("districtDtoList", districtDtoList);
 
 		// 建檔作業卡片FLAG下拉
@@ -66,6 +69,15 @@ public class CFCreateJobController {
 		model.addAttribute("yNDtoList", yNDtoList);
 
 		return "CreateJob";
+	}
+	
+	// 建檔作業區下拉
+	@GetMapping("/getDistricts")
+	@ResponseBody
+	public List<CFZipcodeDto> getDistricts(@RequestParam("zipNo") String zipNo) {
+	    List<CFZipcodeDto> districtDtoList = cFZipcoderService.findZipNameByZipNo(zipNo);
+	    System.out.println("000000000000000000 cityDtoList = " + districtDtoList);
+	    return districtDtoList ;
 	}
 
 }

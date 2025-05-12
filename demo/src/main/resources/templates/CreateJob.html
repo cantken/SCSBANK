@@ -17,22 +17,149 @@
 			<table>
 				<tbody>
 					<tr>
-						<td><label for="applno">收件編號：</label></td>
+						<td class="label-cell"><label for="applno">收件編號：</label></td>
 						<td><input id="applno" name="applno"><span></span></td>
-						<td><label for="cuId">身分證字號：</label></td>
-						<td><input id="cuId" name="cuId"><span></span></td>
-						<td><label for="cuName">客戶姓名：</label></td>
+						<td class="label-cell"><label for="cuName">中文姓名：</label></td>
 						<td><input id="cuName" name="cuName"><span></span></td>
+						<td class="label-cell"><label for="cuId">身分證字號：</label></td>
+						<td><input id="cuId" name="cuId"><span></span></td>
 					</tr>
 					<tr>
-						<td><label for="l3empno">初審員編 ：</label></td>
-						<td><input id="l3empno" name="l3empno"><span></span>
+						<td class="label-cell"><label for="cuBirthday">生日 ：</label></td>
+						<td><input type="date" id="cuBirthday" name="cuBirthday"><span></span>
 						</td>
-						<td><label for="caseInputTime">進件日期 ：</label></td>
-						<td><input id="caseInputTime" name="caseInputTime"><span></span>
+						<td class="label-cell"><label for="cuBillAddr">帳單地址 ：</label></td>
+						<td colspan="5">
+							<!-- 城市下拉選單 --> <select id="citySelect1" name="city">
+								<option value="">請選擇</option>
+								<th:block th:each="item : ${cityDtoList}">
+									<option th:value="${item.fkNo}" th:data-zip-no="${item.zipNo}"
+										th:text="${item.zipName}"></option>
+								</th:block>
+						</select> <!-- 區域下拉選單 --> <select id="districtSelect1" name="district">
+								<option value="">請選擇</option>
+								<!-- 預設的區域資料，將會在城市改變後通過AJAX更新 -->
+						</select> <!-- 其他帳單地址欄位 --> <input type="text" id="cuBillAddr"
+							name="cuBillAddr" placeholder="請輸入" style="width: 40%;">
+							<span></span>
+						</td>
+					</tr>
+					<tr>
+						<td class="label-cell"><label for="cuHTel">住宅電話：</label></td>
+						<td><input id="cuHTel" name="cuHTel"><span></span></td>
+						<td class="label-cell"><label for="cuCpTel">公司電話：</label></td>
+						<td><input id="cuCpTel" name="cuCpTel"><span></span></td>
+						<td class="label-cell"><label for="cuMTel">行動電話：</label></td>
+						<td><input id="cuMTel" name="cuMTel"><span></span></td>
+					</tr>
+					<tr>
+						<td class="label-cell"><label for="cuEmail">email：</label></td>
+						<td><input id="cuEmail" name="cuEmail"><span></span></td>
+						<td class="label-cell"><label for="cuCpName">公司名稱：</label></td>
+						<td><input id="cuCpName" name="cuCpName"><span></span></td>
+						<td class="label-cell"><label for="cardFlag">卡片 flag：</label></td>
+						<td><select id="cardFlag" name="cardFlag">
+								<option value="">請選擇</option>
+								<option th:each="item : ${cardFlagDtoList}"
+									th:value="${item.codeNo}" th:text="${item.codeDesc}"></option>
+						</select> <span></span></td>
+					</tr>
+					<tr>
+						<td class="label-cell"><label for="fraudType">詐欺類型：</label></td>
+						<td><select id="fraudType" name="fraudType">
+								<option value="">請選擇</option>
+								<option th:each="item : ${fraudTypeDtoList}"
+									th:value="${item.codeNo}" th:text="${item.codeDesc}"></option>
+						</select><span></span></td>
+
+						<td class="label-cell"><label for="cardType">卡別：</label></td>
+						<td><select id="cardType" name="cardType">
+								<option value="">請選擇</option>
+								<option th:each="item : ${cardTypeDtoList}"
+									th:value="${item.codeNo}" th:text="${item.codeDesc}"></option>
+						</select><span></span></td>
+						<td class="label-cell"><label for="agreeChange">是否同意改發：</label></td>
+						<td><select id="agreeChange" name="agreeChange">
+								<option value="">請選擇</option>
+								<option th:each="item : ${yNDtoList}" th:value="${item.codeNo}"
+									th:text="${item.codeDesc}"></option>
+						</select><span></span></td>
+					</tr>
+					<tr>
+						<td class="label-cell"><label for="agreePrint">是否列印通知函：</label></td>
+						<td><select id="agreePrint" name="agreePrint">
+								<option value="">請選擇</option>
+								<option th:each="item : ${yNDtoList}" th:value="${item.codeNo}"
+									th:text="${item.codeDesc}"></option>
+						</select><span></span></td>
+						<td class="label-cell"><label for="cuSendCode">通知函寄送地址：</label></td>
+						<td colspan="5">
+							<!-- 城市下拉選單 --> <select id="citySelect2" name="city">
+								<option value="">請選擇</option>
+								<th:block th:each="item : ${cityDtoList}">
+									<option th:value="${item.fkNo}" th:data-zip-no="${item.zipNo}"
+										th:text="${item.zipName}"></option>
+								</th:block>
+						</select> <!-- 區域下拉選單 --> <select id="districtSelect2" name="district">
+								<option value="">請選擇</option>
+								<!-- 預設的區域資料，將會在城市改變後通過AJAX更新 -->
+						</select> <!-- 其他帳單地址欄位 --> <input type="text" id="cuSendCode"
+							name="cuSendCode" placeholder="請輸入" style="width: 40%;">
+							<span></span>
 						</td>
 					</tr>
 				</tbody>
 			</table>
 		</form>
 	</div>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script>
+    $(document).ready(function () {
+        function bindCityChange(citySelectId, districtSelectId) {
+            $('#' + citySelectId).change(function () {
+                var selectedZipNo = $(this).find('option:selected').data('zip-no');
+
+                console.log('Selected zipNo:', selectedZipNo);
+
+                if (!selectedZipNo) {
+                    console.warn('No value selected');
+                    return;
+                }
+
+                $.ajax({
+                    url: '/getDistricts',
+                    type: 'GET',
+                    data: { zipNo: selectedZipNo },
+                    success: function (districts) {
+                        console.log('Returned districts:', districts);
+                        var $districtSelect = $('#' + districtSelectId);
+                        $districtSelect.empty().append('<option value="">請選擇</option>');
+
+                        if (Array.isArray(districts)) {
+                            $.each(districts, function (index, district) {
+                                if (district.fkNo && district.zipName) {
+                                    $districtSelect.append(
+                                        '<option value="' + district.fkNo + '">' + district.zipName + '</option>'
+                                    );
+                                }
+                            });
+                        } else {
+                            console.error('Returned districts is not an array:', districts);
+                        }
+                    },
+                    error: function () {
+                        alert('無法取得區域資料，請稍後再試');
+                    }
+                });
+            });
+        }
+
+        // ⚠️ ID 要與 HTML 完全一致（區分大小寫）
+        bindCityChange('citySelect1', 'districtSelect1');
+        bindCityChange('citySelect2', 'districtSelect2');
+    });
+</script>
+</body>
+</html>

@@ -8,6 +8,6 @@ public interface CFZipcoderService {
 
 	List<CFZipcodeDto> findZipNameByAllFkNo();
 
-	List<CFZipcodeDto> findZipNameByFkNo(String fkNo);
+	List<CFZipcodeDto> findZipNameByZipNo(String zipNo);
 
 }
