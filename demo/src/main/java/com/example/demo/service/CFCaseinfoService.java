@@ -4,9 +4,12 @@ import java.sql.Date;
 import java.util.List;
 
 import com.example.demo.dto.CaseinfoDto;
+import com.example.demo.dto.CreditSearchDto;
 
 public interface CFCaseinfoService {
 
-	List<CaseinfoDto> findCaseInfo(String applNo, String cuName, String cuId, String l3EmpNo, Date caseInputTime);
+	List<CreditSearchDto> findCaseInfo(String applNo, String cuName, String cuId, String l3EmpNo, Date caseInputTime);
+
+	void save(CaseinfoDto dto);
 
 }

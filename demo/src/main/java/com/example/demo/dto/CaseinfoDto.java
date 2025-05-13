@@ -1,7 +1,5 @@
 package com.example.demo.dto;
 
-import java.util.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,12 +8,23 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CaseinfoDto {
-	private String applno;      // 收件編號
-	private String cuId;        // 身分證字號
-	private String cuName;      // 中文姓名
-	private String cardType;    // 這裡放 D.CODE_DESC → 卡片類型說明
-    private String fraudType;   // 這裡放 E.CODE_DESC → 詐欺類型說明
-	private String l3empno;     // 初審員編
-	private Date caseInputTime; // 建檔時間
-	private String caseInputTimeStr;
+	
+	private String applno;          // 收件編號
+	private String cuName;          // 中文姓名
+	private String cuId;            // 身分證字號
+	private String cuBirthday;      // 生日(YYYYMMDD)
+	private String cuBillAddr;      // 帳單地址
+	private String cuHTel;          // 住宅電話
+	private String cuCpTel;         // 公司電話
+	private String cuMTel;          // 行動電話	
+	private String cuEmail;         // E-MAIL
+	private String cuCpName;        // 公司名稱
+	private String cardFlag;	    // 卡片FLAG
+	private String fraudType;       // 詐欺類型
+	private String cardType;        // 卡別
+	private String agreeChange;     // 是否同意改發
+	private String agreePrint;      // 是否列印通知函
+	private String cuSendCode;      // 通知函寄送郵區
+	private String cuSendAddr;      // 通知函寄送地址
+
 }

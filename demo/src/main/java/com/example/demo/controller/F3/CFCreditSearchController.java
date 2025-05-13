@@ -1,8 +1,6 @@
 package com.example.demo.controller.F3;
 
 import java.sql.Date;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.demo.dto.CaseinfoDto;
+import com.example.demo.dto.CreditSearchDto;
 import com.example.demo.service.CFCaseinfoService;
 
 @Controller
@@ -39,7 +37,7 @@ public class CFCreditSearchController {
 	        }
 	    }
 	    
-		List<CaseinfoDto> caseinfoDtoList = cFCaseinfoService.findCaseInfo(applno, cuName, cuId, l3empno, caseInputTime);
+		List<CreditSearchDto> caseinfoDtoList = cFCaseinfoService.findCaseInfo(applno, cuName, cuId, l3empno, caseInputTime);
 	
 		model.addAttribute("caseinfoDtoList",caseinfoDtoList);
 	    return "CaseSearch"; 

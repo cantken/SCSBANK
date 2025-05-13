@@ -9,8 +9,8 @@
 	<div class="button-container">
 		<button id="addDataBtn" type="button"
 			onclick="addButtonClick('addData')">新建案件</button>
-		<button id="savetData" type="button"
-			onclick="saveButtonClick('saveData')">送出</button>
+		<button id="saveData" type="button" onclick="saveFormData()">送出</button>
+
 	</div>
 	<div id="saveFormSection" style="margin-top: 20px;">
 		<form id="addForm" action="/CreateJob" method="get">
@@ -160,6 +160,48 @@
         bindCityChange('citySelect1', 'districtSelect1');
         bindCityChange('citySelect2', 'districtSelect2');
     });
+    
+    // 新增表單
+function saveFormData() {
+    const fields = [
+        'applno', 'cuName', 'cuId', 'cuBillAddr',
+        'citySelect1', 'districtSelect1', 'cuHTel', 'cuCpTel', 'cuMTel',
+        'cuEmail', 'cuCpName', 'cardFlag', 'fraudType', 'cardType',
+        'agreeChange', 'agreePrint', 'cuSendCode', 'citySelect2', 'districtSelect2'
+    ];
+
+    const formData = {};
+
+    fields.forEach(field => {
+        const el = document.getElementById(field);
+        if (el) {
+            formData[field] = el.value;
+        } else {
+            formData[field] = null; // 或你可以選擇略過
+            console.warn(`找不到欄位: ${field}`);
+        }
+    });
+
+    // ✅ 單獨處理 cuBirthday，轉成 8 碼
+    const rawBirthday = $('#cuBirthday').val();
+    const formattedBirthday = rawBirthday ? rawBirthday.replaceAll('-', '') : '';
+
+    console.log('✅ 檢查 cuBirthday:', rawBirthday, '➡️', formattedBirthday);
+    console.log('✅ 最終送出資料:', formData);
+
+   $.ajax({
+        url: '/CreateJob/save',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(formData),
+        success: function (response) {
+            alert(response);
+        },
+        error: function (xhr) {
+            alert('儲存失敗: ' + xhr.responseText);
+        }
+    });
+}
 </script>
 </body>
 </html>

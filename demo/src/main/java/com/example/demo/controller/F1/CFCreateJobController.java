@@ -4,21 +4,28 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.dto.CFZipcodeDto;
 import com.example.demo.dto.CardFlagDto;
 import com.example.demo.dto.CardTypeDto;
+import com.example.demo.dto.CaseinfoDto;
 import com.example.demo.dto.CfBatchParaDto;
 import com.example.demo.dto.FraudTypeDto;
 import com.example.demo.dto.YNDto;
+import com.example.demo.service.CFCaseinfoService;
 import com.example.demo.service.CFMappingCodeService;
 import com.example.demo.service.CFZipcoderService;
 import com.example.demo.service.Impl.CFBatchParaService;
+
 
 @Controller
 public class CFCreateJobController {
@@ -29,6 +36,8 @@ public class CFCreateJobController {
 	private CFZipcoderService cFZipcoderService;
 	@Autowired
 	private CFMappingCodeService cFMappingCodeService;
+	@Autowired
+	private CFCaseinfoService cFCaseinfoService;
 
 	// 一開始載入
 	@GetMapping("/CreateJob")
@@ -79,5 +88,18 @@ public class CFCreateJobController {
 	    System.out.println("000000000000000000 cityDtoList = " + districtDtoList);
 	    return districtDtoList ;
 	}
-
+	
+	
+	// 建檔作業新增
+	@PostMapping("/CreateJob/save")
+	@ResponseBody
+	public ResponseEntity<String> saveCaseinfo(@RequestBody CaseinfoDto dto) {
+		try {
+			cFCaseinfoService.save(dto);
+			return ResponseEntity.ok("儲存成功");
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("儲存失敗: " + e.getMessage());
+		}
+	}
+	
 }

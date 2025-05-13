@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dto.CaseinfoDto;
+import com.example.demo.dto.CreditSearchDto;
+import com.example.demo.entity.CFCaseinfoEntity;
 import com.example.demo.repository.CFCaseinfoRepository;
 import com.example.demo.service.CFCaseinfoService;
 
@@ -24,17 +26,17 @@ public class CFCaseinfoServiceImpl implements CFCaseinfoService {
 	private final MapperFacade orika;
 
 	@Override
-	public List<CaseinfoDto> findCaseInfo(String applno, String cuName, String cuId, String l3empno, Date caseInputTime) {
+	public List<CreditSearchDto> findCaseInfo(String applno, String cuName, String cuId, String l3empno, Date caseInputTime) {
 		List<Map<String, Object>> mapList = cFCaseinfoRepository.findCaseInfo(applno, cuName, cuId, l3empno, caseInputTime);
-		List<CaseinfoDto> dtoList = new ArrayList<>();
+		List<CreditSearchDto> dtoList = new ArrayList<>();
 		if (mapList == null || mapList.isEmpty()) {
 			throw new IllegalArgumentException(" 查無此資料 ");
 		} else {
-			dtoList = orika.mapAsList(mapList, CaseinfoDto.class);
+			dtoList = orika.mapAsList(mapList, CreditSearchDto.class);
 		}
 		
 		
-		for (CaseinfoDto dto : dtoList) {
+		for (CreditSearchDto dto : dtoList) {
 			if (caseInputTime != null) {
 				dto.setCaseInputTimeStr(caseInputTime.toString()); // 傳 java.sql.Date，不要 toString()
 			} else {
@@ -42,5 +44,13 @@ public class CFCaseinfoServiceImpl implements CFCaseinfoService {
 			}
 		}
 		return dtoList;
+	}
+
+	// 新建案件存檔
+	@Override
+	public void save(CaseinfoDto dto) {
+		    CFCaseinfoEntity entity = new CFCaseinfoEntity();
+		    entity = orika.map(dto, CFCaseinfoEntity.class);
+		    cFCaseinfoRepository.save(entity); // 存到 DB
 	}
 }
