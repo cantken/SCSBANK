@@ -1,29 +1,23 @@
 package com.example.demo.entity;
 
+import java.io.Serializable;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
-import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
 @Data
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "CF_BATCH_PARA")
-@IdClass(CfBatchParaId.class) // 使用複合主鍵
-public class CfBatchParaEntity {
+public class CFBatchParaId implements Serializable {
 
 	@Id
 	private String batchName;
-
+	
 	@Id
 	private String batchType;
-
-	private String para1;
-
-	private String para2;
 
 }

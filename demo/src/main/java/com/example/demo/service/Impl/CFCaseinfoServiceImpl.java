@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dto.CaseinfoDto;
+import com.example.demo.dto.CastListDto;
 import com.example.demo.dto.CreditSearchDto;
 import com.example.demo.entity.CFCaseinfoEntity;
 import com.example.demo.repository.CFCaseinfoRepository;
@@ -22,8 +23,9 @@ import ma.glasnost.orika.MapperFacade;
 public class CFCaseinfoServiceImpl implements CFCaseinfoService {
 
 	@Autowired
-	private final CFCaseinfoRepository cFCaseinfoRepository;
-	private final MapperFacade orika;
+	private CFCaseinfoRepository cFCaseinfoRepository;
+	@Autowired
+	private MapperFacade orika;
 
 	@Override
 	public List<CreditSearchDto> findCaseInfo(String applno, String cuName, String cuId, String l3empno, Date caseInputTime) {
@@ -34,7 +36,6 @@ public class CFCaseinfoServiceImpl implements CFCaseinfoService {
 		} else {
 			dtoList = orika.mapAsList(mapList, CreditSearchDto.class);
 		}
-		
 		
 		for (CreditSearchDto dto : dtoList) {
 			if (caseInputTime != null) {
@@ -52,5 +53,14 @@ public class CFCaseinfoServiceImpl implements CFCaseinfoService {
 		    CFCaseinfoEntity entity = new CFCaseinfoEntity();
 		    entity = orika.map(dto, CFCaseinfoEntity.class);
 		    cFCaseinfoRepository.save(entity); // 存到 DB
+	}
+	
+	// 搜尋案件清單
+	@Override
+	public List<CastListDto> findCaseList(String opId, String empNo) {
+		List<Map<String, Object>> mapList = cFCaseinfoRepository.findCaseList(opId, empNo);
+		List<CastListDto> dtoList = orika.mapAsList(mapList, CastListDto.class);
+
+		return dtoList;
 	}
 }

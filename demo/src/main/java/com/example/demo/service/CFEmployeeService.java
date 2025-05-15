@@ -9,6 +9,7 @@ import com.example.demo.dto.CFEmployeeDto;
 import com.example.demo.dto.CFMappingCodeYnDto;
 import com.example.demo.dto.CFMappingGroupLevelDto;
 import com.example.demo.dto.EmployeeGroupLevelDto;
+import com.example.demo.dto.OpIdDto;
 
 import jakarta.persistence.LockModeType;
 
@@ -25,5 +26,6 @@ public interface CFEmployeeService {
 	List<CFMappingCodeYnDto> findCodeNoAndCodeDescByYn();
 	
 	void saveEmployee(CFEmployeeDto dto);
-
+	
+	OpIdDto findOpIdByEmpNo(String empNo);
 }

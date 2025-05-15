@@ -3,6 +3,7 @@ package com.example.demo.service.Impl;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,10 +11,9 @@ import com.example.demo.dto.CFEmployeeDto;
 import com.example.demo.dto.CFMappingCodeYnDto;
 import com.example.demo.dto.CFMappingGroupLevelDto;
 import com.example.demo.dto.EmployeeGroupLevelDto;
+import com.example.demo.dto.OpIdDto;
 import com.example.demo.entity.CFEmployeeEntity;
-import com.example.demo.entity.CFEmployeeRoleEntity;
 import com.example.demo.repository.CFEmployeeRepository;
-import com.example.demo.repository.CFEmployeeRoleRepository;
 import com.example.demo.service.CFEmployeeService;
 
 import jakarta.transaction.Transactional;
@@ -90,6 +90,39 @@ public class CFEmployeeServiceImpl implements CFEmployeeService {
 			dbEmployeeEntity.setL2bEmpno(dto.getL2bEmpno());
 			cFEmployeeRepository.save(dbEmployeeEntity);
 		}
+	}
+	
+	@Override
+	// 判斷登入者派件層級
+	public OpIdDto findOpIdByEmpNo(String empNo){
+		Map<String, Object> map = cFEmployeeRepository.findGroupLevelByEmpNo(empNo);
+		if(StringUtils.isBlank(empNo)) {
+			throw new IllegalArgumentException("empNo 不可為空");
+		}
+		String groupLevel = map.get("GROUP_LEVEL") != null ? map.get("GROUP_LEVEL").toString(): "";
+	    String opId = null;
+	    if (groupLevel != null) {
+	        switch (groupLevel.toUpperCase()) {
+	            case "L1":
+	                opId = "1290";
+	                break;
+	            case "L2A":
+	                opId = "1270";
+	                break;
+	            case "L2B":
+	                opId = "1250";
+	                break;
+	            case "L3":
+	                opId = "1220";
+	                break;
+	            default:
+	                // 可加上預設處理
+	                break;
+	        }
+	    }
+	    OpIdDto dto = orika.map(map, OpIdDto.class);
+	    dto.setOpId(opId);
+	    return dto;
 	}
 
 }

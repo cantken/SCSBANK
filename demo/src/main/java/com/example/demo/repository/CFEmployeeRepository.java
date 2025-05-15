@@ -49,6 +49,9 @@ public interface CFEmployeeRepository extends JpaRepository<CFEmployeeEntity, St
 	@Query(value = "SELECT CODE_NO, CODE_DESC FROM CF_MAPPING_CODE WHERE CODE_TYPE = 'YN'", nativeQuery = true)
 	List<Map<String,Object>> findCodeNoAndCodeDescByYn();
 	
+	@Query(value = "SELECT GROUP_LEVEL FROM CF_EMPLOYEE WHERE EMP_NO= :empNo ", nativeQuery = true)
+	Map<String, Object> findGroupLevelByEmpNo(@Param("empNo") String empNo);
+	
 	
 
 }

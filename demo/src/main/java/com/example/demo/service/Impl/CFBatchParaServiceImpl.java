@@ -16,6 +16,7 @@ import com.example.demo.dto.CfBatchParaDto;
 import com.example.demo.repository.CFBatchParaRepository;
 import com.example.demo.repository.CFMappingCodeRepository;
 import com.example.demo.repository.CFZipcoderRepository;
+import com.example.demo.service.CFBatchParaService;
 
 import lombok.RequiredArgsConstructor;
 import ma.glasnost.orika.MapperFacade;

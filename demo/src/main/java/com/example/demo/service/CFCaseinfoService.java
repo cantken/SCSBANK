@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.List;
 
 import com.example.demo.dto.CaseinfoDto;
+import com.example.demo.dto.CastListDto;
 import com.example.demo.dto.CreditSearchDto;
 
 public interface CFCaseinfoService {
@@ -12,4 +13,6 @@ public interface CFCaseinfoService {
 
 	void save(CaseinfoDto dto);
 
+	List<CastListDto> findCaseList(String opId, String empNo);
+	
 }

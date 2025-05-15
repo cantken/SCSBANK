@@ -164,7 +164,7 @@
     // 新增表單
 function saveFormData() {
     const fields = [
-        'applno', 'cuName', 'cuId', 'cuBillAddr',
+    	'applno', 'cuName', 'cuId', 'cuBirthday', 'cuBillAddr',
         'citySelect1', 'districtSelect1', 'cuHTel', 'cuCpTel', 'cuMTel',
         'cuEmail', 'cuCpName', 'cardFlag', 'fraudType', 'cardType',
         'agreeChange', 'agreePrint', 'cuSendCode', 'citySelect2', 'districtSelect2'
@@ -175,18 +175,24 @@ function saveFormData() {
     fields.forEach(field => {
         const el = document.getElementById(field);
         if (el) {
-            formData[field] = el.value;
+            let val = el.value?.trim() ?? null;
+
+            // 🔧 特別處理 cuBirthday 格式（yyyy-MM-dd → yyyyMMdd）
+            if (field === 'cuBirthday' && val) {
+                val = val.replace(/-/g, '');  // 移除 "-"
+                if (val.length !== 8) {
+                    alert('生日格式錯誤，請輸入正確日期');
+                    return;
+                }
+            }
+
+            formData[field] = val;
         } else {
-            formData[field] = null; // 或你可以選擇略過
+            formData[field] = null;
             console.warn(`找不到欄位: ${field}`);
         }
     });
 
-    // ✅ 單獨處理 cuBirthday，轉成 8 碼
-    const rawBirthday = $('#cuBirthday').val();
-    const formattedBirthday = rawBirthday ? rawBirthday.replaceAll('-', '') : '';
-
-    console.log('✅ 檢查 cuBirthday:', rawBirthday, '➡️', formattedBirthday);
     console.log('✅ 最終送出資料:', formData);
 
    $.ajax({

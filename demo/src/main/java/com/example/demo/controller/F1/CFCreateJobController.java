@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.demo.dto.CFCreditmainDto;
+import com.example.demo.dto.CFPhaseDto;
 import com.example.demo.dto.CFZipcodeDto;
 import com.example.demo.dto.CardFlagDto;
 import com.example.demo.dto.CardTypeDto;
@@ -21,10 +23,12 @@ import com.example.demo.dto.CaseinfoDto;
 import com.example.demo.dto.CfBatchParaDto;
 import com.example.demo.dto.FraudTypeDto;
 import com.example.demo.dto.YNDto;
+import com.example.demo.service.CFBatchParaService;
 import com.example.demo.service.CFCaseinfoService;
+import com.example.demo.service.CFCreditmainService;
 import com.example.demo.service.CFMappingCodeService;
+import com.example.demo.service.CFPhaseService;
 import com.example.demo.service.CFZipcoderService;
-import com.example.demo.service.Impl.CFBatchParaService;
 
 
 @Controller
@@ -38,6 +42,10 @@ public class CFCreateJobController {
 	private CFMappingCodeService cFMappingCodeService;
 	@Autowired
 	private CFCaseinfoService cFCaseinfoService;
+	@Autowired
+	private CFCreditmainService cFCreditmainService;
+	@Autowired
+	private CFPhaseService cFPhaseService;
 
 	// 一開始載入
 	@GetMapping("/CreateJob")
@@ -85,21 +93,32 @@ public class CFCreateJobController {
 	@ResponseBody
 	public List<CFZipcodeDto> getDistricts(@RequestParam("zipNo") String zipNo) {
 	    List<CFZipcodeDto> districtDtoList = cFZipcoderService.findZipNameByZipNo(zipNo);
-	    System.out.println("000000000000000000 cityDtoList = " + districtDtoList);
 	    return districtDtoList ;
 	}
-	
 	
 	// 建檔作業新增
 	@PostMapping("/CreateJob/save")
 	@ResponseBody
 	public ResponseEntity<String> saveCaseinfo(@RequestBody CaseinfoDto dto) {
 		try {
+			
+		    // 存儲前端頁面資料進到db
 			cFCaseinfoService.save(dto);
+			
+			// 再寫一筆進 credit main
+			CFCreditmainDto creditmainDto = new CFCreditmainDto();
+			creditmainDto.setApplno(dto.getApplno());
+			cFCreditmainService.saveCreditmain(creditmainDto);
+	        
+			// 再寫一筆進 CFPhase
+			CFPhaseDto cFPhaseDto = new CFPhaseDto();
+			cFPhaseDto.setApplno(dto.getApplno());
+	        cFPhaseService.savePhase(cFPhaseDto);
+	        
 			return ResponseEntity.ok("儲存成功");
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("儲存失敗: " + e.getMessage());
 		}
+
 	}
-	
 }

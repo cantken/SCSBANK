@@ -1,0 +1,134 @@
+@charset "UTF-8";
+
+/* 全站字型與背景 */
+body {
+    font-family: 'Microsoft JhengHei', 'Segoe UI', Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 20px;
+}
+
+/* 表頭 */
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+/* 表格樣式 */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+thead {
+    background-color: #0d6efd;
+    color: white;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #dee2e6;
+    text-align: center;
+}
+
+tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* 按鈕樣式 */
+.button-container {
+    margin-bottom: 15px;
+}
+
+.button-container button {
+    background-color: #0d6efd;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    margin-right: 8px;
+}
+
+.button-container button:hover {
+    background-color: #0056b3;
+}
+
+/* 查詢區塊輸入框樣式 */
+#searchFormSection input[type="date"],
+#searchFormSection input[type="text"],
+#searchFormSection input {
+    padding: 6px 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* 查詢區塊表格樣式調整 */
+#searchFormSection table {
+    width: auto;
+    margin: auto;
+    background-color: transparent;
+    box-shadow: none;
+    border: none;
+}
+
+#searchFormSection td {
+    border: none;
+    padding: 8px 12px;
+    text-align: left;
+}
+
+/* 表格內部按鈕 */
+table .btn {
+    font-size: 0.875rem;
+    padding: 4px 10px;
+    border-radius: 4px;
+}
+
+/* 日期區間額外調整 */
+.date-range {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+/* input 調整寬度與樣式 */
+.form-group input[type="date"],
+.form-group input[type="text"] {
+	padding: 6px 10px;
+	border: 1px solid #ced4da;
+	border-radius: 4px;
+	min-width: 140px;
+	width: auto;
+	box-sizing: border-box;
+}
+
+/* 按鈕統一排在一起 */
+.button-group {
+	display: flex;
+	gap: 10px;
+	margin-left: auto; /* 推到右邊 */
+}
+
+/* 表單列容器：一排排列，可換行 */
+.form-row {
+	display: flex;
+	flex-wrap: wrap;        /* 可自動換行 */
+	align-items: center;
+	gap: 16px;              /* 欄位間距 */
+	width: 100%;
+}
+
+/* 每組 label + input */
+.form-group {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	min-width: 250px;       /* 每組最小寬度，可依需要調整 */
+}

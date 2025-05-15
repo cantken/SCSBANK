@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "CF_OP_STATUS")
-public class CFOpStatus {
+public class CFOpStatusEntity {
 	
 	@Id
     private String opId;
