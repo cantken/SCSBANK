@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-TW" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>取件</title>
+<link rel="stylesheet" th:href="@{/css/Menu.css}" />
+<link rel="stylesheet" href="/css/Menu.css" /> <!-- 你自行放置的 CSS 檔 -->
+</head>
+<body>
+<!-- 上排按鈕列 -->
+<div class="button-bar" style="display: flex; gap: 8px; margin-bottom: 12px;">
+  <button class="btn btn-primary btn-sm">重查</button>
+  <button class="btn btn-primary btn-sm">待補追蹤</button>
+  <button class="btn btn-primary btn-sm">回補文件</button>
+  <button class="btn btn-primary btn-sm">案件完成</button>
+  <button class="btn btn-primary btn-sm">越級上呈</button>
+  <button class="btn btn-primary btn-sm">暫存</button>
+  <button class="btn btn-primary btn-sm">發送簡訊</button>
+  <button class="btn btn-primary btn-sm">發送email</button>
+  <button class="btn btn-primary btn-sm">退回初審</button>
+</div>
+
+<!-- 下排 Tab 列，保持不變 -->
+<ul class="nav nav-tabs" id="dataTabs" role="tablist">
+  <li class="nav-item">
+    <button class="nav-link active" id="review-tab" data-bs-toggle="tab" data-bs-target="#review" type="button" role="tab">審查資料</button>
+  </li>
+  <li class="nav-item">
+    <button class="nav-link" id="auth-tab" data-bs-toggle="tab" data-bs-target="#auth" type="button" role="tab">授權資料</button>
+  </li>
+  <li class="nav-item">
+    <button class="nav-link" id="claim-tab" data-bs-toggle="tab" data-bs-target="#claim" type="button" role="tab">請款資料</button>
+  </li>
+  <li class="nav-item">
+    <button class="nav-link" id="history-tab" data-bs-toggle="tab" data-bs-target="#history" type="button" role="tab">歷史資訊</button>
+  </li>
+  <li class="nav-item">
+    <button class="nav-link" id="account-tab" data-bs-toggle="tab" data-bs-target="#account" type="button" role="tab">調帳及銷帳</button>
+  </li>
+  <li class="nav-item">
+    <button class="nav-link" id="cb-tab" data-bs-toggle="tab" data-bs-target="#cb" type="button" role="tab">CB紀錄</button>
+  </li>
+  <li class="nav-item">
+    <button class="nav-link" id="statement-tab" data-bs-toggle="tab" data-bs-target="#statement" type="button" role="tab">產製客戶聲明書</button>
+  </li>
+  <li class="nav-item">
+    <button class="nav-link" id="report-tab" data-bs-toggle="tab" data-bs-target="#report" type="button" role="tab">產製報案資料</button>
+  </li>
+  <li class="nav-item">
+    <button class="nav-link" id="other-tab" data-bs-toggle="tab" data-bs-target="#other" type="button" role="tab">他案訊息</button>
+  </li>
+  <li class="nav-item">
+    <button class="nav-link" id="image-tab" data-bs-toggle="tab" data-bs-target="#image" type="button" role="tab">本案影像</button>
+  </li>
+</ul>
+
+<!-- 對應 Tab 內容（可留空待引入其他頁） -->
+<div class="tab-content mt-3">
+  <div class="tab-pane fade show active" id="review" role="tabpanel">審查資料內容</div>
+  <div class="tab-pane fade" id="auth" role="tabpanel">授權資料內容</div>
+  <div class="tab-pane fade" id="claim" role="tabpanel">請款資料內容</div>
+  <div class="tab-pane fade" id="history" role="tabpanel">歷史資訊內容</div>
+  <div class="tab-pane fade" id="account" role="tabpanel">調帳及銷帳內容</div>
+  <div class="tab-pane fade" id="cb" role="tabpanel">CB紀錄內容</div>
+  <div class="tab-pane fade" id="statement" role="tabpanel">產製客戶聲明書內容</div>
+  <div class="tab-pane fade" id="report" role="tabpanel">產製報案資料內容</div>
+  <div class="tab-pane fade" id="other" role="tabpanel">他案訊息內容</div>
+  <div class="tab-pane fade" id="image" role="tabpanel">本案影像內容</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+document.querySelectorAll('.nav-tabs .nav-link').forEach(tab => {
+  tab.addEventListener('click', (e) => {
+    e.preventDefault();  // 防止頁面跳轉
+
+    // 移除所有 tab 的 active
+    document.querySelectorAll('.nav-tabs .nav-link').forEach(t => t.classList.remove('active'));
+
+    // 讓點擊的 tab 加上 active
+    tab.classList.add('active');
+
+    // 這裡可以加上切換 tab 內容的程式碼
+  });
+});
+
+function loadTabContent(targetId) {
+	
+	// 從 URL 抓 applno
+	function getApplnoFromURL() {
+	  const urlParams = new URLSearchParams(window.location.search);
+	  return urlParams.get('applno');
+	}
+	const applno = getApplnoFromURL();
+	
+	  switch (targetId) {
+	    case "#review":
+	    	$(targetId).load(`/html/Review.html?applno=${encodeURIComponent(applno)}`);
+	      break;
+	    case "#auth":
+	      $(targetId).load("/auth.html");
+	      break;
+	    case "#claim":
+	      $(targetId).load("/claim.html");
+	      break;
+	    // 其他 tab 可依樣擴充
+	    default:
+	      $(targetId).html(""); // 預設清空
+	  }
+	}
+
+	$(document).ready(function () {
+	  loadTabContent("#review"); // 預設載入 Review.html
+
+	  $(".nav-link").on("click", function () {
+	    const targetId = $(this).data("bs-target");
+	    loadTabContent(targetId);
+	  });
+	});
+	
+</script>
+</body>
+</html>
