@@ -1,5 +1,7 @@
 package com.example.demo.dto;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,9 +11,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CFFunctionListDto {
 
-    private String fnNo;       // 功能代碼 
-    private String fnGroupNo;  // 程式代碼 
-    private String fnPath;     // 程式路徑 
-    private Integer fnSort;    // 排序 
-    private String fnDesc;     // 程式名稱 
+	@JsonAlias("FN_NO")
+	private String fnNo;       // 功能代碼
+
+	@JsonAlias("FN_GROUP_NO")
+	private String fnGroupNo;  // 程式代碼
+
+	@JsonAlias("FN_PATH")
+	private String fnPath;     // 程式路徑
+
+	@JsonAlias("FN_SORT")
+	private Integer fnSort;    // 排序
+
+	@JsonAlias("FN_DESC")
+	private String fnDesc;     // 程式名稱
+    
 }

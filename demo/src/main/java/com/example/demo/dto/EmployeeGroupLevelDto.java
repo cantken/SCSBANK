@@ -1,5 +1,7 @@
 package com.example.demo.dto;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,6 +10,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EmployeeGroupLevelDto {
-	private String empNo; //員工編號
-    private String empName; //員工姓名
+
+	@JsonAlias("EMP_NO")
+	private String empNo;   // 員工編號
+
+	@JsonAlias("EMP_NAME")
+	private String empName; // 員工姓名
+	
 }

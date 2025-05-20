@@ -2,21 +2,16 @@ package com.example.demo.service.Impl;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.dto.CFZipcodeDto;
-import com.example.demo.dto.CardFlagDto;
 import com.example.demo.dto.CfBatchParaDto;
 import com.example.demo.repository.CFBatchParaRepository;
-import com.example.demo.repository.CFMappingCodeRepository;
-import com.example.demo.repository.CFZipcoderRepository;
 import com.example.demo.service.CFBatchParaService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
 import ma.glasnost.orika.MapperFacade;
@@ -27,7 +22,11 @@ public class CFBatchParaServiceImpl implements CFBatchParaService {
 
 	@Autowired
 	private final CFBatchParaRepository cFBatchParaRepository;
-	private final MapperFacade orika;
+	
+//	private final MapperFacade orika;
+	
+	@Autowired
+	private ObjectMapper objectMapper;
 
 	// 帶入收件編號
 	@Override
@@ -44,7 +43,8 @@ public class CFBatchParaServiceImpl implements CFBatchParaService {
 			para1 = datePart + "A" + serialStr;
 		}
 		Map<String, Object> map = cFBatchParaRepository.findPara2(para1);
-		return orika.map(map, CfBatchParaDto.class);
+		CfBatchParaDto dto = objectMapper.convertValue(map, CfBatchParaDto.class);
+		return dto;
 	}
 
 }

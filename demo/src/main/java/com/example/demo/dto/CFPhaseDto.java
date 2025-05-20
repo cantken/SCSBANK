@@ -2,9 +2,8 @@ package com.example.demo.dto;
 
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonAlias;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,10 +13,20 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CFPhaseDto {
 	
-    private String applno;           // 收件編號
-    private String opId;             // 作業代碼
-    private String statusId;         // 狀態代碼
-    private LocalDateTime startDate; // 作業開始時間
-    private LocalDateTime endDate;   // 作業結束時間
+	@JsonAlias("APPLNO")
+	private String applno;           // 收件編號
+
+	@JsonAlias("OP_ID")
+	private String opId;             // 作業代碼
+
+	@JsonAlias("STATUS_ID")
+	private String statusId;         // 狀態代碼
+
+	@JsonAlias("START_DATE")
+	private LocalDateTime startDate; // 作業開始時間
+
+	@JsonAlias("END_DATE")
+	private LocalDateTime endDate;   // 作業結束時間
+
 
 }

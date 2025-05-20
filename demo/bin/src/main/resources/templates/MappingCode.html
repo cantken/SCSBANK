@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>系統代碼維護</title>
+<link rel="stylesheet" type="text/css" href="/css/MappingCode.css">
+<script>
+	function handleButtonClick(action) {
+		const addBtn = document.getElementById('addBtn');
+		const queryBtn = document.getElementById('queryBtn');
+		const queryDataBtn = document.getElementById('queryDataBtn');
+		const saveDataBtn = document.getElementById('saveDataBtn');
+		const addFormSection = document.getElementById('addFormSection');
+		const editFormSection = document.getElementById('editFormSection');
+
+		// 每次點按鈕前先全部啟用
+		addBtn.disabled = false;
+		queryBtn.disabled = false;
+		queryDataBtn.disabled = false;
+		saveDataBtn.disabled = false;
+
+		if (action === 'add') {
+			// 顯示新增表單，隱藏編輯表單
+			addFormSection.style.display = 'block';
+			editFormSection.style.display = 'none';
+			queryDataBtn.disabled = true; // 禁用查詢資料按鈕
+
+			// 使儲存按鈕有效
+			saveDataBtn.disabled = false;
+		} else if (action === 'query') {
+			// 禁用儲存按鈕
+			saveDataBtn.disabled = true;
+		} else if (action === 'edit') {
+			// 顯示編輯表單，隱藏新增表單
+			editFormSection.style.display = 'block';
+			addFormSection.style.display = 'none';
+			queryDataBtn.disabled = true; // 禁用查詢資料按鈕
+
+			// 使儲存按鈕有效
+			saveDataBtn.disabled = false;
+		}
+
+		if (action === 'saveData') {
+			let form;
+			// 根據顯示的表單來選擇相應的表單
+			if (addFormSection.style.display === 'block') {
+				form = document.getElementById('addForm'); // 新增表單
+			} else if (editFormSection.style.display === 'block') {
+				form = document.getElementById('editForm'); // 編輯表單
+			}
+
+			if (form) {
+				// 驗證欄位
+				const codeType = document
+						.getElementById(form.id === 'editForm' ? 'editCodeType'
+								: 'codeType').value.trim();
+				const codeNo = document
+						.getElementById(form.id === 'editForm' ? 'editCodeNo'
+								: 'codeNo').value.trim();
+				const codeDesc = document
+						.getElementById(form.id === 'editForm' ? 'editCodeDesc'
+								: 'codeDesc').value.trim();
+
+				if (codeType === '') {
+					alert('請填寫「代碼類別」');
+					return; // 不送出表單
+				}
+
+				form.submit(); // 通過驗證後提交表單
+			} else {
+				console.error('Form element not found!');
+			}
+		}
+
+	}
+
+	function editData(codeType, codeNo, codeDesc, codeSort, codeTag, codeFlag, forRowid) {
+		const addFormSection = document.getElementById('addFormSection');
+		const editFormSection = document.getElementById('editFormSection');
+
+		// 顯示編輯表單
+		addFormSection.style.display = 'none';
+		editFormSection.style.display = 'block';
+
+		// 填表單
+		document.getElementById('editCodeType').value = codeType;
+		document.getElementById('editCodeNo').value = codeNo;
+		document.getElementById('editCodeDesc').value = codeDesc;
+		document.getElementById('editCodeSort').value = codeSort;
+		document.getElementById('editCodeTag').value = codeTag;
+		document.getElementById('editCodeFlag').value = codeFlag;
+		document.getElementById('editForRowid').value = forRowid;
+
+		// 按鈕狀態
+		document.getElementById('saveDataBtn').disabled = false;
+		document.getElementById('addBtn').disabled = true;
+		document.getElementById('queryBtn').disabled = true;
+		document.getElementById('queryDataBtn').disabled = true;
+	}
+</script>
+</head>
+<body>
+	<div class="button-container">
+		<button id="addBtn" type="button" onclick="handleButtonClick('add')">新增</button>
+		<button id="queryBtn" type="button"
+			onclick="handleButtonClick('query')">查詢</button>
+		<button id="queryDataBtn" type="button"
+			onclick="handleButtonClick('queryData')">查詢資料</button>
+		<button id="saveDataBtn" type="button"
+			onclick="handleButtonClick('saveData')">儲存資料</button>
+	</div>
+	<hr>
+	<!-- 🔽 新增輸入區塊 -->
+	<div id="addFormSection" style="display: none; margin-top: 20px;">
+		<form id="addForm" action="/MappingCode/save" method="post">
+			<!-- 設置為 POST 請求 -->
+			<table>
+				<tbody>
+					<tr>
+						<td><label for="codeType">代碼類別：</label></td>
+						<td><select name="codeType" id="codeType" class="form-select">
+								<option value="">-- 代碼類別 --</option>
+								<option th:each="code : ${dropList}" th:value="${code.codeNo}"
+									th:text="${code.codeDesc}"
+									th:selected="${code.codeNo == codeType}"></option>
+						</select></td>
+						<td><label for="codeNo">代碼：</label></td>
+						<td><input type="text" id="codeNo" name="codeNo"></td>
+					</tr>
+					<tr>
+						<td><label for="codeDesc">代碼說明：</label></td>
+						<td><input type="text" id="codeDesc" name="codeDesc"></td>
+						<td><label for="codeFlag">是否停用：</label></td>
+						<td><select id="codeFlag" name="codeFlag">
+								<option value="N">否</option>
+								<option value="Y">是</option>
+						</select></td>
+					</tr>
+					<tr>
+						<td><label for="codeTag">代碼標籤：</label></td>
+						<td><input type="text" id="codeTag" name="codeTag"></td>
+						<td><label for="codeSort">排序：</label></td>
+						<td><input type="number" id="codeSort" name="codeSort"></td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+	</div>
+	<br>
+	<br>
+	<!-- 🔽 修改輸入區塊 -->
+	<div id="editFormSection" style="display: none; margin-top: 20px;">
+		<form id="editForm" action="/MappingCode/update" method="post">
+			<table>
+				<tbody>
+					<tr>
+						<td><label for="editCodeType">代碼類別：</label></td>
+						<td><input type="text" id="editCodeType" name="codeType"
+							readonly></td>
+						<!-- readonly 以防用戶修改 -->
+						<td><label for="editCodeNo">代碼：</label></td>
+						<td><input type="text" id="editCodeNo" name="codeNo"></td>
+					</tr>
+					<tr>
+						<td><label for="editCodeDesc">代碼說明：</label></td>
+						<td><input type="text" id="editCodeDesc" name="codeDesc"></td>
+						<td><label for="editCodeFlag">是否停用：</label></td>
+						<td><select id="editCodeFlag" name="codeFlag">
+								<option value="N">否</option>
+								<option value="Y">是</option>
+						</select></td>
+					</tr>
+					<tr>
+						<td><label for="editCodeTag">代碼標籤：</label></td>
+						<td><input type="text" id="editCodeTag" name="codeTag"></td>
+						<td><label for="editCodeSort">排序：</label></td>
+						<td><input type="number" id="editCodeSort" name="codeSort"></td>
+					</tr>
+					<!-- 加上隱藏欄位 rowid -->
+					<tr style="display: none;">
+						<td><input type="hidden" id="editForRowid" name="rowid"></td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+	</div>
+	<br>
+	<br>
+	<!-- ✅ 整合查詢條件與表格的表單 -->
+	<form action="/MappingCode" method="get">
+		<!-- 查詢條件 -->
+		<select name="codeType"
+			id="sysType" class="form-select">
+			<option value="">-- 代碼類別 --</option>
+			<option th:each="code : ${dropList}" th:value="${code.codeNo}"
+				th:text="${code.codeDesc}" th:selected="${code.codeNo == codeType}">
+			</option>
+		</select>
+		<button type="submit">查詢</button>
+		<hr>
+		<br>
+		<!-- 查詢結果 -->
+		<table th:unless="${#lists.isEmpty(codeList)}">
+			<thead>
+				<tr>
+					<th></th>
+					<th>代碼類別</th>
+					<th>代碼</th>
+					<th>代碼說明</th>
+					<th>排序</th>
+					<th>代碼標籤</th>
+					<th>使用FLAG</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="code, iterStat : ${codeList}">
+					<td>
+						<button type="button"
+							th:attr="onclick=|editData('${code.codeType}', '${code.codeNo}', '${code.codeDesc}', '${code.codeSort}', '${code.codeTag}', '${code.codeFlag}', '${code.forRowid}')|">
+							編輯</button>
+					</td>
+					<td th:text="${code.codeType}">代碼類別</td>
+					<td th:text="${code.codeNo}">代碼</td>
+					<td th:text="${code.codeDesc}">代碼說明</td>
+					<td th:text="${code.codeSort}">排序</td>
+					<td th:text="${code.codeTag}">代碼標籤</td>
+					<td th:text="${code.codeFlag}">使用FLAG</td>
+				</tr>
+				<tr style="display: none;">
+					<td><input type="hidden" id="editForRowid" name="forRowid"></td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+
+</body>
+</html>

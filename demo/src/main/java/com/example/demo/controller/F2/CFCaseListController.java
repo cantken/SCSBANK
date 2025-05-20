@@ -22,6 +22,7 @@ import com.example.demo.service.CFEmployeeService;
 import com.example.demo.service.CFMappingCodeService;
 import com.example.demo.service.CFPhaseService;
 import com.example.demo.service.CFZipcoderService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -45,8 +46,7 @@ public class CFCaseListController {
 
 	// 一開始載入
 	@GetMapping("/CaseList")
-	public String showCaseList(HttpSession session, Model model) {
-
+	public String showCaseList(HttpSession session, Model model) throws Exception {
 		String empNo = (String) session.getAttribute("account");
 		if (StringUtils.isBlank(empNo)) {
 			throw new IllegalArgumentException("empNo 不得為空");
@@ -61,7 +61,8 @@ public class CFCaseListController {
 
 		return "CaseList";
 	}
-
+	
+	
 	// 按下取件按鈕
 	@GetMapping("/Menu")
 	public String showCaseListDetail(@Param("applno") String applno, HttpSession session, Model model) {

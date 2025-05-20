@@ -1,5 +1,7 @@
 package com.example.demo.dto;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,8 +11,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class FraudTypeDto {
 	
+	@JsonAlias("CODE_TYPE")
 	private String codeType; // 代碼類別
+
+	@JsonAlias("CODE_NO")
 	private String codeNo; // 代碼
-	private String codeDesc; //代碼說明
+
+	@JsonAlias("CODE_DESC")
+	private String codeDesc; // 代碼說明
 
 }

@@ -1,0 +1,95 @@
+@charset "UTF-8";
+
+
+body {
+    font-family: 'Microsoft JhengHei', sans-serif;
+    background-color: #f9f9f9;
+    margin: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+thead {
+    background-color: #007bff;
+    color: white;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.9em;
+  margin-top: 5px;
+  margin-left: 10px;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.9em;
+  margin-top: 5px;
+  margin-left: 10px;
+}
+
+.placeholder {
+  color: #8c8c8c; /* 淡灰色 */
+  font-style: italic; /* 斜體字體，增加質感 */
+  font-size: 12px; /* 字體縮小 */
+}
+
+/* 增加下拉選單的質感 */
+select {
+  background-color: #f7f7f7; /* 淺灰色背景，提升質感 */
+  border: 1px solid #dcdcdc; /* 增加邊框顏色 */
+  padding: 8px 12px; /* 內邊距 */
+  border-radius: 4px; /* 圓角邊框 */
+  font-size: 14px; /* 字體縮小 */
+  font-family: Arial, sans-serif; /* 字體設置 */
+  transition: all 0.3s ease; /* 平滑過渡效果 */
+}
+
+/* 當選擇框獲得焦點時，邊框顏色變化 */
+select:focus {
+  border-color: #4a90e2; /* 聚焦時邊框變藍色 */
+  box-shadow: 0 0 5px rgba(74, 144, 226, 0.5); /* 聚焦時添加藍色陰影 */
+}
+
+/* 當選項為 "請選擇" 時，樣式變淡 */
+select option[disabled] {
+  color: #b0b0b0; /* 淡灰色 */
+  font-style: italic; /* 斜體 */
+}
+
+.modal {
+  position: fixed; /* 固定在畫面上 */
+  z-index: 9999;    /* 蓋在所有元件上面 */
+  left: 0; top: 0; width: 100%; height: 100%;
+  background-color: rgba(0,0,0,0.4); /* 半透明黑底 */
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: 10% auto;     /* 垂直置中 */
+  padding: 20px;
+  width: 400px;
+  border-radius: 8px;
+  position: relative;
+}

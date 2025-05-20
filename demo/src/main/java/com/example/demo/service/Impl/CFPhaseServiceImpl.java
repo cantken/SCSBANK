@@ -9,10 +9,10 @@ import com.example.demo.dto.CFPhaseDto;
 import com.example.demo.entity.CFPhaseEntity;
 import com.example.demo.repository.CFPhaseRepository;
 import com.example.demo.service.CFPhaseService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import ma.glasnost.orika.MapperFacade;
 
 @Service
 @RequiredArgsConstructor
@@ -20,7 +20,7 @@ public class CFPhaseServiceImpl implements CFPhaseService {
 	
 	@Autowired
 	private CFPhaseRepository cFPhaseRepository;
-	private final MapperFacade orika;
+	private final ObjectMapper objectMapper;
 	
 	// 新建案件
 	@Override
@@ -28,7 +28,7 @@ public class CFPhaseServiceImpl implements CFPhaseService {
 	public void savePhase(CFPhaseDto dto) {
 		
 		CFPhaseEntity entity1000 = new CFPhaseEntity();
-		entity1000 = orika.map(dto, CFPhaseEntity.class);
+		entity1000 = objectMapper.convertValue(dto, CFPhaseEntity.class);
 		entity1000.setOpId("1000");
 		entity1000.setStatusId("S");
 		entity1000.setStartDate(LocalDateTime.now());
@@ -37,7 +37,7 @@ public class CFPhaseServiceImpl implements CFPhaseService {
 		cFPhaseRepository.save(entity1000);
 		
 		CFPhaseEntity entity1020 = new CFPhaseEntity();
-		entity1020 = orika.map(dto, CFPhaseEntity.class);
+		entity1020 = objectMapper.convertValue(dto, CFPhaseEntity.class);
 		entity1020.setOpId("1020");
 		entity1020.setStartDate(LocalDateTime.now());
 		System.out.println("000000000000000000 entity1020 = " + entity1020);

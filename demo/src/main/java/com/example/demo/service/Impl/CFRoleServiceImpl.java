@@ -2,6 +2,7 @@ package com.example.demo.service.Impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,9 +13,9 @@ import com.example.demo.entity.CFRoleEntity;
 import com.example.demo.repository.CFEmployeeRoleRepository;
 import com.example.demo.repository.CFRoleRepository;
 import com.example.demo.service.CFRoleService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
-import ma.glasnost.orika.MapperFacade;
 
 @Service
 @RequiredArgsConstructor
@@ -25,13 +26,16 @@ public class CFRoleServiceImpl implements CFRoleService {
 
 	@Autowired
 	CFRoleRepository cFRoleRepository;
-	private final MapperFacade orika;
+	@Autowired
+	private ObjectMapper objectMapper;
 
 	@Override
 	public List<RoleNoDto> findRoleNoAndRoleName() {
 
 		List<CFRoleEntity> roleEntityList = cFRoleRepository.findAll();
-		List<CFRoleDto> dbroleDtoList = orika.mapAsList(roleEntityList, CFRoleDto.class);
+		List<CFRoleDto> dbroleDtoList = roleEntityList.stream()
+			    .map(entity -> objectMapper.convertValue(entity, CFRoleDto.class))
+			    .collect(Collectors.toList());
 		List<RoleNoDto> roleDtoList = new ArrayList<>();
 		
 		for(CFRoleDto dbdto : dbroleDtoList) {
@@ -46,6 +50,8 @@ public class CFRoleServiceImpl implements CFRoleService {
 	@Override
 	public List<CFRoleDto> findAllRoles() {
 		List<CFRoleEntity> roleEntityList = cFRoleRepository.findAll();
-		return orika.mapAsList(roleEntityList, CFRoleDto.class);
+		return roleEntityList.stream()
+	            .map(entity -> objectMapper.convertValue(entity, CFRoleDto.class))
+	            .collect(Collectors.toList());
 	}
 }

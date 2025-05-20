@@ -13,7 +13,6 @@ import com.example.demo.service.CFEmployeeRoleService;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import ma.glasnost.orika.MapperFacade;
 
 @Service
 @RequiredArgsConstructor
@@ -21,7 +20,6 @@ public class CFEmployeeRoleServiceImpl implements CFEmployeeRoleService {
 
 	@Autowired
 	private final CFEmployeeRoleRepository cFEmployeeRoleRepository;
-	private final MapperFacade orika;
 
 	@Override
 	public RoleNoDto findEmpNoRoleNoByEmpNo(String empNo) {

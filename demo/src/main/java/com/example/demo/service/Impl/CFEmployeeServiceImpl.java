@@ -2,6 +2,7 @@ package com.example.demo.service.Impl;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +16,10 @@ import com.example.demo.dto.OpIdDto;
 import com.example.demo.entity.CFEmployeeEntity;
 import com.example.demo.repository.CFEmployeeRepository;
 import com.example.demo.service.CFEmployeeService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import ma.glasnost.orika.MapperFacade;
 
 @Service
 @RequiredArgsConstructor
@@ -26,13 +27,17 @@ public class CFEmployeeServiceImpl implements CFEmployeeService {
 
 	@Autowired
 	private final CFEmployeeRepository cFEmployeeRepository;
-	private final MapperFacade orika;
+	@Autowired
+	private final ObjectMapper objectMapper;
 
 	// 組織人員維護 搜尋
 	@Override
 	public List<CFEmployeeDto> findEmployeeWithRoleNo(String empNo) {
 		List<Map<String, Object>> cFEmployeeMapList = cFEmployeeRepository.findEmployeeWithRoleNo(empNo);
-		List<CFEmployeeDto> dtoList = orika.mapAsList(cFEmployeeMapList, CFEmployeeDto.class);
+		List<CFEmployeeDto> dtoList = cFEmployeeMapList.stream()
+			    .map(map -> objectMapper.convertValue(map, CFEmployeeDto.class))
+			    .collect(Collectors.toList());
+		
 		return dtoList; // 如果查詢沒有結果，會返回空的 List
 	}
 
@@ -40,7 +45,9 @@ public class CFEmployeeServiceImpl implements CFEmployeeService {
 	@Override
 	public List<EmployeeGroupLevelDto> findl2aEmpnoByGroupLevel() {
 		List<Map<String, Object>> l2aEmpnoMapList = cFEmployeeRepository.findl2aEmpnoByGroupLevel();
-		List<EmployeeGroupLevelDto> dropList1 = orika.mapAsList(l2aEmpnoMapList, EmployeeGroupLevelDto.class);
+		List<EmployeeGroupLevelDto> dropList1 = l2aEmpnoMapList.stream()
+				.map(map -> objectMapper.convertValue(map, EmployeeGroupLevelDto.class))
+				.collect(Collectors.toList());
 		return dropList1; // 如果查詢沒有結果，會返回空的 List
 	}
 
@@ -48,7 +55,9 @@ public class CFEmployeeServiceImpl implements CFEmployeeService {
 	@Override
 	public List<EmployeeGroupLevelDto> findl2bEmpnoByGroupLevel() {
 		List<Map<String, Object>> l2bEmpnoMapList = cFEmployeeRepository.findl2bEmpnoByGroupLevel();
-		List<EmployeeGroupLevelDto> dropList2 = orika.mapAsList(l2bEmpnoMapList, EmployeeGroupLevelDto.class);
+		List<EmployeeGroupLevelDto> dropList2 = l2bEmpnoMapList.stream()
+				.map(map -> objectMapper.convertValue(map, EmployeeGroupLevelDto.class))
+				.collect(Collectors.toList());
 		return dropList2; // 如果查詢沒有結果，會返回空的 List
 	}
 
@@ -56,7 +65,9 @@ public class CFEmployeeServiceImpl implements CFEmployeeService {
 	@Override
 	public List<CFMappingGroupLevelDto> findCodeNoAndCodeDescByGroupLevel() {
 		List<Map<String, Object>> codeDescMapList = cFEmployeeRepository.findCodeNoAndCodeDescByGroupLevel();
-		List<CFMappingGroupLevelDto> codeGroupLevelDropList = orika.mapAsList(codeDescMapList, CFMappingGroupLevelDto.class);
+		List<CFMappingGroupLevelDto> codeGroupLevelDropList = codeDescMapList.stream()
+			    .map(map -> objectMapper.convertValue(map, CFMappingGroupLevelDto.class))
+			    .collect(Collectors.toList());
 		return codeGroupLevelDropList; // 如果查詢沒有結果，會返回空的 List
 	}
 
@@ -64,7 +75,9 @@ public class CFEmployeeServiceImpl implements CFEmployeeService {
 	@Override
 	public List<CFMappingCodeYnDto> findCodeNoAndCodeDescByYn() {
 		List<Map<String, Object>> codeNoMapList = cFEmployeeRepository.findCodeNoAndCodeDescByYn();
-		List<CFMappingCodeYnDto> codeYnDropList = orika.mapAsList(codeNoMapList, CFMappingCodeYnDto.class);
+		List<CFMappingCodeYnDto> codeYnDropList = codeNoMapList.stream()
+			    .map(map -> objectMapper.convertValue(map, CFMappingCodeYnDto.class))
+			    .collect(Collectors.toList());
 		return codeYnDropList; // 如果查詢沒有結果，會返回空的 List
 	}
 
@@ -75,8 +88,7 @@ public class CFEmployeeServiceImpl implements CFEmployeeService {
 		CFEmployeeEntity dbEmployeeEntity = cFEmployeeRepository.findByempNo(empNo);
 
 		if (dbEmployeeEntity == null) {
-			CFEmployeeEntity employeeEntity = new CFEmployeeEntity();
-			orika.map(dto, employeeEntity);
+			CFEmployeeEntity employeeEntity = objectMapper.convertValue(dto, CFEmployeeEntity.class);
 			cFEmployeeRepository.save(employeeEntity);
 		} else {
 			// 資料存在 → 更新（使用 Orika 將 dto 值複製到原本的 entity 上）
@@ -120,7 +132,7 @@ public class CFEmployeeServiceImpl implements CFEmployeeService {
 	                break;
 	        }
 	    }
-	    OpIdDto dto = orika.map(map, OpIdDto.class);
+	    OpIdDto dto =objectMapper.convertValue(map, OpIdDto.class);
 	    dto.setOpId(opId);
 	    return dto;
 	}

@@ -1,5 +1,7 @@
 package com.example.demo.dto;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,7 +11,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CFRoleFunctionDto {
 	
-    private String roleNo;  // 角色代碼
-    
-    private String fnNo;    // 程式代碼
+	@JsonAlias("ROLE_NO")
+	private String roleNo;  // 角色代碼
+
+	@JsonAlias("FN_NO")
+	private String fnNo;    // 程式代碼
 }

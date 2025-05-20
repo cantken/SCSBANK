@@ -1,5 +1,7 @@
 package com.example.demo.dto;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,6 +10,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CFMappingCodeYnDto {
-	private String codeNo; //代碼
-	private String codeDesc; //代碼說明
+	
+	@JsonAlias("CODE_NO")
+	private String codeNo;     // 代碼
+
+	@JsonAlias("CODE_DESC")
+	private String codeDesc;   // 代碼說明
 }
+

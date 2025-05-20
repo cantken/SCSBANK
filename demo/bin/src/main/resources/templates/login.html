@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="/css/login.css"> <!-- 引入 CSS -->
+</head>
+<body>
+    <div class="container">
+        <h2>登入</h2>
+        <form method="post" action="/login">
+            <label>帳號:</label>
+            <input type="text" name="account" required/>
+            <button type="submit">登入</button>
+            <div class="error" th:if="${error}" th:text="${error}"></div>
+        </form>
+    </div>
+</body>
+</html>

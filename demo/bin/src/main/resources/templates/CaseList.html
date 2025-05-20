@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-TW" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>案件清單</title>
+<link rel="stylesheet" th:href="@{/css/CaseList.css}" />
+</head>
+<body>
+	<div class="button-container"></div>
+	<!-- 🔽 查詢輸入區塊 -->
+	<div id="searchFormSection" style="margin-top: 20px;">
+		<form id="searchForm" action="/CaseSearch" method="get">
+			<table>
+				<tr>
+					<td colspan="8">
+						<div class="form-row">
+							<!-- 進件日期 -->
+							<div class="form-group">
+								<label for="caseInputStartDate">進件日期：</label>
+								<div class="date-range">
+									<input type="date" id="caseInputStartDate"
+										name="caseInputStartDate"> <span> ~ </span> <input
+										type="date" id="caseInputEndDate" name="caseInputEndDate">
+								</div>
+							</div>
+
+							<!-- 收件編號 -->
+							<div class="form-group">
+								<label for="applno">收件編號：</label> <input type="text" id="applno"
+									name="applno">
+							</div>
+
+							<!-- 按鈕區塊 -->
+							<div class="button-group">
+								<button type="button" onclick="searchButtonClick()">查詢</button>
+								<button type="button" onclick="handleButtonClick('deleteData')">清空</button>
+							</div>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+	<br>
+	<br>
+	<table id="caseListTable">
+		<thead>
+			<tr>
+				<th>取件</th>
+				<th>案件狀態</th>
+				<th>收件編號</th>
+				<th>客戶姓名</th>
+				<th>客戶ID</th>
+				<th>卡別</th>
+				<th>詐欺類型</th>
+				<th>進件日期</th>
+			</tr>
+		</thead>
+		<tbody>
+
+		</tbody>
+	</table>
+	<!-- jQuery & Bootstrap Bundle -->
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+	<script th:inline="javascript">
+    /*<![CDATA[*/
+    const caseListData = /*[[${caseList}]]*/ [];
+    /*]]>*/
+  </script>
+
+	<script>
+	// 條件搜尋
+	function searchButtonClick() {
+		  const applnoInput = document.getElementById("applno").value.trim();
+		  const startDateInput = document.getElementById("caseInputStartDate").value; // yyyy-MM-dd
+		  console.log("原始 caseListData：", caseListData);
+		  const endDateInput = document.getElementById("caseInputEndDate").value;     // yyyy-MM-dd
+
+		  const filteredList = caseListData.filter(item => {
+		    const matchApplno = applnoInput === "" || (item.applno && item.applno === applnoInput);
+
+		    let itemDate = null;
+		    if (item.caseInputTime && item.caseInputTime.length >= 8) {
+		      // 將 "20250411 15:49:09" 轉成 "2025-04-11"
+		      const raw = item.caseInputTime;
+		      itemDate = `${raw.substring(0, 4)}-${raw.substring(4, 6)}-${raw.substring(6, 8)}`;
+		    }
+
+		    const matchStart = startDateInput === "" || (itemDate && itemDate >= startDateInput);
+		    const matchEnd = endDateInput === "" || (itemDate && itemDate <= endDateInput);
+
+		    return matchApplno && matchStart && matchEnd;
+		  });
+
+		  renderTable(filteredList);
+		}
+
+
+	// 一進到頁面撈出所有資料caseList
+    function renderTable(list) {
+	  const tbody = document.querySelector("#caseListTable tbody");
+	  tbody.innerHTML = "";
+	
+	  list.forEach(item => {
+	    const tr = document.createElement("tr");
+	    tr.innerHTML = `
+	      <td>
+	        <button type="button" 
+	                class="btn btn-outline-primary btn-sm" 
+	                onclick="openRoleDetailModal(this)" 
+	                data-applno="${item.applno || ''}">取件</button>
+	      </td>
+	      <td>${item.opDesc || ""}</td>
+	      <td>${item.applno || ""}</td>
+	      <td>${item.cuName || ""}</td>
+	      <td>${item.cuId || ""}</td>
+	      <td>${item.cardType || ""}</td>
+	      <td>${item.fraudType || ""}</td>
+	      <td>${item.caseInputTime || ""}</td>
+	    `; // 移除這裡的 </tr>
+	    tbody.appendChild(tr);
+	  });
+	}
+
+	document.addEventListener("DOMContentLoaded", () => {
+	  renderTable(caseListData);
+	});
+    
+    // 清除按鈕
+    function handleButtonClick(action) {
+    	  if (action === 'deleteData') {
+    	    // 清空所有 input 欄位
+    	    document.getElementById("applno").value = "";
+    	    document.getElementById("caseInputStartDate").value = "";
+    	    document.getElementById("caseInputEndDate").value = "";
+
+    	    // 同時重新顯示全部資料
+    	    renderTable(caseListData);
+    	  }
+    	}
+    
+    // 取件按鈕
+    function openRoleDetailModal(button) {
+	  const applno = button.getAttribute("data-applno");
+	  if (!applno) {
+	    alert("無法取得 applno");
+	    return;
+	  }
+   	  window.location.href = `/Menu?applno=${encodeURIComponent(applno)}`;
+   	}
+  </script>
+</body>
+</html>
