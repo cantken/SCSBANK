@@ -30,6 +30,7 @@ public class CFMappingCodeController {
 		// 下拉選單資料
 		List<CFMappingCodeDropDownDto> dropList = cfMappingCodeService.findCodeNoDescByCodeType(codeType);
 		model.addAttribute("dropList", dropList);
+		System.out.println("000000000000000000000000 dropList = " +  dropList);
 		return "MappingCode"; // 返回您的 Thymeleaf 模板名稱
 	}
 

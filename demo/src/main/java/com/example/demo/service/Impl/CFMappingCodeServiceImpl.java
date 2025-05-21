@@ -35,10 +35,7 @@ public class CFMappingCodeServiceImpl implements CFMappingCodeService {
     // 系統代碼維護 下拉選單
     @Override
     public List<CFMappingCodeDropDownDto> findCodeNoDescByCodeType(String codeType) {
-        if (codeType == null || codeType.isEmpty()) {
-            codeType = "SYS_TYPE";
-        }
-        List<Map<String, Object>> cFMappingCodeMapList = cFMappingCodeRepository.findCodeNoDescByCodeType(codeType);
+        List<Map<String, Object>> cFMappingCodeMapList = cFMappingCodeRepository.findCodeNoDescByCodeType("SYS_TYPE");
         List<CFMappingCodeDropDownDto> dropList = new ArrayList<>();
 
         for (Map<String, Object> map : cFMappingCodeMapList) {

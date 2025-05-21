@@ -16,7 +16,7 @@ import com.example.demo.entity.CFMappingCodeId;
 public interface CFMappingCodeRepository extends JpaRepository<CFMappingCodeEntity, CFMappingCodeId> {
 	
 	// CodeNoDesc
-	@Query(value = "SELECT CODE_NO AS codeNo, CODE_DESC AS codeDesc FROM CF_MAPPING_CODE WHERE CODE_TYPE = :codeType ORDER BY CODE_SORT", nativeQuery = true)
+	@Query(value = "SELECT CODE_NO, CODE_DESC FROM CF_MAPPING_CODE WHERE CODE_TYPE = :codeType ORDER BY CODE_SORT", nativeQuery = true)
     List<Map<String, Object>> findCodeNoDescByCodeType(@Param("codeType") String codeType);
 	
 	// CardFlag

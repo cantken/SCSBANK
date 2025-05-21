@@ -4,100 +4,6 @@
 <meta charset="UTF-8">
 <title>系統代碼維護</title>
 <link rel="stylesheet" type="text/css" href="/css/MappingCode.css">
-<script>
-	function handleButtonClick(action) {
-		const addBtn = document.getElementById('addBtn');
-		const queryBtn = document.getElementById('queryBtn');
-		const queryDataBtn = document.getElementById('queryDataBtn');
-		const saveDataBtn = document.getElementById('saveDataBtn');
-		const addFormSection = document.getElementById('addFormSection');
-		const editFormSection = document.getElementById('editFormSection');
-
-		// 每次點按鈕前先全部啟用
-		addBtn.disabled = false;
-		queryBtn.disabled = false;
-		queryDataBtn.disabled = false;
-		saveDataBtn.disabled = false;
-
-		if (action === 'add') {
-			// 顯示新增表單，隱藏編輯表單
-			addFormSection.style.display = 'block';
-			editFormSection.style.display = 'none';
-			queryDataBtn.disabled = true; // 禁用查詢資料按鈕
-
-			// 使儲存按鈕有效
-			saveDataBtn.disabled = false;
-		} else if (action === 'query') {
-			// 禁用儲存按鈕
-			saveDataBtn.disabled = true;
-		} else if (action === 'edit') {
-			// 顯示編輯表單，隱藏新增表單
-			editFormSection.style.display = 'block';
-			addFormSection.style.display = 'none';
-			queryDataBtn.disabled = true; // 禁用查詢資料按鈕
-
-			// 使儲存按鈕有效
-			saveDataBtn.disabled = false;
-		}
-
-		if (action === 'saveData') {
-			let form;
-			// 根據顯示的表單來選擇相應的表單
-			if (addFormSection.style.display === 'block') {
-				form = document.getElementById('addForm'); // 新增表單
-			} else if (editFormSection.style.display === 'block') {
-				form = document.getElementById('editForm'); // 編輯表單
-			}
-
-			if (form) {
-				// 驗證欄位
-				const codeType = document
-						.getElementById(form.id === 'editForm' ? 'editCodeType'
-								: 'codeType').value.trim();
-				const codeNo = document
-						.getElementById(form.id === 'editForm' ? 'editCodeNo'
-								: 'codeNo').value.trim();
-				const codeDesc = document
-						.getElementById(form.id === 'editForm' ? 'editCodeDesc'
-								: 'codeDesc').value.trim();
-
-				if (codeType === '') {
-					alert('請填寫「代碼類別」');
-					return; // 不送出表單
-				}
-
-				form.submit(); // 通過驗證後提交表單
-			} else {
-				console.error('Form element not found!');
-			}
-		}
-
-	}
-
-	function editData(codeType, codeNo, codeDesc, codeSort, codeTag, codeFlag, forRowid) {
-		const addFormSection = document.getElementById('addFormSection');
-		const editFormSection = document.getElementById('editFormSection');
-
-		// 顯示編輯表單
-		addFormSection.style.display = 'none';
-		editFormSection.style.display = 'block';
-
-		// 填表單
-		document.getElementById('editCodeType').value = codeType;
-		document.getElementById('editCodeNo').value = codeNo;
-		document.getElementById('editCodeDesc').value = codeDesc;
-		document.getElementById('editCodeSort').value = codeSort;
-		document.getElementById('editCodeTag').value = codeTag;
-		document.getElementById('editCodeFlag').value = codeFlag;
-		document.getElementById('editForRowid').value = forRowid;
-
-		// 按鈕狀態
-		document.getElementById('saveDataBtn').disabled = false;
-		document.getElementById('addBtn').disabled = true;
-		document.getElementById('queryBtn').disabled = true;
-		document.getElementById('queryDataBtn').disabled = true;
-	}
-</script>
 </head>
 <body>
 	<div class="button-container">
@@ -232,6 +138,106 @@
 			</tbody>
 		</table>
 	</form>
+	
+	<!-- jQuery & Bootstrap Bundle -->
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+		
+	<script>
+	function handleButtonClick(action) {
+		const addBtn = document.getElementById('addBtn');
+		const queryBtn = document.getElementById('queryBtn');
+		const queryDataBtn = document.getElementById('queryDataBtn');
+		const saveDataBtn = document.getElementById('saveDataBtn');
+		const addFormSection = document.getElementById('addFormSection');
+		const editFormSection = document.getElementById('editFormSection');
+
+		// 每次點按鈕前先全部啟用
+		addBtn.disabled = false;
+		queryBtn.disabled = false;
+		queryDataBtn.disabled = false;
+		saveDataBtn.disabled = false;
+
+		if (action === 'add') {
+			// 顯示新增表單，隱藏編輯表單
+			addFormSection.style.display = 'block';
+			editFormSection.style.display = 'none';
+			queryDataBtn.disabled = true; // 禁用查詢資料按鈕
+
+			// 使儲存按鈕有效
+			saveDataBtn.disabled = false;
+		} else if (action === 'query') {
+			// 禁用儲存按鈕
+			saveDataBtn.disabled = true;
+		} else if (action === 'edit') {
+			// 顯示編輯表單，隱藏新增表單
+			editFormSection.style.display = 'block';
+			addFormSection.style.display = 'none';
+			queryDataBtn.disabled = true; // 禁用查詢資料按鈕
+
+			// 使儲存按鈕有效
+			saveDataBtn.disabled = false;
+		}
+
+		if (action === 'saveData') {
+			let form;
+			// 根據顯示的表單來選擇相應的表單
+			if (addFormSection.style.display === 'block') {
+				form = document.getElementById('addForm'); // 新增表單
+			} else if (editFormSection.style.display === 'block') {
+				form = document.getElementById('editForm'); // 編輯表單
+			}
+
+			if (form) {
+				// 驗證欄位
+				const codeType = document
+						.getElementById(form.id === 'editForm' ? 'editCodeType'
+								: 'codeType').value.trim();
+				const codeNo = document
+						.getElementById(form.id === 'editForm' ? 'editCodeNo'
+								: 'codeNo').value.trim();
+				const codeDesc = document
+						.getElementById(form.id === 'editForm' ? 'editCodeDesc'
+								: 'codeDesc').value.trim();
+
+				if (codeType === '') {
+					alert('請填寫「代碼類別」');
+					return; // 不送出表單
+				}
+
+				form.submit(); // 通過驗證後提交表單
+			} else {
+				console.error('Form element not found!');
+			}
+		}
+
+	}
+
+	function editData(codeType, codeNo, codeDesc, codeSort, codeTag, codeFlag, forRowid) {
+		const addFormSection = document.getElementById('addFormSection');
+		const editFormSection = document.getElementById('editFormSection');
+
+		// 顯示編輯表單
+		addFormSection.style.display = 'none';
+		editFormSection.style.display = 'block';
+
+		// 填表單
+		document.getElementById('editCodeType').value = codeType;
+		document.getElementById('editCodeNo').value = codeNo;
+		document.getElementById('editCodeDesc').value = codeDesc;
+		document.getElementById('editCodeSort').value = codeSort;
+		document.getElementById('editCodeTag').value = codeTag;
+		document.getElementById('editCodeFlag').value = codeFlag;
+		document.getElementById('editForRowid').value = forRowid;
+
+		// 按鈕狀態
+		document.getElementById('saveDataBtn').disabled = false;
+		document.getElementById('addBtn').disabled = true;
+		document.getElementById('queryBtn').disabled = true;
+		document.getElementById('queryDataBtn').disabled = true;
+	}
+</script>
 
 </body>
 </html>
