@@ -63,7 +63,6 @@ public class CFCaseinfoServiceImpl implements CFCaseinfoService {
 	@Override
 	public List<CastListDto> findCaseList(String opId, String empNo) {
 		List<Map<String, Object>> mapList = cFCaseinfoRepository.findCaseList(opId, empNo);
-		System.out.println("00000000000000000000000000000 mapList = " + mapList);
 		System.out.println("mapList.size() :"+ mapList.size());
 		List<CastListDto> dtoList = mapList.stream()
         .map(map -> objectMapper.convertValue(map, CastListDto.class))

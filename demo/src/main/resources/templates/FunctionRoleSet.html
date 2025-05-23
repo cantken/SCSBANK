@@ -3,42 +3,59 @@
 <head>
 <meta charset="UTF-8">
 <title>角色功能維護</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+	rel="stylesheet">
 <link rel="stylesheet" th:href="@{/css/FunctionRoleSet.css}" />
 </head>
 <body>
 	<div class="button-container">
-		<button id="saveDataBtn" type="button"
+		<button id="saveDataBtn" type="button" class="btn btn-primary"
 			onclick="handleButtonClick('updateData')">儲存資料</button>
 	</div>
-		<select name="roleNo" id="functionRoleSet" class="form-select">
-			<!-- 遍歷角色清單 -->
-			<option th:each="item : ${roleNoDtoList}" th:value="${item.roleNo}"
-				th:text="${item.roleName}"
-				th:selected="${item.roleNo == selectedRoleNo}"></option>
-		</select>
-		<button type="submit">請選擇</button>
-		<hr>
-		<br>
+	<br>
+	<!-- 查詢結果 -->
+	<!-- ✅ 整合查詢條件與表格的表單 -->
+	<form action="/FunctionRoleSet" method="get" class="mb-4">
+		<!-- 查詢條件 -->
+		<div class="input-group mb-3" style="max-width: 300px;">
+			<select name="roleNo" id="functionRoleSet" class="form-select">
+				<option value="">-- 角色類別 --</option>
+				<option th:each="item : ${roleNoDtoList}" th:value="${item.roleNo}"
+					th:text="${item.roleName}"
+					th:selected="${item.roleNo == selectedRoleNo}"></option>
+			</select>
+			<button class="btn btn-primary" type="submit">查詢</button>
+		</div>
+
 		<!-- 查詢結果 -->
-		<table th:unless="${#lists.isEmpty(functionRoleSetList)}">
-			<thead>
-				<tr>
-					<th>選擇</th>
-					<th>程式代碼</th>
-					<th>程式名稱</th>
-					<th>代碼說明</th>
-				</tr>
-			</thead>
-			<tbody id="functionRoleSetBody">
-				<tr th:each="item : ${functionRoleSetList}">
-					<td><input type="checkbox" name="selectedFns"
-						th:value="${item.fnNo}" class="form-check-input" /></td>
-					<td th:text="${item.fnNo}"></td>
-					<td th:text="${item.fnDesc}"></td>
-					<td th:text="${item.codeDesc}"></td>
-				</tr>
-			</tbody>
-		</table>
+		<div style="max-height: 400px; overflow-y: auto;">
+			<table
+				class="table table-hover align-middle text-center table-fixed-header"
+				th:unless="${#lists.isEmpty(functionRoleSetList)}">
+				<thead class="table-light">
+					<tr>
+						<th scope="col">選擇</th>
+						<th scope="col">程式代碼</th>
+						<th scope="col">程式名稱</th>
+						<th scope="col">代碼說明</th>
+					</tr>
+				</thead>
+				<tbody id="functionRoleSetBody">
+					<tr th:each="item : ${functionRoleSetList}">
+						<td><input type="checkbox" name="selectedFns"
+							th:value="${item.fnNo}" class="form-check-input" /></td>
+						<td th:text="${item.fnNo}">程式代碼</td>
+						<td th:text="${item.fnDesc}">程式名稱</td>
+						<td th:text="${item.codeDesc}">代碼說明</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<!-- 若需要傳遞隱藏欄位可加在這裡 -->
+		<!-- <input type="hidden" name="hiddenFieldName" value="..."> -->
+	</form>
 
 	<!-- jQuery & Bootstrap Bundle -->
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>

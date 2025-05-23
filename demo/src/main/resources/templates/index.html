@@ -4,54 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>功能選單</title>
-    <link rel="stylesheet" href="/css/index.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <!-- 功能選單區 -->
-    <div class="menu-bar">
-        <!-- 每個功能群組 -->
-        <div class="menu-item" th:each="entry : ${functionMap}">
-            <!-- 主按鈕：功能群組名稱 -->
-            <button class="menu-toggle" th:onclick="'toggleMenu(this)'" th:text="${entry.key}"></button>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="切換導覽列">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-            <!-- 下拉選單：該群組的功能列表 -->
-            <div class="menu-content">
-                <ul>
-                    <li th:each="item : ${entry.value}">
-                        <a th:href="@{${item.fnPath}}" th:text="${item.fnDesc}"></a>
-                    </li>
-                </ul>
-            </div>
+        <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
+            <ul class="navbar-nav d-flex justify-content-center w-100 mb-2 mb-lg-0">
+                <!-- 遍歷功能群組 -->
+                <li class="nav-item dropdown" th:each="entry : ${functionMap}">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                       th:text="${entry.key}"></a>
+                    <ul class="dropdown-menu">
+                        <!-- 遍歷功能項目 -->
+                        <li th:each="item : ${entry.value}">
+                            <a class="dropdown-item" th:href="${item.fnPath}" th:text="${item.fnDesc}"></a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
         </div>
     </div>
+</nav>
 
-    <!-- 頁面主要內容 -->
-    <div class="content">
-        <h2>頁面內容</h2>
-        <p>這是頁面的主要內容區域</p>
-    </div>
 
-    <!-- JS -->
-    <script>
-        function toggleMenu(button) {
-            document.querySelectorAll(".menu-content").forEach(el => {
-                if (el !== button.nextElementSibling) {
-                    el.style.display = "none";
-                }
-            });
+<div class="container mt-5 text-center">
+    <h2>頁面內容</h2>
+    <p>這是頁面的主要內容區域</p>
+</div>
 
-            const content = button.nextElementSibling;
-            content.style.display = content.style.display === "block" ? "none" : "block";
-        }
-
-        // 點擊頁面其他地方自動收起下拉
-        document.addEventListener('click', function (e) {
-            document.querySelectorAll('.menu-item').forEach(item => {
-                if (!item.contains(e.target)) {
-                    item.querySelector('.menu-content').style.display = 'none';
-                }
-            });
-        });
-    </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

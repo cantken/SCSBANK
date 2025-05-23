@@ -10,14 +10,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CardTypeDto {
-	
-	@JsonAlias("CODE_CATEGORY")
-	private String codeType;    // 代碼類別
 
-	@JsonAlias("CODE_NUMBER")
-	private String codeNo;      // 代碼
+	@JsonAlias("CODE_TYPE")
+	private String codeType; // 代碼類別
 
-	@JsonAlias("CODE_DESCRIPTION")
-	private String codeDesc;    // 代碼說明
+	@JsonAlias("CODE_NO")
+	private String codeNo; // 代碼
+
+	@JsonAlias("CODE_DESC")
+	private String codeDesc; // 代碼說明
 
 }

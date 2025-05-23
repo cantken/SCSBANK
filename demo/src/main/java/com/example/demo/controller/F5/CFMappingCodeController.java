@@ -25,12 +25,12 @@ public class CFMappingCodeController {
 	@GetMapping("/MappingCode")
 	public String MappingCode(@RequestParam(value = "codeType", required = false) String codeType, Model model) {
 		List<CFMappingCodeDto> codeList = cfMappingCodeService.findByCodeType(codeType); // 使用注入的 Service 實例
+		System.out.println("000000000000000000000000 codeList = " +  codeList);
 		model.addAttribute("codeList", codeList); // 直接將 List<CFMappingCodeDto> 傳遞給前端
 
 		// 下拉選單資料
 		List<CFMappingCodeDropDownDto> dropList = cfMappingCodeService.findCodeNoDescByCodeType(codeType);
 		model.addAttribute("dropList", dropList);
-		System.out.println("000000000000000000000000 dropList = " +  dropList);
 		return "MappingCode"; // 返回您的 Thymeleaf 模板名稱
 	}
 

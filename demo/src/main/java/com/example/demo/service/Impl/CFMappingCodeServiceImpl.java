@@ -68,20 +68,11 @@ public class CFMappingCodeServiceImpl implements CFMappingCodeService {
     @Transactional
     public void updateMappingCode(CFMappingCodeDto dto) {
         String codeType = dto.getCodeType();
-        String forRowid = dto.getForRowid();
-        Map<String, Object> dbDto = cFMappingCodeRepository.findByForRowid(forRowid);
-        if (dbDto == null) {
-            throw new RuntimeException("找不到要更新的資料，codeType: " + codeType + ", rowid: " + forRowid);
-        }
-
-        // Map轉成Entity（不是Dto）
-        CFMappingCodeEntity entity = new CFMappingCodeEntity();
-        entity.setCodeType((String) dbDto.get("codeType"));
-        entity.setCodeNo((String) dbDto.get("codeNo"));
-        entity.setCodeDesc((String) dbDto.get("codeDesc"));
-        entity.setCodeSort((Integer) dbDto.get("codeSort"));
-        entity.setCodeTag((String) dbDto.get("codeTag"));
-        entity.setCodeFlag((String) dbDto.get("codeFlag"));
+        String codeNo = dto.getCodeNo();
+        CFMappingCodeEntity entity = cFMappingCodeRepository.findByCodeTypeAndCodeNo(codeType, codeNo);
+        if (entity == null) {
+            throw new RuntimeException("找不到要更新的資料，codeType: " + codeType + ", codeNo: " + codeNo);
+        } 
 
         // 用 ObjectMapper 將 dto 欄位複寫到 entity 上
         try {

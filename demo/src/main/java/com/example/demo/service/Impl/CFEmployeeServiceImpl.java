@@ -91,7 +91,6 @@ public class CFEmployeeServiceImpl implements CFEmployeeService {
 			CFEmployeeEntity employeeEntity = objectMapper.convertValue(dto, CFEmployeeEntity.class);
 			cFEmployeeRepository.save(employeeEntity);
 		} else {
-			// 資料存在 → 更新（使用 Orika 將 dto 值複製到原本的 entity 上）
 			dbEmployeeEntity.setEmpNo(dto.getEmpNo());
 			dbEmployeeEntity.setEmpName(dto.getEmpName());
 			dbEmployeeEntity.setOnJob(dto.getOnJob());

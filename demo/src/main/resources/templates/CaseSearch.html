@@ -3,71 +3,99 @@
 <head>
 <meta charset="UTF-8">
 <title>案件查詢</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+	rel="stylesheet">
 <link rel="stylesheet" th:href="@{/css/CaseSearch.css}" />
 </head>
 <body>
 	<div class="button-container">
-		<button id="saveDataBtn" type="button"
+		<!-- 查詢資料按鈕 -->
+		<button id="searchBtn" type="button" class="btn btn-primary me-2"
 			onclick="searchButtonClick('updateData')">查詢資料</button>
-		<button id="saveDataBtn" type="button"
+		<!-- 清除資料按鈕 -->
+		<button id="clearBtn" type="button" class="btn btn-primary"
 			onclick="handleButtonClick('deleteData')">清除資料</button>
 	</div>
-	<!-- 🔽 查詢輸入區塊 -->
-	<div id="searchFormSection" style="margin-top: 20px;">
-		<form id="searchForm" action="/CaseSearch" method="get">
-			<table>
-				<tbody>
-					<tr>
-						<td><label for="applno">收件編號：</label></td>
-						<td><input id="applno" name="applno"><span></span></td>
-						<td><label for="cuId">身分證字號：</label></td>
-						<td><input id="cuId" name="cuId"><span></span></td>
-						<td><label for="cuName">客戶姓名：</label></td>
-						<td><input id="cuName" name="cuName"><span></span></td>
-					</tr>
-					<tr>
-						<td><label for="l3empno">初審員編 ：</label></td>
-						<td><input id="l3empno" name="l3empno"><span></span>
-						</td>
-						<td><label for="caseInputTime">進件日期 ：</label></td>
-						<td><input id="caseInputTime" name="caseInputTime"><span></span>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</form>
-	</div>
 	<br>
-	<br>
-	<table>
-		<thead>
-			<tr>
-				<th>明細</th>
-				<th>收件編號</th>
-				<th>身分證字號</th>
-				<th>客戶姓名</th>
-				<th>卡別</th>
-				<th>詐欺類型</th>
-				<th>初審員編</th>
-				<th>進件日期</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr th:each="caseinfo : ${caseinfoDtoList}">
-				<td>
-					<button type="button" class="btn btn-outline-primary btn-sm"
-						onclick="openRoleDetailModal(this)">明細</button>
-				</td>
-				<td th:text="${caseinfo.applno}">收件編號</td>
-				<td th:text="${caseinfo.cuId}">身分證字號</td>
-				<td th:text="${caseinfo.cuName}">客戶姓名</td>
-				<td th:text="${caseinfo.cardType}">卡別</td>
-				<td th:text="${caseinfo.fraudType}">詐欺類型</td>
-				<td th:text="${caseinfo.l3empno}">初審員編</td>
-				<td th:text="${caseinfo.caseInputTime}">進件日期</td>
-			</tr>
-		</tbody>
-	</table>
+	<!-- 案件明細查詢結果 -->
+	<form id="searchForm" action="/CaseSearch" method="get" class="mb-4">
+		<!-- 🔽 查詢輸入區塊 -->
+		<!-- 案件查詢欄位 (Bootstrap input-group 樣式) -->
+		<div class="container">
+			<div class="row mb-3">
+				<div class="col-md-6">
+					<div class="input-group mb-3">
+						<span class="input-group-text" id="basic-addon3">收件編號</span> <input
+							type="text" class="form-control" id="applno" name="applno"
+							aria-describedby="basic-addon3">
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="input-group mb-3">
+						<span class="input-group-text" id="basic-addon-cuId">身分證字號</span>
+						<input type="text" class="form-control" id="cuId" name="cuId"
+							placeholder="請輸入身分證字號" aria-describedby="basic-addon-cuId">
+					</div>
+				</div>
+			</div>
+			<div class="row mb-3">
+				<div class="col-md-4">
+					<div class="input-group mb-3">
+						<span class="input-group-text" id="basic-addon-cuName">客戶姓名</span>
+						<input type="text" class="form-control" id="cuName" name="cuName"
+							placeholder="請輸入客戶姓名" aria-describedby="basic-addon-cuName">
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="input-group mb-3">
+						<span class="input-group-text" id="basic-addon-l3empno">初審員編</span>
+						<input type="text" class="form-control" id="l3empno"
+							name="l3empno" placeholder="請輸入初審員編"
+							aria-describedby="basic-addon-l3empno">
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="input-group mb-3">
+						<span class="input-group-text" id="basic-addon-caseInputTime">進件日期</span>
+						<input type="date" class="form-control" id="caseInputTime"
+							name="caseInputTime" aria-describedby="basic-addon-caseInputTime">
+					</div>
+				</div>
+			</div>
+		</div>
+		<table class="table table-hover align-middle text-center"
+			th:unless="${#lists.isEmpty(caseinfoDtoList)}">
+			<thead class="table-light">
+				<tr>
+					<th scope="col">明細</th>
+					<th scope="col">收件編號</th>
+					<th scope="col">身分證字號</th>
+					<th scope="col">客戶姓名</th>
+					<th scope="col">卡別</th>
+					<th scope="col">詐欺類型</th>
+					<th scope="col">初審員編</th>
+					<th scope="col">進件日期</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="caseinfo : ${caseinfoDtoList}">
+					<td>
+						<button type="button" class="btn btn-outline-primary btn-sm"
+							onclick="openRoleDetailModal(this)">明細</button>
+					</td>
+					<td th:text="${caseinfo.applno}">收件編號</td>
+					<td th:text="${caseinfo.cuId}">身分證字號</td>
+					<td th:text="${caseinfo.cuName}">客戶姓名</td>
+					<td th:text="${caseinfo.cardType}">卡別</td>
+					<td th:text="${caseinfo.fraudType}">詐欺類型</td>
+					<td th:text="${caseinfo.l3empno}">初審員編</td>
+					<td th:text="${caseinfo.caseInputTime}">進件日期</td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+
 	<!-- jQuery & Bootstrap Bundle -->
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 	<script

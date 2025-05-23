@@ -80,10 +80,12 @@ public class CFCreateJobController {
 		// 建檔作業卡別 下拉
 		List<CardTypeDto> cardTypeDtoList = cFMappingCodeService.findCardTypeByCodeType(codeType);
 		model.addAttribute("cardTypeDtoList", cardTypeDtoList);
+		System.out.println("00000000000000 cardTypeDtoList = " + cardTypeDtoList);
 
 		// 建檔作業YN 下拉
 		List<YNDto> yNDtoList = cFMappingCodeService.findYNByCodeType(codeType);
 		model.addAttribute("yNDtoList", yNDtoList);
+		System.out.println("00000000000000 model = " + model);
 
 		return "CreateJob";
 	}

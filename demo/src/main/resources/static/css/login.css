@@ -1,17 +1,39 @@
-@charset "UTF-8";
-.container {
-    max-width: 400px;
-    margin: 50px auto;
-    padding: 20px;
-    border: 1px solid #ccc;
+body {
+    font-family: "Microsoft JhengHei", Arial, sans-serif;
+    margin: 30px;
+    background-color: #f9f9f9;
+    color: #333;
 }
 
-.error {
-    color: red;
+
+form {
+    background-color: #ffffff;
+    padding: 100px;
+    border-radius: 6px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
 }
 
-label, input, button {
-    display: block;
-    margin: 10px 0;
+table {
     width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    background-color: #fff;
+}
+
+.modal-header,
+.modal-footer {
+  border: none;
+}
+
+table.table-hover tbody tr:hover {
+    background-color: #f9f9f9; /* 你想要的淺色 */
+}
+
+/* form圓角 */
+.rounded-6 {
+    border-radius: 1rem !important;
+}
+
+.form-floating > label {
+  color: #999999; /* 淺灰色 */
 }

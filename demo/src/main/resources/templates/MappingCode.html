@@ -3,125 +3,211 @@
 <head>
 <meta charset="UTF-8">
 <title>系統代碼維護</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+	rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="/css/MappingCode.css">
 </head>
 <body>
 	<div class="button-container">
-		<button id="addBtn" type="button" onclick="handleButtonClick('add')">新增</button>
-		<button id="queryBtn" type="button"
-			onclick="handleButtonClick('query')">查詢</button>
-		<button id="queryDataBtn" type="button"
-			onclick="handleButtonClick('queryData')">查詢資料</button>
-		<button id="saveDataBtn" type="button"
-			onclick="handleButtonClick('saveData')">儲存資料</button>
-	</div>
-	<hr>
-	<!-- 🔽 新增輸入區塊 -->
-	<div id="addFormSection" style="display: none; margin-top: 20px;">
-		<form id="addForm" action="/MappingCode/save" method="post">
-			<!-- 設置為 POST 請求 -->
-			<table>
-				<tbody>
-					<tr>
-						<td><label for="codeType">代碼類別：</label></td>
-						<td><select name="codeType" id="codeType" class="form-select">
-								<option value="">-- 代碼類別 --</option>
-								<option th:each="code : ${dropList}" th:value="${code.codeNo}"
-									th:text="${code.codeDesc}"
-									th:selected="${code.codeNo == codeType}"></option>
-						</select></td>
-						<td><label for="codeNo">代碼：</label></td>
-						<td><input type="text" id="codeNo" name="codeNo"></td>
-					</tr>
-					<tr>
-						<td><label for="codeDesc">代碼說明：</label></td>
-						<td><input type="text" id="codeDesc" name="codeDesc"></td>
-						<td><label for="codeFlag">是否停用：</label></td>
-						<td><select id="codeFlag" name="codeFlag">
-								<option value="N">否</option>
-								<option value="Y">是</option>
-						</select></td>
-					</tr>
-					<tr>
-						<td><label for="codeTag">代碼標籤：</label></td>
-						<td><input type="text" id="codeTag" name="codeTag"></td>
-						<td><label for="codeSort">排序：</label></td>
-						<td><input type="number" id="codeSort" name="codeSort"></td>
-					</tr>
-				</tbody>
-			</table>
-		</form>
+		<button id="addBtn" type="button" class="btn btn-primary"
+			data-bs-toggle="modal" data-bs-target="#addModal">新增系統代碼</button>
 	</div>
 	<br>
-	<br>
-	<!-- 🔽 修改輸入區塊 -->
-	<div id="editFormSection" style="display: none; margin-top: 20px;">
-		<form id="editForm" action="/MappingCode/update" method="post">
-			<table>
-				<tbody>
-					<tr>
-						<td><label for="editCodeType">代碼類別：</label></td>
-						<td><input type="text" id="editCodeType" name="codeType"
-							readonly></td>
-						<!-- readonly 以防用戶修改 -->
-						<td><label for="editCodeNo">代碼：</label></td>
-						<td><input type="text" id="editCodeNo" name="codeNo"></td>
-					</tr>
-					<tr>
-						<td><label for="editCodeDesc">代碼說明：</label></td>
-						<td><input type="text" id="editCodeDesc" name="codeDesc"></td>
-						<td><label for="editCodeFlag">是否停用：</label></td>
-						<td><select id="editCodeFlag" name="codeFlag">
-								<option value="N">否</option>
-								<option value="Y">是</option>
-						</select></td>
-					</tr>
-					<tr>
-						<td><label for="editCodeTag">代碼標籤：</label></td>
-						<td><input type="text" id="editCodeTag" name="codeTag"></td>
-						<td><label for="editCodeSort">排序：</label></td>
-						<td><input type="number" id="editCodeSort" name="codeSort"></td>
-					</tr>
-					<!-- 加上隱藏欄位 rowid -->
-					<tr style="display: none;">
-						<td><input type="hidden" id="editForRowid" name="rowid"></td>
-					</tr>
-				</tbody>
-			</table>
-		</form>
+	<!-- 新增資料 Modal -->
+	<div class="modal fade" id="addModal" tabindex="-1"
+		aria-labelledby="addModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<!-- 可調整大小 -->
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title fw-bold" id="addModalLabel">新增系統代碼</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<form id="addForm" action="/MappingCode/save" method="post">
+					<div class="modal-body">
+						<div class="container-fluid">
+							<div class="row g-2">
+								<!-- 代碼類別 -->
+								<div class="col-md-6">
+									<div class="form-floating">
+										<select name="codeType" id="codeType" class="form-select"
+											required>
+											<option value="">-- 請選擇 --</option>
+											<option th:each="code : ${dropList}"
+												th:value="${code.codeNo}" th:text="${code.codeDesc}"
+												th:selected="${code.codeNo == codeType}"></option>
+										</select> <label for="codeType">代碼類別</label>
+									</div>
+								</div>
+								<!-- 代碼 -->
+								<div class="col-md-6">
+									<div class="form-floating">
+										<input type="text" id="codeNo" name="codeNo"
+											class="form-control fw-medium" placeholder="請輸入代碼"> <label
+											for="codeNo">代碼</label>
+									</div>
+								</div>
+								<!-- 代碼說明 -->
+								<div class="col-md-6">
+									<div class="form-floating">
+										<input type="text" id="codeDesc" name="codeDesc"
+											class="form-control fw-medium" placeholder="請輸入代碼說明">
+										<label for="codeDesc">代碼說明</label>
+									</div>
+								</div>
+								<!-- 是否停用 -->
+								<div class="col-md-6">
+									<div class="form-floating">
+										<select id="codeFlag" name="codeFlag" class="form-select">
+											<option value="N">否</option>
+											<option value="Y">是</option>
+										</select> <label for="codeFlag">是否停用</label>
+									</div>
+								</div>
+								<!-- 代碼標籤 -->
+								<div class="col-md-6">
+									<div class="form-floating">
+										<input type="text" id="codeTag" name="codeTag"
+											class="form-control fw-medium" placeholder="請輸入代碼標籤">
+										<label for="codeTag">代碼標籤</label>
+									</div>
+								</div>
+								<!-- 排序 -->
+								<div class="col-md-6">
+									<div class="form-floating">
+										<input type="number" id="codeSort" name="codeSort"
+											class="form-control fw-medium" placeholder="請輸入排序"> <label
+											for="codeSort">排序</label>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary btn-sm"
+							data-bs-dismiss="modal">取消</button>
+						<button type="button" id="saveDataBtn"
+							class="btn btn-primary btn-sm"
+							onclick="handleButtonClick('saveData')">儲存資料</button>
+					</div>
+				</form>
+			</div>
+		</div>
 	</div>
-	<br>
-	<br>
+
+	<!-- 修改資料 Modal -->
+	<div class="modal fade" id="editModal" tabindex="-1"
+		aria-labelledby="editModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title fw-bold" id="editModalLabel">修改系統代碼</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<form id="editForm">
+					<div class="modal-body">
+						<div class="container-fluid">
+							<div class="row g-2">
+								<!-- 與新增表單相同 -->
+								<!-- 代碼類別 -->
+								<div class="col-md-6">
+									<div class="form-floating">
+										<select id="editCodeType" class="form-select" disabled>
+											<option value="">-- 請選擇 --</option>
+											<option th:each="code : ${dropList}"
+												th:value="${code.codeNo}" th:text="${code.codeDesc}"></option>
+										</select> <input type="hidden" id="hiddenEditCodeType" name="codeType"
+											value="">
+									</div>
+								</div>
+								<!-- 代碼（不可修改） -->
+								<div class="col-md-6">
+									<div class="form-floating">
+										<input type="text" id="editCodeNo" name="codeNo"
+											class="form-control fw-medium" disabled> <label
+											for="editCodeNo">代碼</label> <input type="hidden"
+											id="hiddenEditCodeNo" name="codeNo" value="">
+									</div>
+								</div>
+								<!-- 代碼說明 -->
+								<div class="col-md-6">
+									<div class="form-floating">
+										<input type="text" id="editCodeDesc" name="codeDesc"
+											class="form-control fw-medium"> <label
+											for="editCodeDesc">代碼說明</label>
+									</div>
+								</div>
+								<!-- 是否停用 -->
+								<div class="col-md-6">
+									<div class="form-floating">
+										<select id="editCodeFlag" name="codeFlag" class="form-select">
+											<option value="N">否</option>
+											<option value="Y">是</option>
+										</select> <label for="editCodeFlag">是否停用</label>
+									</div>
+								</div>
+								<!-- 代碼標籤 -->
+								<div class="col-md-6">
+									<div class="form-floating">
+										<input type="text" id="editCodeTag" name="codeTag"
+											class="form-control fw-medium"> <label
+											for="editCodeTag">代碼標籤</label>
+									</div>
+								</div>
+								<!-- 排序 -->
+								<div class="col-md-6">
+									<div class="form-floating">
+										<input type="number" id="editCodeSort" name="codeSort"
+											class="form-control fw-medium"> <label
+											for="editCodeSort">排序</label>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary btn-sm"
+							data-bs-dismiss="modal">取消</button>
+						<button type="button" class="btn btn-primary btn-sm"
+							onclick="submitEditForm()">儲存修改</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
 	<!-- ✅ 整合查詢條件與表格的表單 -->
-	<form action="/MappingCode" method="get">
+	<form action="/MappingCode" method="get" class="mb-4">
 		<!-- 查詢條件 -->
-		<select name="codeType"
-			id="sysType" class="form-select">
-			<option value="">-- 代碼類別 --</option>
-			<option th:each="code : ${dropList}" th:value="${code.codeNo}"
-				th:text="${code.codeDesc}" th:selected="${code.codeNo == codeType}">
-			</option>
-		</select>
-		<button type="submit">查詢</button>
-		<hr>
-		<br>
+		<div class="input-group mb-3" style="max-width: 300px;">
+			<select name="codeType" id="sysType" class="form-select">
+				<option value="">-- 代碼類別 --</option>
+				<option th:each="code : ${dropList}" th:value="${code.codeNo}"
+					th:text="${code.codeDesc}" th:selected="${code.codeNo == codeType}"></option>
+			</select>
+			<button class="btn btn-primary" type="submit">查詢</button>
+		</div>
 		<!-- 查詢結果 -->
-		<table th:unless="${#lists.isEmpty(codeList)}">
-			<thead>
+		<table class="table table-hover align-middle text-center"
+			th:unless="${#lists.isEmpty(codeList)}">
+			<thead class="table-light">
 				<tr>
-					<th></th>
-					<th>代碼類別</th>
-					<th>代碼</th>
-					<th>代碼說明</th>
-					<th>排序</th>
-					<th>代碼標籤</th>
-					<th>使用FLAG</th>
+					<th scope="col">操作</th>
+					<th scope="col">代碼類別</th>
+					<th scope="col">代碼</th>
+					<th scope="col">代碼說明</th>
+					<th scope="col">排序</th>
+					<th scope="col">代碼標籤</th>
+					<th scope="col">使用FLAG</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr th:each="code, iterStat : ${codeList}">
 					<td>
-						<button type="button"
+						<button type="button" class="btn btn-outline-secondary btn-sm"
 							th:attr="onclick=|editData('${code.codeType}', '${code.codeNo}', '${code.codeDesc}', '${code.codeSort}', '${code.codeTag}', '${code.codeFlag}', '${code.forRowid}')|">
 							編輯</button>
 					</td>
@@ -132,112 +218,105 @@
 					<td th:text="${code.codeTag}">代碼標籤</td>
 					<td th:text="${code.codeFlag}">使用FLAG</td>
 				</tr>
-				<tr style="display: none;">
-					<td><input type="hidden" id="editForRowid" name="forRowid"></td>
-				</tr>
 			</tbody>
 		</table>
+		<!-- 隱藏欄位 -->
+		<input type="hidden" id="editForRowid" name="forRowid">
 	</form>
-	
+
 	<!-- jQuery & Bootstrap Bundle -->
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+	<!-- Bootstrap JS (包含 Popper) -->
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-		
+
 	<script>
 	function handleButtonClick(action) {
-		const addBtn = document.getElementById('addBtn');
-		const queryBtn = document.getElementById('queryBtn');
-		const queryDataBtn = document.getElementById('queryDataBtn');
-		const saveDataBtn = document.getElementById('saveDataBtn');
-		const addFormSection = document.getElementById('addFormSection');
-		const editFormSection = document.getElementById('editFormSection');
+	    if (action === 'saveData') {
+	      const form = document.getElementById('addForm');
 
-		// 每次點按鈕前先全部啟用
-		addBtn.disabled = false;
-		queryBtn.disabled = false;
-		queryDataBtn.disabled = false;
-		saveDataBtn.disabled = false;
+	      if (!form.checkValidity()) {
+	        form.reportValidity();
+	        return;
+	      }
 
-		if (action === 'add') {
-			// 顯示新增表單，隱藏編輯表單
-			addFormSection.style.display = 'block';
-			editFormSection.style.display = 'none';
-			queryDataBtn.disabled = true; // 禁用查詢資料按鈕
+	      const formData = new FormData(form);
 
-			// 使儲存按鈕有效
-			saveDataBtn.disabled = false;
-		} else if (action === 'query') {
-			// 禁用儲存按鈕
-			saveDataBtn.disabled = true;
-		} else if (action === 'edit') {
-			// 顯示編輯表單，隱藏新增表單
-			editFormSection.style.display = 'block';
-			addFormSection.style.display = 'none';
-			queryDataBtn.disabled = true; // 禁用查詢資料按鈕
+	      fetch('/MappingCode/save', {
+	        method: 'POST',
+	        body: formData
+	      })
+	      .then(response => {
+	        if (!response.ok) throw new Error('伺服器錯誤');
+	        // 根據後端返回的格式，你可以改成 response.json()
+	        return response.text(); 
+	      })
+	      .then(data => {
+	        // 成功提示
+	        alert("儲存成功！");
+	        // 關閉 Modal
+	        const modal = bootstrap.Modal.getInstance(document.getElementById('addModal'));
+	        modal.hide();
+	        // 重置表單
+	        form.reset();
+	        // 可選：重新載入頁面資料
+	        location.reload();
+	      })
+	      .catch(error => {
+	        console.error(error);
+	        alert("儲存失敗，請稍後再試！");
+	      });
+	    }
+	  }
 
-			// 使儲存按鈕有效
-			saveDataBtn.disabled = false;
-		}
-
-		if (action === 'saveData') {
-			let form;
-			// 根據顯示的表單來選擇相應的表單
-			if (addFormSection.style.display === 'block') {
-				form = document.getElementById('addForm'); // 新增表單
-			} else if (editFormSection.style.display === 'block') {
-				form = document.getElementById('editForm'); // 編輯表單
-			}
-
-			if (form) {
-				// 驗證欄位
-				const codeType = document
-						.getElementById(form.id === 'editForm' ? 'editCodeType'
-								: 'codeType').value.trim();
-				const codeNo = document
-						.getElementById(form.id === 'editForm' ? 'editCodeNo'
-								: 'codeNo').value.trim();
-				const codeDesc = document
-						.getElementById(form.id === 'editForm' ? 'editCodeDesc'
-								: 'codeDesc').value.trim();
-
-				if (codeType === '') {
-					alert('請填寫「代碼類別」');
-					return; // 不送出表單
-				}
-
-				form.submit(); // 通過驗證後提交表單
-			} else {
-				console.error('Form element not found!');
-			}
-		}
-
-	}
-
+	// 將點選編輯的該筆資料帶到彈窗欄位裡面
 	function editData(codeType, codeNo, codeDesc, codeSort, codeTag, codeFlag, forRowid) {
-		const addFormSection = document.getElementById('addFormSection');
-		const editFormSection = document.getElementById('editFormSection');
-
-		// 顯示編輯表單
-		addFormSection.style.display = 'none';
-		editFormSection.style.display = 'block';
-
-		// 填表單
+		// 1. 將參數塞進彈窗的欄位中
 		document.getElementById('editCodeType').value = codeType;
+		document.getElementById('hiddenEditCodeType').value = codeType; // hidden input
 		document.getElementById('editCodeNo').value = codeNo;
+		document.getElementById('hiddenEditCodeNo').value = codeNo; // hidden input
 		document.getElementById('editCodeDesc').value = codeDesc;
 		document.getElementById('editCodeSort').value = codeSort;
 		document.getElementById('editCodeTag').value = codeTag;
 		document.getElementById('editCodeFlag').value = codeFlag;
 		document.getElementById('editForRowid').value = forRowid;
 
-		// 按鈕狀態
-		document.getElementById('saveDataBtn').disabled = false;
-		document.getElementById('addBtn').disabled = true;
-		document.getElementById('queryBtn').disabled = true;
-		document.getElementById('queryDataBtn').disabled = true;
+		// 2. 顯示 modal
+		var myModal = new bootstrap.Modal(document.getElementById('editModal'));
+		myModal.show();
 	}
-</script>
+	
+	function submitEditForm() {
+		  const form = document.getElementById('editForm');
+		  const formData = new FormData(form);
+
+		  // fetch POST送出表單資料（x-www-form-urlencoded）
+		  fetch('/MappingCode/update', {
+		    method: 'POST',
+		    body: new URLSearchParams(formData),  // 轉成 x-www-form-urlencoded 格式
+		    headers: {
+		      'Content-Type': 'application/x-www-form-urlencoded'
+		    }
+		  })
+		  .then(response => {
+		    if (response.redirected) {
+		      // 後端 redirect 會帶 Location，前端導頁
+		      window.location.href = response.url;
+		    } else if (response.ok) {
+		      // 沒有redirect，但仍成功
+		      alert('修改成功');
+		      // 你也可以手動關閉modal或reload頁面
+		      location.reload();
+		    } else {
+		      return response.text().then(text => { throw new Error(text); });
+		    }
+		  })
+		  .catch(error => {
+		    alert('修改失敗: ' + error.message);
+		  });
+		}
+	</script>
 
 </body>
 </html>

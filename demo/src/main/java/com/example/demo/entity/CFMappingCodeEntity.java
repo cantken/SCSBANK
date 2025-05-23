@@ -1,5 +1,7 @@
 package com.example.demo.entity;
 
+import org.hibernate.annotations.Formula;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -34,8 +36,7 @@ public class CFMappingCodeEntity {
     @Column(name = "CODE_FLAG")
     private String codeFlag;
     
-    @Transient 
-    @Column(name = "ROWID")
+    @Formula("ROWID")
     private String forRowid;
     
 }

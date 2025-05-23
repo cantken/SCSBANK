@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.example.demo.dto.CFMappingCodeDto;
 import com.example.demo.entity.CFMappingCodeEntity;
 import com.example.demo.entity.CFMappingCodeId;
 
@@ -49,6 +48,8 @@ public interface CFMappingCodeRepository extends JpaRepository<CFMappingCodeEnti
             + "WHERE a.ROWID = :forRowid "
             + "ORDER BY a.CODE_SORT", nativeQuery = true)
     Map<String, Object> findByForRowid(@Param("forRowid") String forRowid);
+    
+    CFMappingCodeEntity findByCodeTypeAndCodeNo(String codeType, String codeNo);
 
 	void save(Map<String, Object> dbDto);
     

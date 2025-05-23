@@ -3,320 +3,623 @@
 <head>
 <meta charset="UTF-8">
 <title>組織人員維護</title>
-<link rel="stylesheet" th:href="@{/css/EmployeeSet.css}" />
-<!-- Bootstrap 5 CSS -->
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
 	rel="stylesheet">
-<!-- Bootstrap 5 JS -->
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
+<link rel="stylesheet" th:href="@{/css/EmployeeSet.css}">
 </head>
 <body>
-	<div class="button-container">
-		<form th:action="@{/EmployeeSet/query}" method="get"
-			style="display: inline">
-			<input type="text" name="empNo" placeholder="請輸入員工編號">
-			<button id="queryBtn" type="submit">查詢</button>
-		</form>
-		<button id="addBtn" type="button" onclick="handleButtonClick('add')">新增</button>
-		<button id="queryDataBtn" type="button"
-			onclick="handleButtonClick('queryData')">查詢資料</button>
-		<button id="saveDataBtn" type="button"
-			onclick="handleButtonClick('saveData')">儲存資料</button>
+	<div>
+		<!-- 新增系統代碼按鈕 -->
+		<button id="addSystemCodeBtn" type="button" class="btn btn-primary"
+			data-bs-toggle="modal" data-bs-target="#addModal">新增員工資料</button>
+		<br> <br>
+	</div>
+	<!-- 🔽 新增輸入區塊 -->
+	<div class="modal fade" id="addModal" tabindex="-1"
+		aria-labelledby="addModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-xl">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title fw-bold" id="addModalLabel">新增員工資料</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<form id="addForm" action="/EmployeeSet/save" method="post">
+					<div class="modal-body">
+						<div class="container-fluid">
+							<div class="row g-2">
+								<!-- 員工編號 -->
+								<div class="col-md-6">
+									<div class="form-floating">
+										<input type="text" id="empNo" name="empNo"
+											class="form-control" pattern="^\d{1,5}$" maxlength="5"
+											title="請輸入最多5位數字" required oninput="checkEmpNo(this)">
+										<label for="empNo">員工編號</label> <span id="empNoError"
+											class="text-danger small">請輸入最多5位數字</span>
+									</div>
+								</div>
+
+								<!-- 員工姓名 -->
+								<div class="col-md-6">
+									<div class="form-floating">
+										<input type="text" id="empName" name="empName"
+											class="form-control" pattern="^[\u4e00-\u9fa5]{1,4}$"
+											maxlength="4" title="請輸入1至4個中文字" required
+											oninput="checkEmpName(this)"> <label for="empName">員工姓名</label>
+										<span id="empNameError" class="text-danger small">請輸入1至4個中文字</span>
+									</div>
+								</div>
+
+								<!-- 是否在職 -->
+								<div class="col-md-6">
+									<div class="form-floating">
+										<select id="onJob" name="onJob" class="form-select" required>
+											<option value="" disabled selected>請選擇</option>
+										</select> <label for="onJob">是否在職</label>
+									</div>
+								</div>
+
+								<!-- 員工ID -->
+								<div class="col-md-6">
+									<div class="form-floating">
+										<input type="text" id="empId" name="empId"
+											class="form-control" pattern="[A-Z][12][0-9]{8}"
+											maxlength="10" required title="請輸入正確的身分證格式，例如 A123456789"
+											oninput="checkEmpId(this)"> <label for="empId">員工ID（身分證）</label>
+										<div id="empIdError" class="text-danger small"
+											style="display: none;">身分證格式不正確，範例:A123456789</div>
+									</div>
+								</div>
+
+								<!-- Email -->
+								<div class="col-md-6">
+									<div class="form-floating">
+										<input type="email" id="email" name="email"
+											class="form-control"
+											pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+											title="請輸入正確的 Email 格式，例如 example@mail.com" required
+											oninput="checkEmail(this)"> <label for="email">E-MAIL</label>
+										<span id="emailError" class="text-danger small"
+											style="display: none;">Email 格式不正確，範例:
+											example@mail.com</span>
+									</div>
+								</div>
+
+								<!-- 是否停派 -->
+								<div class="col-md-6">
+									<div class="form-floating">
+										<select id="assignStop" name="assignStop" class="form-select">
+											<option value="" disabled selected>請選擇</option>
+										</select> <label for="assignStop">是否停派</label>
+									</div>
+								</div>
+
+								<!-- 覆審A送件主管 -->
+								<div class="col-md-6">
+									<div class="form-floating">
+										<select id="l2aEmpno" name="l2aEmpno" class="form-select">
+											<option value="" disabled selected>請選擇</option>
+										</select> <label for="l2aEmpno">覆審A送件主管</label>
+									</div>
+								</div>
+
+								<!-- 覆審B送件主管 -->
+								<div class="col-md-6">
+									<div class="form-floating">
+										<select id="l2bEmpno" name="l2bEmpno" class="form-select">
+											<option value="" disabled selected>請選擇</option>
+										</select> <label for="l2bEmpno">覆審B送件主管</label>
+									</div>
+								</div>
+
+								<!-- 派件層級 -->
+								<div class="col-md-6">
+									<div class="form-floating">
+										<select id="groupLevel" name="groupLevel" class="form-select">
+											<option value="" disabled selected>請選擇</option>
+										</select> <label for="groupLevel">派件層級</label>
+									</div>
+								</div>
+
+							</div>
+							<!-- row -->
+						</div>
+						<!-- container-fluid -->
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary btn-sm"
+							onclick="handleButtonClick('saveData')">儲存資料</button>
+					</div>
+				</form>
+			</div>
+		</div>
 	</div>
 
-	<!-- 🔽 新增輸入區塊 -->
-	<div id="addFormSection" style="display: none; margin-top: 20px;">
-		<form id="addForm" action="/EmployeeSet/save" method="post">
-			<table>
-				<tbody>
-					<tr>
-						<td><label for="empNo">員工編號：</label></td>
-						<td><input type="text" id="empNo" name="empNo" readonly
-							pattern="^\d{1,5}$" maxlength="5" title="請輸入最多5位數字" required
-							oninput="checkEmpNo(this)"> <span id="empNoError"
-							style="color: red; display: none;">請輸入最多5位數字</span></td>
-						<td><input type="text" id="empName" name="empName"
-							pattern="^[\u4e00-\u9fa5]{1,4}$" maxlength="4" title="請輸入1至4個中文字"
-							required oninput="checkEmpName(this)"> <span
-							id="empNameError" style="color: red; display: none;">請輸入1至4個中文字</span>
-						</td>
-					</tr>
-					<tr>
-						<td><label for="onJob">是否在職：</label></td>
-						<td><select id="onJob" name="onJob">
-								<option value="" disabled selected class="placeholder">請選擇</option>
-								<th:block th:if="${codeYnDropList != null}"
-									th:each="item : ${codeYnDropList}">
-									<option th:value="${item.codeNo}" th:text="${item.codeDesc}"></option>
-								</th:block>
-						</select></td>
-						<td><label for="empId">員工ID（身分證）：</label></td>
-						<td><input type="text" id="empId" name="empId"
-							pattern="[A-Z][12][0-9]{8}" maxlength="10" required
-							title="請輸入正確的身分證格式，例如 A123456789" oninput="checkEmpId(this)">
-							<div id="empIdError" class="error-message" style="display: none;">身分證格式不正確，範例:A123456789
-							</div></td>
-					</tr>
-					<tr>
-						<td><label for="email">E-MAIL：</label></td>
-						<td><input type="email" id="email" name="email" required
-							pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
-							title="請輸入正確的 Email 格式，例如 example@mail.com"
-							oninput="checkEmail(this)"> <span id="emailError"
-							class="error-message" style="display: none;">Email
-								格式不正確，範例: example@mail.com</span></td>
-						<td><label for="assignStop">是否停派：</label></td>
-						<td><select id="assignStop" name="assignStop">
-								<option value="" disabled selected class="placeholder">請選擇</option>
-								<option value="Y">是</option>
-								<option value="N">否</option>
-						</select></td>
-					</tr>
-					<tr>
-						<td><label for="l2aEmpno">覆審A送件主管：</label></td>
-						<td><select id="l2aEmpno" name="l2aEmpno">
-								<option value="" disabled selected class="placeholder">請選擇</option>
-								<th:block th:if="${dropList1 != null}"
-									th:each="emp : ${dropList1}">
-									<option th:value="${emp.empNo}" th:text="${emp.empName}"></option>
-								</th:block>
-						</select></td>
-						<td><label for="l2bEmpno">覆審B送件主管：</label></td>
-						<td><select id="l2bEmpno" name="l2bEmpno">
-								<option value="" disabled selected class="placeholder">請選擇</option>
-								<th:block th:if="${dropList2 != null}"
-									th:each="emp : ${dropList2}">
-									<option th:value="${emp.empNo}" th:text="${emp.empName}"></option>
-								</th:block>
-						</select></td>
-					</tr>
-					<tr>
-						<td><label for="groupLevel">派件層級：</label></td>
-						<td><select id="groupLevel" name="groupLevel">
-								<option value="" disabled selected class="placeholder">請選擇</option>
-								<th:block th:if="${codeGroupLevelDropList != null}"
-									th:each="item : ${codeGroupLevelDropList}">
-									<option th:value="${item.codeNo}" th:text="${item.codeDesc}"></option>
-								</th:block>
-						</select></td>
-					</tr>
-				</tbody>
-			</table>
-		</form>
+	<!-- 🔽 修改輸入區塊 -->
+	<div class="modal fade" id="editModal" tabindex="-1"
+		aria-labelledby="editModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-xl">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title fw-bold" id="editModalLabel">修改員工資料</h5>
+				</div>
+				<form id="editForm" action="/EmployeeSet/save" method="post">
+					<div class="modal-body">
+						<div class="container-fluid">
+							<div class="row g-2">
+								<div class="col-md-6">
+									<div class="form-floating">
+										<input type="text" id="editEmpNo" name="empNo"
+											class="form-control" maxlength="5" required readonly>
+										<label for="editEmpNo">員工編號</label>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-floating">
+										<input type="text" id="editEmpName" name="empName"
+											class="form-control" maxlength="4" required readonly>
+										<label for="editEmpName">員工姓名</label>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-floating">
+										<select id="editOnJob" name="onJob" class="form-select"
+											required>
+											<option value="" disabled selected>請選擇</option>
+										</select> <label for="editOnJob">是否在職</label>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-floating">
+										<input type="text" id="editEmpId" name="empId"
+											class="form-control" maxlength="10" required> <label
+											for="editEmpId">員工ID（身分證）</label>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-floating">
+										<input type="email" id="editEmail" name="email"
+											class="form-control" required> <label for="editEmail">E-MAIL</label>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-floating">
+										<select id="editAssignStop" name="assignStop"
+											class="form-select">
+											<option value="" disabled selected>請選擇</option>
+										</select> <label for="editAssignStop">是否停派</label>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-floating">
+										<select id="editL2aEmpno" name="l2aEmpno" class="form-select">
+											<option value="" disabled selected>請選擇</option>
+										</select> <label for="editL2aEmpno">覆審A送件主管</label>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-floating">
+										<select id="editL2bEmpno" name="l2bEmpno" class="form-select">
+											<option value="" disabled selected>請選擇</option>
+										</select> <label for="editL2bEmpno">覆審B送件主管</label>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-floating">
+										<select id="editGroupLevel" name="groupLevel"
+											class="form-select">
+											<option value="" disabled selected>請選擇</option>
+										</select> <label for="editGroupLevel">派件層級</label>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary btn-sm"
+							onclick="handleButtonClick('editData')">更新資料</button>
+					</div>
+				</form>
+			</div>
+		</div>
 	</div>
+	<!-- 角色設定彈窗 -->
 	<div class="modal fade" id="roleDetailModal" tabindex="-1"
 		aria-labelledby="roleDetailModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<div id="roleDetailContent">
-					<!-- 用 JavaScript 填入內容 -->
+				<div class="modal-header">
+					<h5 class="modal-title" id="roleDetailModalLabel">設定角色</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body" id="roleDetailContent">
+					<!-- JavaScript 會填入這裡 -->
+				</div>
+				<div class="modal-footer">
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary btn-sm"
+							id="saveRoleBtn">儲存角色</button>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<br>
-	<br>
-	<hr>
-	<table>
-		<thead>
-			<tr>
-				<th></th>
-				<th>員工編號 (EMP_NO)</th>
-				<th>員工姓名 (EMP_NAME)</th>
-				<th>員工ID (EMP_ID)</th>
-				<th>是否在職 (ON_JOB)</th>
-				<th>E-MAIL (EMAIL)</th>
-				<th>是否停派 (ASSIGN_STOP)</th>
-				<th>覆審A送件主管 (L2A_EMPNO)</th>
-				<th>覆審B送件主管 (L2B_EMPNO)</th>
-				<th>派件層級 (GROUP_LEVEL)</th>
-				<th>角色 (ROLE_NO)</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr th:each="employee : ${employeeList}">
-				<td>
-					<button type="button"
-						th:attr="onclick=|editData('${employee.empNo}', '${employee.empName}', '${employee.onJob}', '${employee.empId}', '${employee.email}', '${employee.assignStop}', '${employee.l2aEmpno}', '${employee.l2bEmpno}', '${employee.groupLevel}','${employee.roleNo}')|">編輯</button>
-					<button type="button" class="btn btn-outline-primary btn-sm"
-						th:data-emp-no="${employee.empNo}"
-						onclick="openRoleDetailModal(this)">設定角色</button>
-				</td>
-				<td th:text="${employee.empNo}">員工編號</td>
-				<td th:text="${employee.empName}">員工姓名</td>
-				<td th:text="${employee.empId}">員工ID</td>
-				<td th:text="${employee.onJob}">是否在職</td>
-				<td th:text="${employee.email}">E-MAIL</td>
-				<td th:text="${employee.assignStop}">是否停派</td>
-				<td th:text="${employee.l2aEmpno}">覆審A送件主管</td>
-				<td th:text="${employee.l2bEmpno}">覆審B送件主管</td>
-				<td th:text="${employee.groupLevel}">派件層級</td>
-				<td th:text="${employee.roleNo}">角色</td>
-			</tr>
-			<tr th:if="${#lists.isEmpty(employeeList)}">
-				<td colspan="11" style="text-align: center;">尚未查詢或查無資料</td>
-			</tr>
-		</tbody>
-	</table>
 
+	<!-- 顯示組織人員 -->
+	<div>
+		<div class="container-fluid">
+			<form th:action="@{/EmployeeSet/query}" method="get"
+				onsubmit="event.preventDefault(); searchEmployee();">
+				<div class="input-group mb-3" style="max-width: 300px;">
+					<input type="text" id="empNoInput" class="form-control"
+						placeholder="請輸入員工編號" />
+					<button class="btn btn-primary" type="submit">查詢</button>
+				</div>
+				<table class="table table-hover align-middle text-center">
+					<thead class="table-light">
+						<tr>
+							<th>操作</th>
+							<th>員工編號</th>
+							<th>員工姓名</th>
+							<th>員工ID</th>
+							<th>是否在職</th>
+							<th>E-MAIL</th>
+							<th>是否停派</th>
+							<th>覆審A送件主管</th>
+							<th>覆審B送件主管</th>
+							<th>派件層級</th>
+							<th>角色</th>
+						</tr>
+					</thead>
+					<tbody id="employeeTableBody">
+						<!-- AJAX 填入 -->
+					</tbody>
+				</table>
+			</form>
+		</div>
+	</div>
+	<!-- Modal HTML 彈窗提示放頁面底部 -->
+	<div class="modal fade" id="saveResultModal" tabindex="-1"
+		aria-labelledby="saveResultModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-body" id="saveResultMessage">儲存成功！</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary btn-sm"
+						data-bs-dismiss="modal">關閉</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+	<!-- jQuery & Bootstrap Bundle -->
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+	<!-- Bootstrap JS (包含 Popper) -->
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 	<script>
-		function handleButtonClick(action) {
-			if (action === 'add') {
-				// 新增操作，顯示新增表單並清空內容
-				document.getElementById("addFormSection").style.display = "block";
-				document.getElementById("queryDataBtn").disabled = true;
-				document.getElementById("empNo").readonly = false; // 啟用 empNo 輸入框
-			} else if (action === 'saveData') {
-				alert("儲存資料");
-				document.getElementById("addForm").submit();
-				clearAddForm();
-				document.getElementById("queryDataBtn").disabled = false;
-			} else if (action === 'queryData') {
-				alert("查詢資料");
-			}
-		}
-
-		function clearAddForm() {
-			document.getElementById("addForm").reset();
-			document.getElementById("addFormSection").style.display = "none";
-			document.getElementById("queryDataBtn").disabled = false;
-		}
-
-		// 員工id驗證
-		function checkEmpId(input) {
-			const errorMsg = document.getElementById('empIdError');
-			errorMsg.style.display = input.validity.valid ? 'none' : 'block';
-		}
-
-		// Email驗證
-		function checkEmail(input) {
-			const errorMsg = document.getElementById('emailError');
-			errorMsg.style.display = input.validity.valid ? 'none' : 'block';
-		}
-
-		// 員工編號驗證
-		function checkEmpNo(input) {
-			const errorMsg = document.getElementById('empNoError');
-			errorMsg.style.display = input.validity.valid ? 'none' : 'inline';
-		}
-
-		// 員工姓名驗證
-		function checkEmpName(input) {
-			const errorMsg = document.getElementById('empNameError');
-			errorMsg.style.display = input.validity.valid ? 'none' : 'inline';
-		}
-
-		function editData(empNo, empName, onJob, empId, email, assignStop,
-				l2aEmpno, l2bEmpno, groupLevel) {
-			document.getElementById("addFormSection").style.display = "block";
-			document.getElementById("empNo").value = empNo;
-			document.getElementById("empNo").readonly = true; // 編輯時不可改編號
-			document.getElementById("empName").value = empName;
-			document.getElementById("onJob").value = onJob;
-			document.getElementById("empId").value = empId;
-			document.getElementById("email").value = email;
-			document.getElementById("assignStop").value = assignStop;
-			document.getElementById("l2aEmpno").value = l2aEmpno;
-			document.getElementById("l2bEmpno").value = l2bEmpno;
-			document.getElementById("groupLevel").value = groupLevel;
-
-			// 如果你需要顯示 roleNo，可以額外新增欄位處理
-
-			document.getElementById("queryDataBtn").disabled = true;
-
-		}
-		// 彈出角色詳細視窗
-		function openRoleDetailModal(button) {
-			const empNo = button.getAttribute('data-emp-no');
+	// 搜尋資料
+	function searchEmployee() {
+	  const empNo = $('#empNoInput').val();
+	  $.ajax({
+	    url: '/EmployeeSet/query',
+	    method: 'GET',
+	    data: { empNo },
+	    success: function(data) {
+	      const employeeList = data.employeeList || [];
+	      const tbody = $('#employeeTableBody');
+	      tbody.empty(); // 清空原本的資料
 	
-			fetch(`/EmployeeSet/roleDetail?empNo=${empNo}`)
-				.then(response => response.text())
-				.then(html => {
-					document.getElementById("roleDetailContent").innerHTML = html;
-			const modal = new bootstrap.Modal(document.getElementById("roleDetailModal"));
-				modal.show();
-				console.log("modal", modal);
-			})
-				.catch(error => {
-					console.error("載入角色詳細資料時發生錯誤:", error);
-				});
+	      if (employeeList.length === 0) {
+	        tbody.append('<tr><td colspan="11">查無資料</td></tr>');
+	        return;
+	      }
+	
+	      employeeList.forEach(employee => {
+	        const row = `
+	          <tr>
+	            <td>
+	            <button type="button" class="btn btn-outline-secondary btn-sm"
+	            	data-bs-toggle="modal" data-bs-target="#editModal"
+	            	onclick="editData('${employee.empNo}', '${employee.empName}', '${employee.onJob}', '${employee.empId}', '${employee.email}', '${employee.assignStop}', '${employee.l2aEmpno}', '${employee.l2bEmpno}', '${employee.groupLevel}', '${employee.roleNo}')">
+	            	編輯
+	            </button>
+	              <button type="button" class="btn btn-outline-primary btn-sm mt-1"
+	                data-emp-no="${employee.empNo}" onclick="openRoleDetailModal(this)">
+	                設定角色
+	              </button>
+	            </td>
+	            <td>${employee.empNo}</td>
+	            <td>${employee.empName}</td>
+	            <td>${employee.empId}</td>
+	            <td>${employee.onJob}</td>
+	            <td>${employee.email}</td>
+	            <td>${employee.assignStop}</td>
+	            <td>${employee.l2aEmpno}</td>
+	            <td>${employee.l2bEmpno}</td>
+	            <td>${employee.groupLevel}</td>
+	            <td>${employee.roleNo}</td>
+	          </tr>
+	        `;
+	        tbody.append(row);
+	      });
+	    },
+	    error: function() {
+	      alert("查詢失敗");
+	    }
+	  });
+	}
+	
+	// 通用下拉選單填充 function
+	function populateDropdown(selectId, dataArray, valueField, textField) {
+	  const select = document.getElementById(selectId);
+	  select.innerHTML = '<option value="" disabled selected>請選擇</option>';
+	  console.log("populateDropdown:", selectId, dataArray);
+	  dataArray.forEach(item => {
+	    const option = document.createElement("option");
+	    option.value = item[valueField];
+	    option.textContent = item[textField];
+	    select.appendChild(option);
+	  });
+	}
+
+	
+	// 先宣告一個暫存變數，用來存當前編輯的欄位值
+	window.editingData = null;
+	
+	<!-- 呼叫下拉選單 -->
+	function loadEmployeeSetDropdowns(callbackAfterLoad = null) {
+	    fetch("/EmployeeSet/query")
+	        .then(response => response.json())
+	        .then(data => {
+	            populateDropdown("onJob", data.codeYnDropList, "codeNo", "codeDesc");
+	            populateDropdown("l2aEmpno", data.dropList1, "empNo", "empName");
+	            populateDropdown("l2bEmpno", data.dropList2, "empNo", "empName");
+	            populateDropdown("groupLevel", data.codeGroupLevelDropList, "codeNo", "codeDesc");
+	            populateDropdown("assignStop", data.codeYnDropList, "codeNo", "codeDesc");
+
+	            populateDropdown("editOnJob", data.codeYnDropList, "codeNo", "codeDesc");
+	            populateDropdown("editL2aEmpno", data.dropList1, "empNo", "empName");
+	            populateDropdown("editL2bEmpno", data.dropList2, "empNo", "empName");
+	            populateDropdown("editGroupLevel", data.codeGroupLevelDropList, "codeNo", "codeDesc");
+	            populateDropdown("editAssignStop", data.codeYnDropList, "codeNo", "codeDesc");
+
+	            if (typeof callbackAfterLoad === "function") {
+	                callbackAfterLoad();  // 確保只有當傳入函式才執行
+	            }
+	        })
+	        .catch(error => {
+	            console.error("發生錯誤：", error);
+	        });
+	}
+
+	
+	function setEditSelectValues() {
+		  if (!window.editingData) return;
+		  const data = window.editingData;
+
+		  document.getElementById("editOnJob").value = data.onJob || "";
+		  document.getElementById("editAssignStop").value = data.assignStop || "";
+		  document.getElementById("editL2aEmpno").value = data.l2aEmpno || "";
+		  document.getElementById("editL2bEmpno").value = data.l2bEmpno || "";
+		  document.getElementById("editGroupLevel").value = data.groupLevel || "";
 		}
-		
-		function closeRoleForm() {
-			document.getElementById("roleFormModal").style.display = "none"; // 關閉 modal
+	
+	function editData(empNo, empName, onJob, empId, email, assignStop,
+            l2aEmpno, l2bEmpno, groupLevel, roleNo) {
+	    // 設定 input 欄位
+	    document.getElementById("editEmpNo").value = empNo;
+	    document.getElementById("editEmpNo").readOnly = true;
+	    document.getElementById("editEmpName").value = empName;
+	    document.getElementById("editEmpId").value = empId;
+	    document.getElementById("editEmail").value = email;
+	
+	    // 暫存 select 欄位的值
+	    window.editingData = {
+	        onJob, assignStop, l2aEmpno, l2bEmpno, groupLevel
+	    };
+	
+	    // 載入下拉選單，載入完成後設定 select 的值
+	    loadEmployeeSetDropdowns(function() {
+	        setEditSelectValues();
+	
+	        // 顯示 Modal
+	        const myModal = new bootstrap.Modal(document.getElementById('editModal'));
+	        myModal.show();
+	    });
+	}
+
+	
+	function handleButtonClick(action) {
+		  if (action === "editData") {
+		    // 你可以寫表單驗證，或直接送表單
+		    document.getElementById("editForm").submit();
+		  }
 		}
 
-		function clearAddForm() {
-			document.getElementById("addForm").reset();
-			document.getElementById("addFormSection").style.display = "none";
-			document.getElementById("queryDataBtn").disabled = false;
-		}
 
-		// 送出員工資料
-		$('#addFormSection').on('submit', function(event) {
-			event.preventDefault(); // 防止表單提交
+	// 彈出角色詳細視窗
+	function openRoleDetailModal(button) {
+	  const empNo = button.getAttribute('data-emp-no');
+	
+	  fetch(`/EmployeeSet/roleDetail?empNo=${empNo}`)
+	    .then(response => {
+	      if (!response.ok) throw new Error("Network response was not ok");
+	      return response.json();
+	    })
+	    .then(data => {
+	      const currentRoleNo = data.roleNoDto.roleNo;
+	      const empNo = data.roleNoDto.empNo;
+	
+	      let html = `<input type="hidden" id="hiddenEmpNo" value="${empNo}">`;
+	
+	      data.roleDtoList.forEach(role => {
+	        const isChecked = (role.roleNo === currentRoleNo) ? 'checked' : '';
+	        html += `
+	          <div class="form-check">
+	            <input class="form-check-input" type="radio" name="selectedRole"
+	              id="role${role.roleNo}" value="${role.roleNo}" ${isChecked}>
+	            <label class="form-check-label" for="role${role.roleNo}">
+	              ${role.roleName}
+	            </label>
+	          </div>
+	        `;
+	      });
+	
+	      document.getElementById("roleDetailContent").innerHTML = html;
+	
+	      const modalElement = document.getElementById("roleDetailModal");
+	      const modal = new bootstrap.Modal(modalElement);
+	      modal.show();
+	
+	      document.getElementById("saveRoleBtn").onclick = saveRole;
+	    })
+	    .catch(error => {
+	      console.error("載入角色詳細資料時發生錯誤:", error);
+	      alert("載入角色資料失敗，請稍後再試。");
+	    });
+	}
 
-			var formData = $(this).serialize(); // 序列化表單資料
+	
+	// 送出員工資料(新增)
+	function handleButtonClick(action) {
+	  if (action === 'saveData') {
+	    const form = document.getElementById('addForm');
+	
+	    if (!form.checkValidity()) {
+	      form.reportValidity();
+	      return;
+	    }
+	
+	    const formData = new FormData(form);
+	
+	    fetch('/EmployeeSet/save', {
+	      method: 'POST',
+	      body: formData
+	    })
+	    .then(response => {
+	      if (!response.ok) throw new Error('伺服器錯誤');
+	      return response.text();
+	    })
+	    .then(data => {
+	      // 設定訊息並顯示成功彈窗
+	      document.getElementById('saveResultMessage').textContent = '儲存成功！';
+	      new bootstrap.Modal(document.getElementById('saveResultModal')).show();
+	
+	      // 關閉原本的新增 Modal
+	      const modal = bootstrap.Modal.getInstance(document.getElementById('addModal'));
+	      if (modal) modal.hide();
+	
+	      // 重置表單
+	      form.reset();
+	
+	      // 如果你要重整資料
+	      // location.reload();
+	    })
+	    .catch(error => {
+	      console.error(error);
+	      document.getElementById('saveResultMessage').textContent = '儲存失敗，請稍後再試！';
+	      new bootstrap.Modal(document.getElementById('saveResultModal')).show();
+	    });
+	  }
+	}
+	
+	function handleButtonClick(action) {
+		  if (action === "editData") {
+		    const form = document.getElementById("editForm");
 
-			$.ajax({
-				url : '/EmployeeSet/save',
-				type : 'POST',
-				data : formData,
-				success : function(response) {
-					// 成功後的處理
-					alert(response); // 顯示成功訊息
-					// 你可以選擇隱藏表單、清空表單或更新頁面
-					// 例如：window.location.href = '/EmployeeSet'; // 跳轉頁面
-				},
-				error : function(xhr, status, error) {
-					// 錯誤處理
-					alert('發生錯誤，請稍後再試: ' + xhr.responseText);
-				}
-			});
-		});
-		
-		<!-- 寫在主頁面 -->
-		$(document).on('click', '#btnAddRole', function () {
-		    console.log('儲存資料按鈕被點擊');
-		    const selectedRole = $('input[name="selectedRole"]:checked').val();
-		    const empNo = $('#hiddenEmpNo').val();
-
-		    if (!selectedRole) {
-		        alert("請先選擇一個角色");
-		        return;
+		    if (!form.checkValidity()) {
+		      form.reportValidity();
+		      return;
 		    }
 
-		    const formData = {
-		        empNo: empNo,
-		        roleNo: selectedRole
-		    };
+		    const formData = new FormData(form);
 
-		    $.ajax({
-		        url: '/EmployeeSet/role/save',
-		        type: 'POST',
-		        data: formData,
-		        contentType: 'application/x-www-form-urlencoded',
-		        dataType: 'json',
-		        success: function (response) {
-		            alert(response.message);
-		            let modal = bootstrap.Modal.getInstance(modalElement);
-		            if (!modal) {
-		                modal = new bootstrap.Modal(modalElement);
-		            }
-		            modal.hide();
-		        },
-		        error: function (xhr) {
-		            alert('儲存失敗: ' + xhr.responseText);
-		        }
-		    });
-		});
+		    fetch("/EmployeeSet/save", {
+		      method: "POST",
+		      body: formData,
+		    })
+		      .then((response) => {
+		        if (!response.ok) throw new Error("伺服器錯誤");
+		        return response.text();
+		      })
+		      .then((data) => {
+		        document.getElementById("saveResultMessage").textContent = "修改成功！";
+		        new bootstrap.Modal(document.getElementById("saveResultModal")).show();
+
+		        // 關閉編輯 Modal
+		        const editModalEl = document.getElementById("editModal");
+		        const editModal = bootstrap.Modal.getInstance(editModalEl);
+		        if (editModal) editModal.hide();
+
+		        // 清除 backdrop
+		        document.querySelector(".modal-backdrop")?.remove();
+
+		        form.reset();
+
+		        // 若要重整頁面，解除註解：
+		        // location.reload();
+		      })
+		      .catch((error) => {
+		        console.error(error);
+		        document.getElementById("saveResultMessage").textContent =
+		          "修改失敗，請稍後再試！";
+		        new bootstrap.Modal(document.getElementById("saveResultModal")).show();
+		      });
+		  }
+		}
+	
+	// 儲存角色設定
+	function saveRole() {
+		  const empNo = document.getElementById("hiddenEmpNo").value;
+		  const radios = document.getElementsByName("selectedRole");
+		  let selectedRole = null;
+
+		  for (const radio of radios) {
+		    if (radio.checked) {
+		      selectedRole = radio.value;
+		      break;
+		    }
+		  }
+
+		  if (!selectedRole) {
+		    alert("請選擇一個角色");
+		    return;
+		  }
+
+		  // 建立要送出的資料
+		  const formData = new FormData();
+		  formData.append("empNo", empNo);
+		  formData.append("roleNo", selectedRole);
+
+		  fetch("/EmployeeSet/role/save", {
+		    method: "POST",
+		    body: formData
+		  })
+		  .then(response => {
+		    if (!response.ok) throw new Error("儲存失敗");
+		    return response.text();
+		  })
+		  .then(text => {
+		    alert(text);
+		    // 如果需要，儲存成功後可自動關閉 modal
+		    const modalElement = document.getElementById("roleDetailModal");
+		    const modal = bootstrap.Modal.getInstance(modalElement);
+		    modal.hide();
+		  })
+		  .catch(error => {
+		    alert("儲存失敗：" + error.message);
+		  });
+		}
+		
+	// 綁定事件
+	document.getElementById("addSystemCodeBtn").addEventListener("click", function () {
+	    loadEmployeeSetDropdowns();
+	});
 
 	</script>
-	
 </body>
 </html>

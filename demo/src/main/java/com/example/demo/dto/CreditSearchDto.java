@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CreditSearchDto {
 	
-	@JsonAlias("APPL_NO")
+	@JsonAlias("APPLNO")
 	private String applno;        // 收件編號
 
 	@JsonAlias("CU_NAME")
@@ -28,7 +28,7 @@ public class CreditSearchDto {
 	@JsonAlias("CARD_TYPE")
 	private String cardType;      // 卡別（E.CODE_DESC）
 
-	@JsonAlias("L3_EMPNO")
+	@JsonAlias("L3EMPNO")
 	private String l3empno;       // 初審員編
 
 	@JsonAlias("CASE_INPUT_TIME")
