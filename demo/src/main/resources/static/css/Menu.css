@@ -1,114 +1,30 @@
-/* 上方按鈕列 */
-.button-bar {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 16px;
-    flex-wrap: wrap;
+body {
+    font-family: "Microsoft JhengHei", Arial, sans-serif;
+    margin: 30px;
+    background-color: #f9f9f9;
+    color: #333;
 }
 
-/* 統一藍底白字按鈕樣式 */
-.btn {
-    font-size: 0.875rem;
-    padding: 6px 12px;
-    border-radius: 4px;
-    font-weight: bold;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    color: white;               /* 白字 */
-    background-color: #0d6efd;  /* 藍底 */
+
+form {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 6px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
 }
 
-.btn:hover {
-    background-color: #0056b3;  /* 深藍hover */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    background-color: #fff;
 }
 
-/* 小尺寸按鈕 */
-.btn-sm {
-    padding: 4px 10px;
-    font-size: 0.8125rem;
+.modal-header,
+.modal-footer {
+  border: none;
 }
 
-/* Outline 版本藍色風格 */
-.btn-outline-primary,
-.btn-outline-secondary {
-    background-color: transparent;
-    border: 1px solid #0d6efd;
-    color: #0d6efd;
-}
-.btn-outline-primary:hover,
-.btn-outline-secondary:hover {
-    background-color: #0d6efd;
-    color: white;
-}
-
-/* Tab 標籤水平排列 */
-.nav-tabs {
-  display: flex;           /* 確保水平排列 */
-  list-style: none;        /* 移除圓點 */
-  padding-left: 0;
-  margin-bottom: 0;
-  border-bottom: 1px solid #0d6efd; /* 藍色下邊框 */
-}
-
-/* Tab 項目外框 */
-.nav-tabs .nav-item {
-  margin-bottom: -1px;     /* 讓底部邊框與內容對齊 */
-  list-style: none;
-}
-
-/* Tab 按鈕 */
-.nav-tabs .nav-link {
-  display: block;          /* 讓整個按鈕區塊可點擊 */
-  padding: 8px 12px;
-  color: #0d6efd;          /* 藍字 */
-  border: 1px solid #0d6efd; /* 藍色邊框 */
-  border-bottom-color: transparent; /* 與內容區塊連接，底線透明 */
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-  background-color: white;  /* 預設白底 */
-  cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-}
-
-/* Tab hover */
-.nav-tabs .nav-link:hover {
-  background-color: #e7f1ff; /* 淡藍底 */
-  color: #0047b3;            /* 深藍字 */
-}
-
-/* Tab 被選中 */
-.nav-tabs .nav-link.active {
-  background-color: #0d6efd;  /* 藍底 */
-  color: white;               /* 白字 */
-  border-color: #0d6efd #0d6efd white; /* 下邊框白色連接內容 */
-  font-weight: bold;
-}
-
-/* tab content切換動畫 */
-.tab-pane {
-  transition: opacity 0.3s ease;
-}
-
-.tab-pane.fade {
-  opacity: 0;
-  display: block;
-  height: 0;
-  overflow: hidden;
-}
-
-.tab-pane.show.active {
-  opacity: 1;
-  height: auto;
-  overflow: visible;
-}
-
-/* Tab 內容區塊 */
-.tab-content {
-    border: 1px solid #0d6efd;
-    border-top: none;
-    padding: 16px;
-    background-color: white;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    border-radius: 0 0 6px 6px;
+table.table-hover tbody tr:hover {
+    background-color: #f9f9f9; /* 你想要的淺色 */
 }

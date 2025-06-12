@@ -1,6 +1,8 @@
 package com.example.demo.controller.F1;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,13 +82,11 @@ public class CFCreateJobController {
 		// 建檔作業卡別 下拉
 		List<CardTypeDto> cardTypeDtoList = cFMappingCodeService.findCardTypeByCodeType(codeType);
 		model.addAttribute("cardTypeDtoList", cardTypeDtoList);
-		System.out.println("00000000000000 cardTypeDtoList = " + cardTypeDtoList);
 
 		// 建檔作業YN 下拉
 		List<YNDto> yNDtoList = cFMappingCodeService.findYNByCodeType(codeType);
 		model.addAttribute("yNDtoList", yNDtoList);
-		System.out.println("00000000000000 model = " + model);
-
+		
 		return "CreateJob";
 	}
 	
@@ -123,4 +123,50 @@ public class CFCreateJobController {
 		}
 
 	}
+	
+	// 審查頁籤帶入資料用
+	@GetMapping("/CreateJobJson")
+	@ResponseBody
+	public Map<String, Object> getCreateJobData(
+	        @RequestParam(value = "para1", required = false) String para1,
+	        @RequestParam(value = "fkNo", required = false) String fkNo,
+	        @RequestParam(value = "codeType", required = false) String codeType) {
+	    
+	    if (StringUtils.isAllBlank(para1)) {
+	        para1 = "";
+	    }
+
+	    Map<String, Object> result = new HashMap<>();
+
+	    // 建檔作業收件編號
+	    CfBatchParaDto cfBatchParaDto = cFBatchParaService.findPara2(para1);
+	    result.put("cfBatchParaDto", cfBatchParaDto);
+
+	    // 建檔作業縣市下拉
+	    List<CFZipcodeDto> cityDtoList = cFZipcoderService.findZipNameByAllFkNo();
+	    result.put("cityDtoList", cityDtoList);
+
+	    // 建檔作業區下拉
+	    List<CFZipcodeDto> districtDtoList = cFZipcoderService.findZipNameByAllFkNo();
+	    result.put("districtDtoList", districtDtoList);
+
+	    // 建檔作業卡片FLAG下拉
+	    List<CardFlagDto> cardFlagDtoList = cFMappingCodeService.findCardFlagByCodeType(codeType);
+	    result.put("cardFlagDtoList", cardFlagDtoList);
+
+	    // 建檔作業詐欺類型 下拉
+	    List<FraudTypeDto> fraudTypeDtoList = cFMappingCodeService.findFraudTypeByCodeType(codeType);
+	    result.put("fraudTypeDtoList", fraudTypeDtoList);
+
+	    // 建檔作業卡別 下拉
+	    List<CardTypeDto> cardTypeDtoList = cFMappingCodeService.findCardTypeByCodeType(codeType);
+	    result.put("cardTypeDtoList", cardTypeDtoList);
+
+	    // 建檔作業YN 下拉
+	    List<YNDto> yNDtoList = cFMappingCodeService.findYNByCodeType(codeType);
+	    result.put("yNDtoList", yNDtoList);
+
+	    return result;
+	}
+
 }

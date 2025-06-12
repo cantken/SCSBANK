@@ -3,78 +3,86 @@
 <head>
 <meta charset="UTF-8">
 <title>案件清單</title>
-<link rel="stylesheet" th:href="@{/css/CaseList.css}" />
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<link rel="stylesheet" href="@{/css/CaseList.css}" />
 </head>
 <body>
 	<div class="button-container"></div>
 	<!-- 🔽 查詢輸入區塊 -->
-	<div id="searchFormSection" style="margin-top: 20px;">
-		<form id="searchForm" action="/CaseSearch" method="get">
-			<table>
+	<form id="searchForm" action="/CaseSearch" method="get">
+		<div class="container-fluid mb-3">
+			<div class="row g-3 align-items-end">
+				<!-- 進件日期 -->
+				<div class="col-md-4">
+					<label for="caseInputStartDate" class="form-label">進件日期：</label>
+					<div class="input-group">
+						<input type="date" id="caseInputStartDate"
+							name="caseInputStartDate" class="form-control"> <span
+							class="input-group-text">~</span> <input type="date"
+							id="caseInputEndDate" name="caseInputEndDate"
+							class="form-control">
+					</div>
+				</div>
+
+				<!-- 收件編號 -->
+				<div class="col-md-4">
+					<label for="applno" class="form-label">收件編號：</label>
+					<div class="input-group">
+						<span class="input-group-text" id="applno-label">編號</span> <input
+							type="text" id="applno" name="applno" class="form-control"
+							aria-describedby="applno-label">
+					</div>
+				</div>
+
+				<!-- 按鈕區塊 -->
+				<div class="col-md-4 d-flex gap-2">
+					<button type="button" class="btn btn-primary"
+						onclick="searchButtonClick()">查詢</button>
+					<button type="button" class="btn btn-secondary"
+						onclick="handleButtonClick('deleteData')">清空</button>
+				</div>
+			</div>
+		</div>
+		<br> <br>
+		<table id="caseListTable"
+			class="table table-hover align-middle text-center">
+			<thead class="table-light">
 				<tr>
-					<td colspan="8">
-						<div class="form-row">
-							<!-- 進件日期 -->
-							<div class="form-group">
-								<label for="caseInputStartDate">進件日期：</label>
-								<div class="date-range">
-									<input type="date" id="caseInputStartDate"
-										name="caseInputStartDate"> <span> ~ </span> <input
-										type="date" id="caseInputEndDate" name="caseInputEndDate">
-								</div>
-							</div>
-
-							<!-- 收件編號 -->
-							<div class="form-group">
-								<label for="applno">收件編號：</label> <input type="text" id="applno"
-									name="applno">
-							</div>
-
-							<!-- 按鈕區塊 -->
-							<div class="button-group">
-								<button type="button" onclick="searchButtonClick()">查詢</button>
-								<button type="button" onclick="handleButtonClick('deleteData')">清空</button>
-							</div>
-						</div>
-					</td>
+					<th>取件</th>
+					<th>案件狀態</th>
+					<th>收件編號</th>
+					<th>客戶姓名</th>
+					<th>客戶ID</th>
+					<th>卡別</th>
+					<th>詐欺類型</th>
+					<th>進件日期</th>
 				</tr>
-			</table>
-		</form>
-	</div>
-	<br>
-	<br>
-	<table id="caseListTable">
-		<thead>
-			<tr>
-				<th>取件</th>
-				<th>案件狀態</th>
-				<th>收件編號</th>
-				<th>客戶姓名</th>
-				<th>客戶ID</th>
-				<th>卡別</th>
-				<th>詐欺類型</th>
-				<th>進件日期</th>
-			</tr>
-		</thead>
-		<tbody>
+			</thead>
+			<tbody>
+				<!-- JavaScript 動態渲染 -->
+			</tbody>
+		</table>
 
-		</tbody>
-	</table>
+
+
+	</form>
 	<!-- jQuery & Bootstrap Bundle -->
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 	<!-- Thymeleaf 傳值至 JavaScript -->
-  <script th:inline="javascript">
+	<script th:inline="javascript">
     /*<![CDATA[*/
     const caseListData = (/*[[${caseList}]]*/ '[]');
     console.log(caseListData);
     /*]]>*/
   </script>
 
-  <!-- 客製化功能 JS -->
-  <script>
+	<!-- 客製化功能 JS -->
+	<script>
     // 一進到頁面先顯示所有資料
     document.addEventListener("DOMContentLoaded", () => {
       renderTable(caseListData);

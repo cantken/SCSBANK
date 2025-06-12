@@ -22,7 +22,6 @@ import com.example.demo.service.CFEmployeeService;
 import com.example.demo.service.CFMappingCodeService;
 import com.example.demo.service.CFPhaseService;
 import com.example.demo.service.CFZipcoderService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -71,7 +70,6 @@ public class CFCaseListController {
 		
 		// 建檔作業縣市下拉
 		List<CFZipcodeDto> cityDtoList = cFZipcoderService.findZipNameByAllFkNo();
-		System.out.println("0000000000000000 cityDtoList = " + cityDtoList);
 		model.addAttribute("cityDtoList", cityDtoList);
 
 		// 建檔作業區下拉
@@ -80,7 +78,6 @@ public class CFCaseListController {
 
 		// 建檔作業卡片FLAG下拉
 		List<CardFlagDto> cardFlagDtoList = cFMappingCodeService.findCardFlagByCodeType(codeType);
-		System.out.println("0000000000000000 cardFlagDtoList = " + cardFlagDtoList);
 		model.addAttribute("cardFlagDtoList", cardFlagDtoList);
 
 		// 建檔作業詐欺類型 下拉

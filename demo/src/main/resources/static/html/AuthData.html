@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>授權資料</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<link rel="stylesheet" href="/css/AuthData.css" />
+</head>
+<body>
+	<div class="button-container"></div>
+	<!-- 🔽 查詢輸入區塊 -->
+	<form id="authDataForm" action="javascript:void(0)" method="get">
+		<div class="container-fluid mb-3">
+			<div class="row g-3 align-items-end">
+				<!-- 進件日期 -->
+				<div class="col-md-4">
+					<label for="caseInputStartDate" class="form-label">進件日期：</label>
+					<div class="input-group">
+						<input type="date" id="caseInputStartDate"
+							name="caseInputStartDate" class="form-control"> <span
+							class="input-group-text">~</span> <input type="date"
+							id="caseInputEndDate" name="caseInputEndDate"
+							class="form-control">
+					</div>
+				</div>
+				<!-- 按鈕區塊 -->
+				<div class="col-md-4 d-flex gap-2">
+					<input type="hidden" id="applno" name="applno">
+					<button type="button" class="btn btn-primary"
+						onclick="loadAuthData()">查詢</button>
+					<button type="button" class="btn btn-secondary"
+						onclick="handleButtonClick('deleteData')">清空</button>
+				</div>
+				<button class="btn btn-primary" onclick="updateAuthData()">儲存資料</button>
+
+			</div>
+		</div>
+		<br> <br>
+		<table id="caseListTable"
+			class="table table-hover align-middle text-center">
+			<thead class="table-light">
+				<tr>
+					<th class="hidden-column">收件編號</th>
+					<th scope="col">點選</th>
+					<th scope="col">交易日期</th>
+					<th scope="col">交易時間</th>
+					<th scope="col">收單銀行</th>
+					<th scope="col">商店代號</th>
+					<th scope="col">MCC</th>
+					<th scope="col">交易國別</th>
+					<th scope="col">交易金額</th>
+					<th scope="col">授權碼</th>
+					<th scope="col">EM</th>
+					<th scope="col">微縮影編號</th>
+				</tr>
+			</thead>
+			<tbody>
+				<!-- JavaScript 動態渲染 -->
+			</tbody>
+		</table>
+	</form>
+	<!-- jQuery & Bootstrap Bundle -->
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+	<script>
+	function loadAuthData() {
+		  const applno = $('#authApplno').val();
+		  const tradeDate = $('#authTradeDate').val();
+
+		  $.ajax({
+		    url: '/AuthDataJson',
+		    method: 'GET',
+		    data: {
+		      applno: applno,
+		      tradeDate: tradeDate
+		    },
+		    success: function(res) {
+		      const tbody = $('#caseListTable tbody');  // 這裡改成正確的table id
+		      tbody.empty();
+
+		      if (res.dtoList && res.dtoList.length > 0) {
+		        res.dtoList.forEach(item => {
+		        	const row = `
+		        		<tr>
+		        		<td class="applno" style="display:none;">${item.applNo}</td>
+		        		  <td class="uuid" style="display:none;">
+		        		    <input type="hidden" class="uuid" value="${item.uuid || ''}" />
+		        		  </td>
+		        	    <td class="choice">
+		        	      <div class="form-check d-flex justify-content-center">
+		        	      <input class="form-check-input choice-checkbox" type="checkbox"
+		        	          ${item.choice == '1' ? 'checked' : ''} />
+		        	      </div>
+		        	    </td>
+		        		  <td class="tradeDateStr">${item.tradeDateStr || ''}</td>
+		        		  <td class="tradrTime">${item.tradrTime || ''}</td>
+		        		  <td class="acBank">${item.acBank || ''}</td>
+		        		  <td class="shopCode">${item.shopCode || ''}</td>
+		        		  <td class="mcc">${item.mcc || ''}</td>
+		        		  <td class="tradeCountry">${item.tradeCountry || ''}</td>
+		        		  <td class="tradeMoney">${item.tradeMoney || ''}</td>
+		        		  <td class="authCode">${item.authCode || ''}</td>
+		        		  <td class="em">${item.em || ''}</td>
+		        		  <td class="mfCode">${item.mfCode || ''}</td>
+		        		</tr>`;
+		          tbody.append(row);
+		        });
+		      } else {
+		        tbody.append('<tr><td colspan="12" class="text-center">查無資料</td></tr>');
+		      }
+		    },
+		    error: function() {
+		      alert('資料讀取失敗');
+		    }
+		  });
+		}
+
+	function clearAuthForm() {
+		$('#authApplno').val('');
+	}
+	
+	// 更新
+	function updateAuthData() {
+  const applno = $("#authApplno").val()?.trim() || '';
+  const rows = document.querySelectorAll("#caseListTable tbody tr");
+  const dtoList = [];
+
+  rows.forEach(row => {
+    const checkbox = row.querySelector(".choice-checkbox");
+
+    // 改這裡 ✅ 保險寫法：先抓，再檢查
+    let uuidInput = row.querySelector("input.uuid");
+    let uuidValue = '';
+    if (uuidInput && uuidInput.value) {
+      uuidValue = uuidInput.value.trim();
+    }
+
+    const dto = {
+      applno: applno,
+      choice: checkbox?.checked ? '1' : '0',
+      tradeDateStr: row.querySelector(".tradeDateStr")?.textContent?.trim() || '',
+      tradrTime: row.querySelector(".tradrTime")?.textContent?.trim() || '',
+      acBank: row.querySelector(".acBank")?.textContent?.trim() || '',
+      shopCode: row.querySelector(".shopCode")?.textContent?.trim() || '',
+      mcc: row.querySelector(".mcc")?.textContent?.trim() || '',
+      tradeCountry: row.querySelector(".tradeCountry")?.textContent?.trim() || '',
+      tradeMoney: row.querySelector(".tradeMoney")?.textContent?.trim() || '',
+      authCode: row.querySelector(".authCode")?.textContent?.trim() || '',
+      em: row.querySelector(".em")?.textContent?.trim() || '',
+      mfCode: row.querySelector(".mfCode")?.textContent?.trim() || '',
+      uuid: uuidValue
+    };
+
+    dtoList.push(dto);
+  });
+
+  const requestData = {
+    applno: applno,
+    dtoList: dtoList
+  };
+
+  console.log("✅ 送出的資料：", requestData);
+
+  $.ajax({
+    url: '/AuthDataJson/update',
+    method: 'POST',
+    contentType: 'application/json',
+    data: JSON.stringify(requestData),
+    success: function (res) {
+      alert('更新成功');
+    },
+    error: function (xhr) {
+      console.error('更新失敗：', xhr);
+      alert('更新失敗：' + xhr.status + '\n' + xhr.responseText);
+    }
+  });
+}
+
+</script>
+
+
+</body>
+</html>

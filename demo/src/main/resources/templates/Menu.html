@@ -3,72 +3,86 @@
 <head>
 <meta charset="UTF-8">
 <title>取件</title>
-<link rel="stylesheet" th:href="@{/css/Menu.css}" />
-<link rel="stylesheet" href="/css/Menu.css" /> <!-- 你自行放置的 CSS 檔 -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<link rel="stylesheet" href="/css/Menu.css" />
+<!-- 你自行放置的 CSS 檔 -->
 </head>
 <body>
-<!-- 上排按鈕列 -->
-<div class="button-bar" style="display: flex; gap: 8px; margin-bottom: 12px;">
-  <button class="btn btn-primary btn-sm">重查</button>
-  <button class="btn btn-primary btn-sm">待補追蹤</button>
-  <button class="btn btn-primary btn-sm">回補文件</button>
-  <button class="btn btn-primary btn-sm">案件完成</button>
-  <button class="btn btn-primary btn-sm">越級上呈</button>
-  <button class="btn btn-primary btn-sm">暫存</button>
-  <button class="btn btn-primary btn-sm">發送簡訊</button>
-  <button class="btn btn-primary btn-sm">發送email</button>
-  <button class="btn btn-primary btn-sm">退回初審</button>
-</div>
+	<!-- 上排按鈕列 -->
+	<div class="d-flex gap-2 mb-3 bg-primary p-2 align-items-start">
+		<button type="button" class="btn btn-primary btn-sm">重查</button>
+		<button type="button" class="btn btn-primary btn-sm">待補追蹤</button>
+		<button type="button" class="btn btn-primary btn-sm">回補文件</button>
+		<button type="button" class="btn btn-primary btn-sm">案件完成</button>
+		<button type="button" class="btn btn-primary btn-sm">越級上呈</button>
+		<button type="button" class="btn btn-primary btn-sm">暫存</button>
+		<button type="button" class="btn btn-primary btn-sm">發送簡訊</button>
+		<button type="button" class="btn btn-primary btn-sm">發送email</button>
+		<button type="button" class="btn btn-primary btn-sm">退回初審</button>
+	</div>
 
-<!-- 下排 Tab 列，保持不變 -->
-<ul class="nav nav-tabs" id="dataTabs" role="tablist">
-  <li class="nav-item">
-    <button class="nav-link active" id="review-tab" data-bs-toggle="tab" data-bs-target="#review" type="button" role="tab">審查資料</button>
-  </li>
-  <li class="nav-item">
-    <button class="nav-link" id="auth-tab" data-bs-toggle="tab" data-bs-target="#auth" type="button" role="tab">授權資料</button>
-  </li>
-  <li class="nav-item">
-    <button class="nav-link" id="claim-tab" data-bs-toggle="tab" data-bs-target="#claim" type="button" role="tab">請款資料</button>
-  </li>
-  <li class="nav-item">
-    <button class="nav-link" id="history-tab" data-bs-toggle="tab" data-bs-target="#history" type="button" role="tab">歷史資訊</button>
-  </li>
-  <li class="nav-item">
-    <button class="nav-link" id="account-tab" data-bs-toggle="tab" data-bs-target="#account" type="button" role="tab">調帳及銷帳</button>
-  </li>
-  <li class="nav-item">
-    <button class="nav-link" id="cb-tab" data-bs-toggle="tab" data-bs-target="#cb" type="button" role="tab">CB紀錄</button>
-  </li>
-  <li class="nav-item">
-    <button class="nav-link" id="statement-tab" data-bs-toggle="tab" data-bs-target="#statement" type="button" role="tab">產製客戶聲明書</button>
-  </li>
-  <li class="nav-item">
-    <button class="nav-link" id="report-tab" data-bs-toggle="tab" data-bs-target="#report" type="button" role="tab">產製報案資料</button>
-  </li>
-  <li class="nav-item">
-    <button class="nav-link" id="other-tab" data-bs-toggle="tab" data-bs-target="#other" type="button" role="tab">他案訊息</button>
-  </li>
-  <li class="nav-item">
-    <button class="nav-link" id="image-tab" data-bs-toggle="tab" data-bs-target="#image" type="button" role="tab">本案影像</button>
-  </li>
-</ul>
 
-<!-- 對應 Tab 內容（可留空待引入其他頁） -->
-<div class="tab-content mt-3">
-  <div class="tab-pane fade show active" id="review" role="tabpanel">審查資料內容</div>
-  <div class="tab-pane fade" id="auth" role="tabpanel">授權資料內容</div>
-  <div class="tab-pane fade" id="claim" role="tabpanel">請款資料內容</div>
-  <div class="tab-pane fade" id="history" role="tabpanel">歷史資訊內容</div>
-  <div class="tab-pane fade" id="account" role="tabpanel">調帳及銷帳內容</div>
-  <div class="tab-pane fade" id="cb" role="tabpanel">CB紀錄內容</div>
-  <div class="tab-pane fade" id="statement" role="tabpanel">產製客戶聲明書內容</div>
-  <div class="tab-pane fade" id="report" role="tabpanel">產製報案資料內容</div>
-  <div class="tab-pane fade" id="other" role="tabpanel">他案訊息內容</div>
-  <div class="tab-pane fade" id="image" role="tabpanel">本案影像內容</div>
-</div>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
+	<!-- 下排 Tab 列，保持不變 -->
+	<ul class="nav nav-tabs" id="dataTabs" role="tablist">
+		<li class="nav-item">
+			<button class="nav-link active" id="review-tab" data-bs-toggle="tab"
+				data-bs-target="#review" type="button" role="tab">審查資料</button>
+		</li>
+		<li class="nav-item">
+			<button class="nav-link" id="auth-tab" data-bs-toggle="tab"
+				data-bs-target="#auth" type="button" role="tab">授權資料</button>
+		</li>
+		<li class="nav-item">
+			<button class="nav-link" id="claim-tab" data-bs-toggle="tab"
+				data-bs-target="#claim" type="button" role="tab">請款資料</button>
+		</li>
+		<li class="nav-item">
+			<button class="nav-link" id="history-tab" data-bs-toggle="tab"
+				data-bs-target="#history" type="button" role="tab">歷史資訊</button>
+		</li>
+		<li class="nav-item">
+			<button class="nav-link" id="account-tab" data-bs-toggle="tab"
+				data-bs-target="#account" type="button" role="tab">調帳及銷帳</button>
+		</li>
+		<li class="nav-item">
+			<button class="nav-link" id="cb-tab" data-bs-toggle="tab"
+				data-bs-target="#cb" type="button" role="tab">CB紀錄</button>
+		</li>
+		<li class="nav-item">
+			<button class="nav-link" id="statement-tab" data-bs-toggle="tab"
+				data-bs-target="#statement" type="button" role="tab">產製客戶聲明書</button>
+		</li>
+		<li class="nav-item">
+			<button class="nav-link" id="report-tab" data-bs-toggle="tab"
+				data-bs-target="#report" type="button" role="tab">產製報案資料</button>
+		</li>
+		<li class="nav-item">
+			<button class="nav-link" id="other-tab" data-bs-toggle="tab"
+				data-bs-target="#other" type="button" role="tab">他案訊息</button>
+		</li>
+		<li class="nav-item">
+			<button class="nav-link" id="image-tab" data-bs-toggle="tab"
+				data-bs-target="#image" type="button" role="tab">本案影像</button>
+		</li>
+	</ul>
+
+	<!-- 對應 Tab 內容（可留空待引入其他頁） -->
+	<div class="tab-content mt-3">
+		<div class="tab-pane fade show active" id="review" role="tabpanel">審查資料內容</div>
+		<div class="tab-pane fade" id="auth" role="tabpanel">授權資料內容</div>
+		<div class="tab-pane fade" id="claim" role="tabpanel">請款資料內容</div>
+		<div class="tab-pane fade" id="history" role="tabpanel">歷史資訊內容</div>
+		<div class="tab-pane fade" id="account" role="tabpanel">調帳及銷帳內容</div>
+		<div class="tab-pane fade" id="cb" role="tabpanel">CB紀錄內容</div>
+		<div class="tab-pane fade" id="statement" role="tabpanel">產製客戶聲明書內容</div>
+		<div class="tab-pane fade" id="report" role="tabpanel">產製報案資料內容</div>
+		<div class="tab-pane fade" id="other" role="tabpanel">他案訊息內容</div>
+		<div class="tab-pane fade" id="image" role="tabpanel">本案影像內容</div>
+	</div>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script>
 document.querySelectorAll('.nav-tabs .nav-link').forEach(tab => {
   tab.addEventListener('click', (e) => {
     e.preventDefault();  // 防止頁面跳轉
@@ -84,38 +98,119 @@ document.querySelectorAll('.nav-tabs .nav-link').forEach(tab => {
 });
 
 function loadTabContent(targetId) {
-	
-	// 從 URL 抓 applno
-	function getApplnoFromURL() {
-	  const urlParams = new URLSearchParams(window.location.search);
-	  return urlParams.get('applno');
-	}
-	const applno = getApplnoFromURL();
-	
+	  const applno = new URLSearchParams(window.location.search).get('applno');
+
 	  switch (targetId) {
 	    case "#review":
-	    	$(targetId).load(`/html/Review.html?applno=${encodeURIComponent(applno)}`);
+	      // 只載入 Review.html 靜態架構
+	      $(targetId).load(`/html/Review.html?applno=${encodeURIComponent(applno)}`, function() {
+	        // Review.html 載完後，呼叫 review 裡面自己的 JS 來取得資料並渲染
+	        if (typeof loadCreateJobData === "function") {
+	          loadCreateJobData();
+	        }
+	      });
 	      break;
 	    case "#auth":
-	      $(targetId).load("/auth.html");
+	      $(targetId).load(`/html/AuthData.html?applno=${encodeURIComponent(applno)}`, function() {
+		        // AuthData.html 載完後，呼叫 auth 裡面自己的 JS 來取得資料並渲染
+		        if (typeof loadAuthData === "function") {
+			      loadAuthData();
+			    }
+		      });
 	      break;
 	    case "#claim":
 	      $(targetId).load("/claim.html");
 	      break;
-	    // 其他 tab 可依樣擴充
 	    default:
-	      $(targetId).html(""); // 預設清空
+	      $(targetId).html("");
 	  }
 	}
 
 	$(document).ready(function () {
-	  loadTabContent("#review"); // 預設載入 Review.html
+	  loadTabContent("#review");
 
 	  $(".nav-link").on("click", function () {
 	    const targetId = $(this).data("bs-target");
 	    loadTabContent(targetId);
 	  });
 	});
+
+	
+	// 抓下拉資料供審查頁籤用
+	function loadCreateJobData() {
+		  // 先抓 URL 的參數，比如 para1, codeType 也可以從URL或其他地方抓
+		  const urlParams = new URLSearchParams(window.location.search);
+		  const para1 = urlParams.get('para1') || '';
+		  const codeType = urlParams.get('codeType') || '';
+
+		  $.ajax({
+		    url: `/CreateJobJson`,
+		    type: 'GET',
+		    data: {
+		      para1: para1,
+		      codeType: codeType
+		    },
+		    dataType: 'json',
+		    success: function(data) {
+		      console.log('拿到資料', data);
+
+		      // 依你實際畫面，渲染下拉選單或其他欄位
+		      renderSelect('#citySelect', data.cityDtoList);
+		      renderSelect('#districtSelect', data.districtDtoList);
+		      renderSelect('#cardFlagSelect', data.cardFlagDtoList);
+		      renderSelect('#fraudTypeSelect', data.fraudTypeDtoList);
+		      renderSelect('#cardTypeSelect', data.cardTypeDtoList);
+		      renderSelect('#ynSelect', data.yNDtoList);
+
+		      // 其他資料欄位也可以直接塞
+		      // 比如 cfBatchParaDto 物件中的某個欄位
+		      $('#someField').val(data.cfBatchParaDto.someProperty);
+		    },
+		    error: function(xhr, status, error) {
+		      alert('資料載入失敗！');
+		      console.error(error);
+		    }
+		  });
+		}
+		
+		function loadAuthData() {
+			  const urlParams = new URLSearchParams(window.location.search);
+			  const applno = urlParams.get('applno') || '';
+
+			  $.ajax({
+			    url: `/AuthDataJson`,  // 你的controller對應的API
+			    type: 'GET',
+			    data: {
+			      applno: applno
+			    },
+			    dataType: 'json',
+			    success: function(data) {
+			      console.log('Auth資料', data);
+
+			      // 假設你要渲染下拉選單或其他欄位
+			      renderSelect('#authRoleSelect', data.roleList);
+			      renderSelect('#authStatusSelect', data.statusList);
+
+			      // 塞入input欄位
+			      $('#authUserName').val(data.userName);
+			      $('#authDate').val(data.authDate);
+			    },
+			    error: function(xhr, status, error) {
+			      alert('Auth資料載入失敗！');
+			      console.error(error);
+			    }
+			  });
+			}
+
+			function renderSelect(selector, list) {
+			  const $select = $(selector);
+			  $select.empty();
+			  list.forEach(item => {
+			    $select.append(`<option value="${item.code}">${item.name}</option>`);
+			  });
+			}
+
+
 	
 </script>
 </body>
