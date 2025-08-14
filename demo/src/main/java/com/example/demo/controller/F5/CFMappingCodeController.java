@@ -39,7 +39,7 @@ public class CFMappingCodeController {
 	public String save(@ModelAttribute CFMappingCodeDto dto, Model model) {
 		cfMappingCodeService.saveMappingCode(dto);
 		return "redirect:/MappingCode"; // 導到 resultPage.html
-	}
+	}	
 
 	// 系統代碼維護 修改
 	@PostMapping("/MappingCode/update")
@@ -50,3 +50,4 @@ public class CFMappingCodeController {
 
 
 }
+
